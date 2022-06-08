@@ -3,6 +3,8 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 import useSWR from "swr";
 import fetcher from "../fetcher";
+import Footer from "../components/cardTest";
+import cardNumeric from "../components/cardNumeric";
 
 export default function Home() {
   const { data, error } = useSWR("/api/user", fetcher);
@@ -11,18 +13,36 @@ export default function Home() {
   if (data == undefined) {
     return <div className="waitingForConnection">Loading...</div>;
   }
-
+  {/* Alchemica spent (total, tiles, upgrades, installations)  */}
   let formatter = new Intl.NumberFormat(navigator.language || "us-US");
-
   return (
     <>
+      
       <h2>Gotchiverse Economy</h2>
       <Row>
         <Col>
-          <Card>Alchemica Minted vs total supply</Card>
+          <div class = "card">
+            <div class = "card-body">
+              <div class = "card-title">
+                Alchemica vs Total Minted
+                </div>
+              <div class = "card-body">
+                <Footer />
+              </div>
+            </div>
+          </div>
         </Col>
         <Col>
-          <Card>Alchemica spent (total, tiles, upgrades, installations)</Card>
+          <div class = "card">
+            <div class = "card-body">
+              <div class = "card-title">
+                  Alchemica vs Total Minted
+              </div>
+              <div class = "card-body">
+                <Footer />
+              </div>
+            </div>
+          </div>
         </Col>
         <Col>
           <Card>GLTR spent (on Upgrades)</Card>
@@ -100,4 +120,17 @@ export default function Home() {
       </Row>
     </>
   );
+}
+
+
+function Hello() {
+  return (
+    <div>
+      he
+      <div class = "">
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  )
 }
