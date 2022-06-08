@@ -3,7 +3,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 import useSWR from "swr";
 import fetcher from "../fetcher";
-import Footer from "../components/cardTest";
+import { Footer } from "../components/cardTest";
 import cardNumeric from "../components/cardNumeric";
 
 export default function Home() {
@@ -13,32 +13,29 @@ export default function Home() {
   if (data == undefined) {
     return <div className="waitingForConnection">Loading...</div>;
   }
-  {/* Alchemica spent (total, tiles, upgrades, installations)  */}
-  let formatter = new Intl.NumberFormat(navigator.language || "us-US");
+  {
+    /* Alchemica spent (total, tiles, upgrades, installations)  */
+  }
+
   return (
     <>
-      
       <h2>Gotchiverse Economy</h2>
       <Row>
         <Col>
-          <div class = "card">
-            <div class = "card-body">
-              <div class = "card-title">
-                Alchemica vs Total Minted
-                </div>
-              <div class = "card-body">
+          <div className="card">
+            <div className="card-body">
+              <div className="card-title">Alchemica vs Total Minted</div>
+              <div className="card-body">
                 <Footer />
               </div>
             </div>
           </div>
         </Col>
         <Col>
-          <div class = "card">
-            <div class = "card-body">
-              <div class = "card-title">
-                  Alchemica vs Total Minted
-              </div>
-              <div class = "card-body">
+          <div className="card">
+            <div className="card-body">
+              <div className="card-title">Alchemica vs Total Minted</div>
+              <div className="card-body">
                 <Footer />
               </div>
             </div>
@@ -122,15 +119,14 @@ export default function Home() {
   );
 }
 
-
 function Hello() {
   return (
     <div>
       he
-      <div class = "">
+      <div className="">
         <div></div>
         <div></div>
       </div>
     </div>
-  )
+  );
 }
