@@ -2,12 +2,17 @@ import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 import useSWR from "swr";
-import fetcher from "../fetcher";
+import {
+  getActiveWallets,
+  getAlchemicaTotalSupply,
+  getGotchis,
+  getStats,
+} from "../fetcher";
 
-export default function Home() {
-  const { data, error } = useSWR("/api/user", fetcher);
+export default function Home({ data }) {
+  // const { data, error } = useSWR("/api/user", fetcher);
 
-  console.log(data, error);
+  console.log(data);
   if (data == undefined) {
     return <div className="waitingForConnection">Loading...</div>;
   }
@@ -100,4 +105,18 @@ export default function Home() {
       </Row>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const stats = await getStats();
+  const totalSupply = await getAlchemicaTotalSupply();
+  const gotchis = await getGotchis();
+  const activeWallets = await getActiveWallets();
+
+  const props = { activeWallets, stats, totalSupply, gotchis };
+  console.log(props);
+
+  return {
+    props,
+  };
 }
