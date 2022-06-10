@@ -11,34 +11,8 @@ import {
 } from "../fetcher";
 import GLTRSpentOnUpgrades from "../components/gltrSpentUpgrades";
 
-export default function Home({ data }) {
+export default function Home({ burnedGLTRCurrent }) {
   // const { data, error } = useSWR("/api/user", fetcher);
-
-  console.log(data);
-  if (data == undefined) {
-    return <div className="waitingForConnection">Loading...</div>;
-  }
-
-  const currentData = {
-    activeWallets: "todo",
-    alchemica: { minted: Array(4), totalSupply: Array(4), spendOn: Array(0) },
-    alchemicaSoldByBannedPlayers: "todo",
-    gltrSpendOnUpgrades: "todo",
-    gltrStaking: { stakers: "todo", stakedPoolTokens: Array(6) },
-    gotchisBorrowed: "todo",
-    gotchisSacrificed: 655,
-    gotchisSummoned: 18570,
-    installationsMinted: "51008",
-    installationsUpgraded: "22287",
-    numberOfChannels: "198008",
-    numberOfExtractors: "todo",
-    numberOfGotchisChanneled: "todo",
-    playersBanned: "todo",
-    playersUnbanned: "todo",
-    tilesMinted: "15572",
-  };
-
-  console.log(currentData, "current");
 
   return (
     <>
@@ -51,7 +25,7 @@ export default function Home({ data }) {
           <Card>Tiles Minted</Card>
         </Col>
         <Col>
-          <GLTRSpentOnUpgrades />
+          <GLTRSpentOnUpgrades burnedGLTRCurrent={burnedGLTRCurrent} />
         </Col>
       </Row>
       <Row>
@@ -134,20 +108,18 @@ export async function getServerSideProps(context) {
   const gotchis = await getGotchis();
   const activeWallets = await getActiveWallets();
   const pools = await getPoolInfo();
-  const burnedGLTR = await getBurnedGLTR();
+  const burnedGLTRCurrent = await getBurnedGLTR();
 
-  const data = {
+  const props = {
     activeWallets,
     stats,
     totalSupply,
     gotchis,
     pools,
-    burnedGLTR,
+    burnedGLTRCurrent,
   };
 
   return {
-    props: {
-      data,
-    },
+    props,
   };
 }
