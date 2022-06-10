@@ -6,6 +6,7 @@ import {
   getActiveWallets,
   getAlchemicaTotalSupply,
   getGotchis,
+  getPoolInfo,
   getStats,
 } from "../fetcher";
 
@@ -112,8 +113,9 @@ export async function getServerSideProps(context) {
   const totalSupply = await getAlchemicaTotalSupply();
   const gotchis = await getGotchis();
   const activeWallets = await getActiveWallets();
+  const pools = await getPoolInfo();
 
-  const props = { activeWallets, stats, totalSupply, gotchis };
+  const props = { activeWallets, stats, totalSupply, gotchis, pools };
   console.log(props);
 
   return {

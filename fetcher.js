@@ -37,6 +37,36 @@ export const getAlchemicaTotalSupply = async () => {
   }));
 };
 
+export const getPoolInfo = async () => {
+  let query = `{
+    erc20Balances(
+      where: {account_in: ["0x1fe64677ab1397e20a1211afae2758570fea1b8c"], contract_not: "0x3801c3b3b5c98f88a9c9005966aa96aa440b9afc"}
+    ) {
+      value
+      account {
+        id
+      }
+      contract {
+        name
+        id
+        totalSupply {
+          value
+        }
+      }
+    }
+  }`;
+
+  const result = await gltrStakingSubgraph({ query });
+  const balancesOfPools = result.data.erc20Balances;
+
+  return balancesOfPools.map((e) => ({
+    pool: e.contract.id,
+    staked: e.value,
+    totalSupply: e.contract.totalSupply.value,
+    percentageStaked: (e.value / e.contract.totalSupply.value) * 100,
+  }));
+};
+
 export const getStats = async () => {
   let query = `{stat(id:"overall") {
       countChannelAlchemicaEvents
@@ -101,3 +131,5 @@ export const getActiveWallets = async () => {
 
   return data;
 };
+
+export const getBurnedGLTR = async () => {};
