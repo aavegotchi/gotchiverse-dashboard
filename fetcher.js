@@ -1,7 +1,8 @@
 const apollo = require("apollo-fetch");
 
 const gotchiverseSubgraph = apollo.createApolloFetch({
-  uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/gotchiverse-matic",
+  uri: "http://157.90.182.138:8000/subgraphs/id/QmUieBrhpJyA7wrN6A6ne9MhXWRkT6LThpGkgFa116k2QY",
+  //uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/gotchiverse-matic",
 });
 
 const coreMaticSubgraph = apollo.createApolloFetch({
@@ -132,4 +133,23 @@ export const getActiveWallets = async () => {
   return data;
 };
 
-export const getBurnedGLTR = async () => {};
+export const getBurnedGLTR = async () => {
+  let query = `{stat(id:"overall") {
+    gltrSpendTotal
+    gltrSpendOnCrafts
+    gltrSpendOnUpgrades
+  }}`;
+
+  const { data } = await gotchiverseSubgraph({ query });
+  const stat = data.stat;
+
+  Object.keys(stat).forEach((e) => {
+    let value = stat[e];
+    stat[e] =
+      value.length >= 18
+        ? value.slice(0, -18) + "." + value.slice(-18, -16)
+        : value;
+  });
+
+  return stat;
+};

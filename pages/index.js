@@ -1,17 +1,14 @@
 import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { Line } from "react-chartjs-2";
-import useSWR from "swr";
+
 import {
   getActiveWallets,
   getAlchemicaTotalSupply,
   getGotchis,
   getPoolInfo,
   getStats,
+  getBurnedGLTR,
 } from "../fetcher";
-import fetcher from "../fetcher";
-import dynamic from "next/dynamic";
-import Helloworld from "../components/helloWorld";
 import GLTRSpentOnUpgrades from "../components/gltrSpentUpgrades";
 
 export default function Home({ data }) {
@@ -21,8 +18,6 @@ export default function Home({ data }) {
   if (data == undefined) {
     return <div className="waitingForConnection">Loading...</div>;
   }
-
-  let formatter = new Intl.NumberFormat(navigator.language || "us-US");
 
   const currentData = {
     activeWallets: "todo",
@@ -139,11 +134,20 @@ export async function getServerSideProps(context) {
   const gotchis = await getGotchis();
   const activeWallets = await getActiveWallets();
   const pools = await getPoolInfo();
+  const burnedGLTR = await getBurnedGLTR();
 
-  const props = { activeWallets, stats, totalSupply, gotchis, pools };
-  console.log(props);
+  const data = {
+    activeWallets,
+    stats,
+    totalSupply,
+    gotchis,
+    pools,
+    burnedGLTR,
+  };
 
   return {
-    props,
+    props: {
+      data,
+    },
   };
 }
