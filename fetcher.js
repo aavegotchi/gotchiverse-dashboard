@@ -29,9 +29,8 @@ const gltrStakingSubgraph = apollo.createApolloFetch({
 });
 
 export const getAlchemicaTotalSupply = async (interval = INTERVAL_ALL) => {
-  let block = 
   let query = `{erc20Contracts ${
-    interval != INTERVAL_ALL ? "(block: { number: " + block + "})"  : ""
+    interval != INTERVAL_ALL ? "(block: { number: 2800000})" : ""
   } {
       name,
       totalSupply {
