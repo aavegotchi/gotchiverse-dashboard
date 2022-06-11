@@ -1,5 +1,11 @@
 const apollo = require("apollo-fetch");
 
+export const INTERVAL_ALL = "all";
+export const INTERVAL_DAY = "1day";
+export const INTERVAL_WEEK = "1week";
+export const INTERVAL_MONTH = "1month";
+export const INTERVAL_YEAR = "year";
+
 const gotchiverseSubgraph = apollo.createApolloFetch({
   uri: "http://157.90.182.138:8000/subgraphs/id/QmUieBrhpJyA7wrN6A6ne9MhXWRkT6LThpGkgFa116k2QY",
   //uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/gotchiverse-matic",
@@ -22,8 +28,11 @@ const gltrStakingSubgraph = apollo.createApolloFetch({
   uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-gltr-staking",
 });
 
-export const getAlchemicaTotalSupply = async () => {
-  let query = `{erc20Contracts {
+export const getAlchemicaTotalSupply = async (interval = INTERVAL_ALL) => {
+  let block = 
+  let query = `{erc20Contracts ${
+    interval != INTERVAL_ALL ? "(block: { number: " + block + "})"  : ""
+  } {
       name,
       totalSupply {
         id
@@ -31,14 +40,20 @@ export const getAlchemicaTotalSupply = async () => {
       }
     }}`;
   const result = await alchemicaSubgraph({ query });
-
-  return result.data.erc20Contracts.map((e) => ({
+  const supplies = result.data.erc20Contracts.map((e) => ({
     name: e.name,
     totalSupply: e.totalSupply.value,
   }));
+
+  if (interval != INTERVAL_ALL) {
+    // get current
+    const currentSupplies = await getAlchemicaTotalSupply();
+  }
+
+  return supplies;
 };
 
-export const getPoolInfo = async () => {
+export const getPoolInfo = async (interval = INTERVAL_ALL) => {
   let query = `{
     erc20Balances(
       where: {account_in: ["0x1fe64677ab1397e20a1211afae2758570fea1b8c"], contract_not: "0x3801c3b3b5c98f88a9c9005966aa96aa440b9afc"}
@@ -68,7 +83,7 @@ export const getPoolInfo = async () => {
   }));
 };
 
-export const getStats = async () => {
+export const getStats = async (interval = INTERVAL_ALL) => {
   let query = `{stat(id:"overall") {
       countChannelAlchemicaEvents
       countParcelInstallations
@@ -91,7 +106,7 @@ export const getStats = async () => {
   return result.data.stat;
 };
 
-export const getGotchis = async () => {
+export const getGotchis = async (interval = INTERVAL_ALL) => {
   let query = `{statistics {
       aavegotchisClaimed 
       aavegotchisSacrificed
@@ -113,7 +128,7 @@ export const getGotchis = async () => {
   return { gotchisClaimed, gotchisSacrificed };
 };
 
-export const getActiveWallets = async () => {
+export const getActiveWallets = async (interval = INTERVAL_ALL) => {
   const data = await Promise.all([
     fetch(
       "https://dappradar.com/v2/api/dapp/polygon/games/aavegotchi/statistic/24h?currency=USD"
@@ -133,7 +148,7 @@ export const getActiveWallets = async () => {
   return data;
 };
 
-export const getBurnedGLTR = async () => {
+export const getBurnedGLTR = async (interval = INTERVAL_ALL) => {
   let query = `{stat(id:"overall") {
     gltrSpendTotal
     gltrSpendOnCrafts

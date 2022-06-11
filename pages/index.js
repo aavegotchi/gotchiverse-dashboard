@@ -8,6 +8,9 @@ import {
   getPoolInfo,
   getStats,
   getBurnedGLTR,
+  INTERVAL_DAY,
+  INTERVAL_WEEK,
+  INTERVAL_MONTH,
 } from "../fetcher";
 import GLTRSpentOnUpgrades from "../components/gltrSpentUpgrades";
 
@@ -103,20 +106,47 @@ export default function Home({ burnedGLTRCurrent }) {
 }
 
 export async function getServerSideProps(context) {
-  const stats = await getStats();
-  const totalSupply = await getAlchemicaTotalSupply();
-  const gotchis = await getGotchis();
-  const activeWallets = await getActiveWallets();
-  const pools = await getPoolInfo();
-  const burnedGLTRCurrent = await getBurnedGLTR();
+  const dataAll = await Promise.all([
+    getStats(),
+    getAlchemicaTotalSupply(),
+    getGotchis(),
+    getActiveWallets(),
+    getPoolInfo(),
+    getBurnedGLTR(),
+  ]);
+
+  const dataDay = await Promise.all([
+    getStats(INTERVAL_DAY),
+    getAlchemicaTotalSupply(INTERVAL_DAY),
+    getGotchis(INTERVAL_DAY),
+    getActiveWallets(INTERVAL_DAY),
+    getPoolInfo(INTERVAL_DAY),
+    getBurnedGLTR(INTERVAL_DAY),
+  ]);
+
+  const dataWeek = await Promise.all([
+    getStats(INTERVAL_WEEK),
+    getAlchemicaTotalSupply(INTERVAL_WEEK),
+    getGotchis(INTERVAL_WEEK),
+    getActiveWallets(INTERVAL_WEEK),
+    getPoolInfo(INTERVAL_WEEK),
+    getBurnedGLTR(INTERVAL_WEEK),
+  ]);
+
+  const dataMonth = await Promise.all([
+    getStats(INTERVAL_MONTH),
+    getAlchemicaTotalSupply(INTERVAL_MONTH),
+    getGotchis(INTERVAL_MONTH),
+    getActiveWallets(INTERVAL_MONTH),
+    getPoolInfo(INTERVAL_MONTH),
+    getBurnedGLTR(INTERVAL_MONTH),
+  ]);
 
   const props = {
-    activeWallets,
-    stats,
-    totalSupply,
-    gotchis,
-    pools,
-    burnedGLTRCurrent,
+    dataDay,
+    dataWeek,
+    dataMonth,
+    dataAll,
   };
 
   return {
