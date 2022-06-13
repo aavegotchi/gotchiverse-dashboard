@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
 import {
@@ -10,9 +10,39 @@ import {
   getBurnedGLTR,
 } from "../fetcher";
 import GLTRSpentOnUpgrades from "../components/gltrSpentUpgrades";
+import UnflippedTile from "../components/unflipped";
 
-export default function Home({ burnedGLTRCurrent }) {
+
+export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSupply, gotchis, pools }) {
   // const { data, error } = useSWR("/api/user", fetcher);
+  const burnedGLTRCurrentData = burnedGLTRCurrent.gltrSpendOnUpgrades;
+  console.log(activeWallets[0], "active wallets", typeof activeWallets);
+  console.log(stats, "stats");
+  console.log(totalSupply, "total supply");
+  console.log(gotchis, "gotchis");
+  console.log(pools, "pools");
+  
+  // setting data 
+  const [GLTRBurnedData, setGLTRBurnedData] = useState([]);
+
+  const [activeWalletsData, setActiveWalletsData] = useState([]);
+
+  const [totalSupplyData, setTotalSupplyData] = useState([]);
+
+  const [gotchisData, setGotchisData] = useState([]);
+
+  const [poolsData, setPoolsData] = useState([]);
+
+  useEffect(() => {
+    function setData() {
+      setGLTRBurnedData(burnedGLTRCurrentData);
+      setActiveWalletsData(activeWallets);
+    }
+
+    setData();
+
+  }, [])
+
 
   return (
     <>
@@ -25,40 +55,45 @@ export default function Home({ burnedGLTRCurrent }) {
           <Card>Tiles Minted</Card>
         </Col>
         <Col>
-          <GLTRSpentOnUpgrades burnedGLTRCurrent={burnedGLTRCurrent} />
+          <UnflippedTile data = { burnedGLTRCurrentData } title = {"GLTR Burned"}/>
         </Col>
       </Row>
       <Row>
-        <Col>
-          <Card>Number of players banned vs total players</Card>
-        </Col>
-        <Col>
+        <Col md = "8">
           <Card>Alchemica minted vs total supply</Card>
         </Col>
-        <Col>
-          <Card>Upgrades initiated</Card>
+        <Col md = "4">
+          {/* <Card>Upgrades initiated</Card> */}
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Upgrades Initiated"}/>
+        </Col>
+      </Row>
+      <Row>
+        <Col md = "8">
+          <Card>LP Tokens staked vs total LP Tokens</Card>
+        </Col>
+        <Col md = "4">
+
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Number of channels"}/>
+        </Col>
+      </Row>
+      <Row>
+        <Col md = "8">
+          <Card>Gotchiverse news / announcements</Card>
+        </Col>
+        <Col md = "4">
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Active Wallets"}/>
         </Col>
       </Row>
       <Row>
         <Col>
-          <Card>Number of channels--</Card>
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"GLTR Stakers"}/>
         </Col>
         <Col>
-          <Card>--number of channels</Card>
+          
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"LP Tokens staked / total"}/>
         </Col>
         <Col>
-          <Card>Number of channels 24h, 7d 30d</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>Active Wallets 24h --</Card>
-        </Col>
-        <Col>
-          <Card>--Active Wallets </Card>
-        </Col>
-        <Col>
-          <Card>Active Wallets 24h, 7d 30d</Card>
+            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Number of extractors"}/>
         </Col>
       </Row>
       <Row>
@@ -69,18 +104,10 @@ export default function Home({ burnedGLTRCurrent }) {
           <Card>Amount of Alchemica Sold by banned players</Card>
         </Col>
         <Col>
-          <Card>Number of players unbanned</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>GLTR Stakers</Card>
+          <Card>Number of players banned</Card>
         </Col>
         <Col>
-          <Card>LP Tokens staked vs total LP Tokens</Card>
-        </Col>
-        <Col>
-          <Card># Number of extractors</Card>
+          <Card>Number of players banned</Card>
         </Col>
       </Row>
       <h2>Gotchi Utiliziation</h2>

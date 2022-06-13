@@ -13,7 +13,7 @@ function GLTRSpentOnUpgrades({ burnedGLTRCurrent }) {
               {burnedGLTRCurrent.gltrSpendOnUpgrades}
             </span>
             <span className="dataChanges negative">
-              -10% <div>Arrowdown here</div>
+              -10% <img src = "../assets/iconography/trending-down@512w.png" />
             </span>
           </div>
           <div className="buttons">
