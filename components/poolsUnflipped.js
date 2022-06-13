@@ -20,9 +20,7 @@ const poolObject = {
 // store them inside an array to map them easier instead of looking them up at every component update 
 
 function PoolsUnflipped(props) {
-    if (props.data.length == 0) { //check if any data is present at all 
-      return <div className="waitingForConnection">Loading...</div>;
-    }
+
     
     const maximumPage = props.data.length;
 
@@ -62,7 +60,10 @@ function PoolsUnflipped(props) {
 
 
     // calculate the change in rates over a certain ... time 
-  
+
+    if (props.data.length == 0) { //check if any data is present at all 
+        return <div className="waitingForConnection">Loading...</div>;
+      } else 
     return (
       <>
         <div className="wrapper">

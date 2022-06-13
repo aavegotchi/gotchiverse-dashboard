@@ -5,9 +5,7 @@ import { useEffect, useState } from 'react';
 
 
 function UnflippedTile(props) {
-    if (props.data.length == 0) { //check if any data is present at all 
-      return <div className="waitingForConnection">Loading...</div>;
-    }
+
     const [timeLine, setTimeLine] = useState(7);
     const [dataToBeDisplayed, setDataToBeDisplayed] = useState(0);
     // calculate the change in rates over a certain ... time 
@@ -25,7 +23,11 @@ function UnflippedTile(props) {
       }
 
     }, [timeLine])
-  
+
+
+    if (props.data.length == 0) { //check if any data is present at all 
+      return <div className="waitingForConnection">Loading...</div>;
+    } else 
     return (
       <>
         <div className="wrapper">
