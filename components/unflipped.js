@@ -1,15 +1,30 @@
 import Image from 'next/image'
+import { useEffect, useState } from 'react';
 
 
 
 
 function UnflippedTile(props) {
-    if (props.data == undefined) {
+    if (props.data.length == 0) { //check if any data is present at all 
       return <div className="waitingForConnection">Loading...</div>;
     }
-
+    const [timeLine, setTimeLine] = useState(7);
+    const [dataToBeDisplayed, setDataToBeDisplayed] = useState(0);
     // calculate the change in rates over a certain ... time 
+    useEffect(() => {
+      if (timeLine == 24) {
+        setDataToBeDisplayed(props.data[0]); 
 
+      } else if (timeLine == 7) {
+        setDataToBeDisplayed(props.data[1])
+
+
+      } else if (timeLine == 30) {
+        setDataToBeDisplayed(props.data[2]);
+
+      }
+
+    }, [timeLine])
   
     return (
       <>
@@ -18,7 +33,7 @@ function UnflippedTile(props) {
             <span className="tileTitle">{props.title}</span>
             <div className="dataContainer">
               <span className="mainData">
-                {props.data}
+                { dataToBeDisplayed }
               </span>
               <span className="dataChanges negative">
                 -10% {/* -10%  change this to the calculated change over time */}
@@ -26,12 +41,12 @@ function UnflippedTile(props) {
             </div>
             <div className="buttons">
               <div className="bottomLeft">
-                <div className="button time">24h</div>
-                <div className="button time">7d</div>
-                <div className="button time">30d</div>
+                <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24h</button>
+                <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7d</button>
+                <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30d</button>
               </div>
               <div className="bottomRight">
-                <div className="button graph">See detailed graph</div>
+                <button className="button graph">See graph</button>
               </div>
             </div>
           </div>
@@ -89,17 +104,33 @@ function UnflippedTile(props) {
             }
   
             .button {
+              box-sizing: border-box;
+              width: 100px;
+              
               margin: 2px;
               background: #6d18f8;
               text-align: center;
               border-radius: 5px;
               color: #04b6bc;
+              height: 30px;
+              font-size: 15px;
+              transition: 0.5s;
+              padding: 2px;
+            }
+
+            .button:disabled {
+              opacity: 0.5;
+              pointer-events: none;
             }
   
             .button:hover {
               background: #04b6bc;
               color: #6d18f8;
               transition: 0.2s ease-in-out;
+            }
+
+            .graph {
+              margin-left: 20px;
             }
             .time {
               width: 35px;
