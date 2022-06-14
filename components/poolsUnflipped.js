@@ -105,6 +105,9 @@ function PoolsUnflipped(props) {
               display: flex;
               color: #04b6bc;
               box-sizing: border-box;
+              -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
+              box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
+              border-radius: 10px;
             }
 
             .circularBarWrapper {
@@ -120,10 +123,9 @@ function PoolsUnflipped(props) {
               flex: 1;
               margin: 0px 20px;
               padding: 30px;
-              border-radius: 10px;
+              
               cursor: pointer;
-              -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-              box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
+
             }
             .tileTitle {
               font-size: 20px;

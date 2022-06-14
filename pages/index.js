@@ -11,16 +11,12 @@ import {
 } from "../fetcher";
 import UnflippedTile from "../components/unflipped";
 import PoolsUnflipped from "../components/poolsUnflipped";
+import ChartTest from "../components/chartTest";
+import GotchiverseNews from "../components/gotchiverseNews";
+import Image from 'next/image';
 
 
-const GHST_USDC = "0x096C5CCb33cFc5732Bcd1f3195C13dBeFC4c82f4";
-const GHST_MATIC = "0xf69e93771F11AECd8E554aA165C3Fe7fd811530c";
-const GHST_GLTR = "0xb0E35478a389dD20050D66a67FB761678af99678";
-const GHST_KEK = "0xBFad162775EBfB9988db3F24ef28CA6Bc2fB92f0";
-const GHST_ALPHA = "0xC765ECA0Ad3fd27779d36d18E32552Bd7e26Fd7b";
-const GHST_FOMO = "0x641CA8d96b01Db1E14a5fBa16bc1e5e508A45f2B";
-const GHST_FUD = "0xfEC232CC6F0F3aEb2f81B2787A9bc9F6fc72EA5C";
-const wapGHST = "0xfEC232CC6F0F3aEb2f81B2787A9bc9F6fc72EA5C";
+
 
 export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSupply, gotchis, pools }) {
   // const { data, error } = useSWR("/api/user", fetcher);
@@ -32,7 +28,6 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
   const arrayOfUpgradesInitiatedData = new Array(3).fill(stats.installationsUpgradedTotal);
   const arrayOfPoolsData = new Array();
   
-
 
   console.log(stats, "stats");
   console.log(totalSupply, "total supply");
@@ -78,6 +73,11 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
 
   }, [])
 
+  const styling = {
+    width: "100%",
+    height: "100%",
+  }
+
 
   return (
     <>
@@ -95,8 +95,18 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       </Row>
       <Row>
         <Col md = "8">
-          <Card>Alchemica minted vs total supply</Card>
+            {/* <Image 
+            src = "/../public/images/aavegotchi-banner.jpg"
+            alt = "aave banner"
+            layout = "fill"
+            overflow = "hidden"
+            /> */}
+          <div className = "bannerWrapper">
+            some decorative banner here
+          </div>
+
         </Col>
+        
         <Col md = "4">
           {/* <Card>Upgrades initiated</Card> */}
           <UnflippedTile data  ={ upgradesInitiatedData } title = {"Upgrades Initiated"}/>
@@ -104,28 +114,34 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       </Row>
       <Row>
         <Col md = "8">
-          <Card>LP Tokens staked vs total LP Tokens</Card>
+          {/* <Card>LP Tokens staked vs total LP Tokens</Card> */}
+          
+            <ChartTest />
+          
         </Col>
         <Col md = "4">
-
-          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Number of channels"}/>
+          <GotchiverseNews />
         </Col>
       </Row>
       <Row>
-        <Col md = "8">
-          <Card>Gotchiverse news / announcements</Card>
+        <Col>
+        <PoolsUnflipped data = { pools } title = {"Pools staked"} />
         </Col>
-        <Col md = "4">
-          <UnflippedTile data  ={ activeWalletsData } title = {"Active Wallets"}/>
+        <Col>
+          <PoolsUnflipped data = { pools } title = {"Pools staked"} />
+          alchemicaminted / total supply
         </Col>
+        <Col>
+        <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Number of channels"}/>
+        </Col>
+
       </Row>
       <Row>
         <Col>
           <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"GLTR Stakers"}/>
         </Col>
         <Col>
-          <PoolsUnflipped data = { pools } title = {"Pools staked"} />
-          
+          <UnflippedTile data  ={ activeWalletsData } title = {"Active Wallets"}/>
         </Col>
         <Col>
             <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Number of extractors"}/>
@@ -160,6 +176,19 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
           <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card>
         </Col>
       </Row>
+      <style jsx>
+        {`
+
+
+          .bannerWrapper {
+            height: 100%;
+            border: 1px solid green;
+            display: relative;
+            overflow: hidden;
+            color: white;
+          }
+        `}
+      </style>
     </>
   );
 }

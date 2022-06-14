@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 
 function UnflippedTile(props) {
 
-    const [timeLine, setTimeLine] = useState(7);
+    const [timeLine, setTimeLine] = useState(24);
     const [dataToBeDisplayed, setDataToBeDisplayed] = useState(0);
+    console.log("here,", dataToBeDisplayed);
     // calculate the change in rates over a certain ... time 
     useEffect(() => {
       if (timeLine == 24) {
@@ -22,7 +23,15 @@ function UnflippedTile(props) {
 
       }
 
-    }, [timeLine])
+    }, [timeLine, props.data])
+
+    useEffect(() => {
+      setDataToBeDisplayed(props.data[0]);
+    }, []);
+
+
+
+
 
 
     if (props.data.length == 0) { //check if any data is present at all 
@@ -35,21 +44,19 @@ function UnflippedTile(props) {
             <span className="tileTitle">{props.title}</span>
             <div className="dataContainer">
               <span className="mainData">
-                { dataToBeDisplayed }
+                { dataToBeDisplayed ? dataToBeDisplayed : <div>Loading...</div>}
               </span>
               <span className="dataChanges negative">
                 -10%
               </span>
             </div>
             <div className="buttons">
-              <div className="bottomLeft">
+              
                 <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24h</button>
                 <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7d</button>
                 <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30d</button>
-              </div>
-              <div className="bottomRight">
-                <button className="button graph">See graph</button>
-              </div>
+              
+
             </div>
           </div>
         </div>
@@ -59,6 +66,9 @@ function UnflippedTile(props) {
               width: 100%;
               display: flex;
               color: #04b6bc;
+              -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
+              box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
+              border-radius: 10px;
             }
   
             .bodyItem {
@@ -67,8 +77,7 @@ function UnflippedTile(props) {
               padding: 30px;
               border-radius: 10px;
               cursor: pointer;
-              -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-              box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
+
             }
             .tileTitle {
               font-size: 20px;
@@ -96,6 +105,7 @@ function UnflippedTile(props) {
             }
             .buttons {
               display: flex;
+              justify-content: space-around;
             }
             .bottomLeft {
               flex: 4;
@@ -107,8 +117,7 @@ function UnflippedTile(props) {
   
             .button {
               box-sizing: border-box;
-              width: 100px;
-              
+              flex: 1;
               margin: 2px;
               background: #6d18f8;
               text-align: center;
