@@ -1,7 +1,7 @@
 const apollo = require("apollo-fetch");
 
 const gotchiverseSubgraph = apollo.createApolloFetch({
-  uri: "http://157.90.182.138:8000/subgraphs/id/QmUieBrhpJyA7wrN6A6ne9MhXWRkT6LThpGkgFa116k2QY",
+  uri: "http://157.90.182.138:8000/subgraphs/name/aavegotchi/gotchiverse",
   //uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/gotchiverse-matic",
 });
 
@@ -69,26 +69,71 @@ export const getPoolInfo = async () => {
 };
 
 export const getStats = async () => {
-  let query = `{stat(id:"overall") {
-      countChannelAlchemicaEvents
-      countParcelInstallations
-      countInstallationTypes
-      countUpgradesInitiated
-      alchemicaSpendOnInstallations
-      alchemicaSpendOnUpgrades
-      alchemicaSpendOnTiles
-      alchemicaSpendTotal
-      alchemicaChanneledTotal
-      alchemicaClaimedTotal
-      alchemicaExitedTotal
-      tilesMinted
-      installationsMintedTotal
-      installationsUpgradedTotal
-    }}`;
+  // let query = `{stat(id:"overall") {
+  //     countChannelAlchemicaEvents
+  //     countParcelInstallations
+  //     countInstallationTypes
+  //     countUpgradesInitiated
+  //     alchemicaSpendOnInstallations
+  //     alchemicaSpendOnUpgrades
+  //     alchemicaSpendOnTiles
+  //     alchemicaSpendTotal
+  //     alchemicaChanneledTotal
+  //     alchemicaClaimedTotal
+  //     alchemicaExitedTotal
+  //     tilesMinted
+  //     installationsMintedTotal
+  //     installationsUpgradedTotal
+  //   }}`;
 
-  const result = await gotchiverseSubgraph({ query });
+  // const result = await gotchiverseSubgraph({ query });
 
-  return result.data.stat;
+  // console.log(JSON.stringify(result));
+  // return result.data.stat;
+
+  let data = {
+    countChannelAlchemicaEvents: "261158",
+    countParcelInstallations: "16656",
+    countInstallationTypes: "0",
+    countUpgradesInitiated: "0",
+    alchemicaSpendOnInstallations: [
+      "9325100000000000000000000",
+      "5018550000000000000000000",
+      "4073025000000000000000000",
+      "1218920000000000000000000",
+    ],
+    alchemicaSpendOnUpgrades: [
+      "2224400000000000000000000",
+      "1150950000000000000000000",
+      "784225000000000000000000",
+      "193030000000000000000000",
+    ],
+    alchemicaSpendOnTiles: [
+      "389300000000000000000000",
+      "389300000000000000000000",
+      "1167900000000000000000000",
+      "389300000000000000000000",
+    ],
+    alchemicaSpendTotal: [
+      "11938800000000000000000000",
+      "6558800000000000000000000",
+      "6025150000000000000000000",
+      "1801250000000000000000000",
+    ],
+    alchemicaChanneledTotal: [
+      "32794492800000000000000000",
+      "16397246400000000000000000",
+      "8198623200000000000000000",
+      "3279449280000000000000000",
+    ],
+    alchemicaClaimedTotal: ["0", "0", "0", "0"],
+    alchemicaExitedTotal: ["0", "0", "0", "0"],
+    tilesMinted: "15572",
+    installationsMintedTotal: "53406",
+    installationsUpgradedTotal: "24798",
+  };
+
+  return data;
 };
 
 export const getGotchis = async () => {
@@ -134,22 +179,30 @@ export const getActiveWallets = async () => {
 };
 
 export const getBurnedGLTR = async () => {
-  let query = `{stat(id:"overall") {
-    gltrSpendTotal
-    gltrSpendOnCrafts
-    gltrSpendOnUpgrades
-  }}`;
+  // let query = `{stat(id:"overall") {
+  //   gltrSpendTotal
+  //   gltrSpendOnCrafts
+  //   gltrSpendOnUpgrades
+  // }}`;
 
-  const { data } = await gotchiverseSubgraph({ query });
-  const stat = data.stat;
+  // const { data } = await gotchiverseSubgraph({ query });
+  // const stat = data.stat;
 
-  Object.keys(stat).forEach((e) => {
-    let value = stat[e];
-    stat[e] =
-      value.length >= 18
-        ? value.slice(0, -18) + "." + value.slice(-18, -16)
-        : value;
-  });
+  // Object.keys(stat).forEach((e) => {
+  //   let value = stat[e];
+  //   stat[e] =
+  //     value.length >= 18
+  //       ? value.slice(0, -18) + "." + value.slice(-18, -16)
+  //       : value;
+  // });
 
-  return stat;
+  // return stat;
+
+  let data = {
+    gltrSpendTotal: "11000",
+    gltrSpendOnCrafts: "1000",
+    gltrSpendOnUpgrades: "10000",
+  };
+
+  return data;
 };
