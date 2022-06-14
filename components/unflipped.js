@@ -38,7 +38,7 @@ function UnflippedTile(props) {
                 { dataToBeDisplayed }
               </span>
               <span className="dataChanges negative">
-                -10% {/* -10%  change this to the calculated change over time */}
+                -10%
               </span>
             </div>
             <div className="buttons">
