@@ -18,6 +18,7 @@ import PoolsUnflipped from "../components/poolsUnflipped";
 import ChartTest from "../components/chartTest";
 import GotchiverseNews from "../components/gotchiverseNews";
 import UnflippedBanned from "../components/unflippedBanned";
+import PoolsUnflippedV2 from "../components/poolsUnflipped2";
 
 
 import Image from 'next/image';
@@ -145,16 +146,15 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       </Row>
       <Row>
         <Col>
-        <PoolsUnflipped data = { pools } title = {"Pools staked"} />
+        <PoolsUnflippedV2 data = { pools } title = {"Pools staked"} />
         </Col>
         <Col>
-          <PoolsUnflipped data = { pools } title = {"Pools staked"} />
+          <PoolsUnflippedV2 data = { pools } title = {"Pools staked"} />
           {/* alchemicaminted / total supply */}
         </Col>
-        <Col>
+        {/* <Col>
         <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Channels"}/>
-        </Col>
-
+        </Col> */}
       </Row>
       <Row>
         <Col>
