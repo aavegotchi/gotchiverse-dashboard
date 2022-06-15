@@ -118,7 +118,7 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
             /> */}
           <div className = "image__Wrapper">
             <Image 
-            src = "/../public/images/aavegotchi-banner.jpg" 
+            src = "https://res.cloudinary.com/djev64cqn/image/upload/v1655322084/aavegotchi-banner_lvy5oc.jpg"
             alt = "banner" 
             layout = {"fill"}
             objectFit = {"cover"}

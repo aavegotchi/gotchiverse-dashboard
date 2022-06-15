@@ -41,6 +41,12 @@ function UnflippedTile(props) {
       <>
         <div className="wrapper">
           <div className="bodyItem">
+            <div className="buttons">
+                
+                <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24h</button>
+                <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7d</button>
+                <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30d</button>
+            </div>
             <span className="tileTitle">{props.title}</span>
             <div className="dataContainer">
               <span className="mainData">
@@ -50,17 +56,11 @@ function UnflippedTile(props) {
                 -10% 
                 
               </span>
-              <div>
-                <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`} alt = "trneding" width = "1000" height = "1000" />
-              </div>
-              
             </div>
-            <div className="buttons">
-              
-                <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24h</button>
-                <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7d</button>
-                <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30d</button>
+            <div className = "trendWrapper">
+                <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`} alt = "trending" width = "50" height = "50" />
             </div>
+
           </div>
         </div>
         <style jsx>
@@ -75,16 +75,21 @@ function UnflippedTile(props) {
               background: #000000;  
               background: -webkit-linear-gradient(to right, #434343, #000000);  
               background: linear-gradient(to right, #434343, #000000); 
+              height: 90%;
 
               
             }
-  
+
             .bodyItem {
-              flex: 1;
+              width: 100%;
               margin: 0px 20px;
               padding: 30px;
               border-radius: 10px;
               cursor: pointer;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              text-align: center;
 
             }
             .tileTitle {
@@ -92,12 +97,13 @@ function UnflippedTile(props) {
             }
   
             .dataContainer {
-              margin: 10px 0px;
-              margin-left: 10px;
+              
+
               display: flex;
+              justify-content: center;
               align-items: center;
               text-align:center;
-              width: 100px;
+              
             }
   
             .mainData {
