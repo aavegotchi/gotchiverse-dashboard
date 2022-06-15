@@ -47,16 +47,19 @@ function UnflippedTile(props) {
                 { dataToBeDisplayed ? dataToBeDisplayed : <div>Loading...</div>}
               </span>
               <span className="dataChanges negative">
-                -10%
+                -10% 
+                
               </span>
+              <div>
+                <Image src = {`/../public/images/trending-up.png`} alt = "trneding" width = "1000" height = "1000" />
+              </div>
+              
             </div>
             <div className="buttons">
               
                 <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24h</button>
                 <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7d</button>
                 <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30d</button>
-              
-
             </div>
           </div>
         </div>
@@ -69,6 +72,11 @@ function UnflippedTile(props) {
               -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
               box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
               border-radius: 10px;
+              background: #000000;  
+              background: -webkit-linear-gradient(to right, #434343, #000000);  
+              background: linear-gradient(to right, #434343, #000000); 
+
+              
             }
   
             .bodyItem {
@@ -80,24 +88,31 @@ function UnflippedTile(props) {
 
             }
             .tileTitle {
-              font-size: 20px;
+              font-size: 40px;
             }
   
             .dataContainer {
               margin: 10px 0px;
+              margin-left: 10px;
               display: flex;
               align-items: center;
+              text-align:center;
+              width: 100px;
             }
   
             .mainData {
-              font-size: 30px;
+              font-size: 35px;
               font-weight: 600;
+              padding: 10px;
+              
             }
   
             .dataChanges {
               display: flex;
               align-items: center;
               margin-left: 20px;
+              font-size: 23px;
+              
             }
   
             .negative {
@@ -117,20 +132,21 @@ function UnflippedTile(props) {
   
             .button {
               box-sizing: border-box;
+              width: 80px;
+              height: 50px;
               flex: 1;
               margin: 2px;
               background: #6d18f8;
               text-align: center;
               border-radius: 5px;
               color: #04b6bc;
-              height: 30px;
-              font-size: 15px;
+              font-size: 22px;
               transition: 0.5s;
               padding: 2px;
             }
 
             .button:disabled {
-              opacity: 0.5;
+              background-color: #CF15F9;
               pointer-events: none;
             }
   
@@ -146,6 +162,10 @@ function UnflippedTile(props) {
             .time {
               width: 35px;
             }
+            @media (max-width: 1400px) {
+              * {
+                padding: 0;
+              }
           `}
         </style>
       </>

@@ -9,10 +9,17 @@ import {
   getStats,
   getBurnedGLTR,
 } from "../fetcher";
+
+
+
+// components here 
 import UnflippedTile from "../components/unflipped";
 import PoolsUnflipped from "../components/poolsUnflipped";
 import ChartTest from "../components/chartTest";
 import GotchiverseNews from "../components/gotchiverseNews";
+import UnflippedBanned from "../components/unflippedBanned";
+
+
 import Image from 'next/image';
 
 
@@ -84,13 +91,20 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       <h2>Gotchiverse Economy</h2>
       <Row>
         <Col>
-        <UnflippedTile data = { installationsMintedData } title = {"Installations minted"}/>
+          {/* <Card>Number of players banned vs total players</Card> */}
+          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
         </Col>
         <Col>
-          <UnflippedTile data = { tilesMintedData } title = {"Tiles Minted"}/>
+          {/* <Card>Amount of Alchemica Sold by banned players</Card> */}
+          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
         </Col>
         <Col>
-          <UnflippedTile data = { GLTRBurnedData } title = {"GLTR Burned"}/>
+          {/* <Card>Number of players banned</Card> */}
+          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
+        </Col>
+        <Col>
+          {/* <Card>Number of players banned</Card> */}
+          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
         </Col>
       </Row>
       <Row>
@@ -101,8 +115,14 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
             layout = "fill"
             overflow = "hidden"
             /> */}
-          <div className = "bannerWrapper">
-            some decorative banner here
+          <div className = "image__Wrapper">
+            <Image 
+            src = "/../public/images/aavegotchi-banner.jpg" 
+            alt = "banner" 
+            layout = {"fill"}
+            objectFit = {"cover"}
+            backgroundPosition = {"center"}
+            />
           </div>
 
         </Col>
@@ -129,10 +149,10 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
         </Col>
         <Col>
           <PoolsUnflipped data = { pools } title = {"Pools staked"} />
-          alchemicaminted / total supply
+          {/* alchemicaminted / total supply */}
         </Col>
         <Col>
-        <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Number of channels"}/>
+        <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Channels"}/>
         </Col>
 
       </Row>
@@ -144,21 +164,18 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
           <UnflippedTile data  ={ activeWalletsData } title = {"Active Wallets"}/>
         </Col>
         <Col>
-            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Number of extractors"}/>
+            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Extractors"}/>
         </Col>
       </Row>
       <Row>
-        <Col>
-          <Card>Number of players banned vs total players</Card>
+      <Col>
+        <UnflippedTile data = { installationsMintedData } title = {"Installations minted"}/>
         </Col>
         <Col>
-          <Card>Amount of Alchemica Sold by banned players</Card>
+          <UnflippedTile data = { tilesMintedData } title = {"Tiles Minted"}/>
         </Col>
         <Col>
-          <Card>Number of players banned</Card>
-        </Col>
-        <Col>
-          <Card>Number of players banned</Card>
+          <UnflippedTile data = { GLTRBurnedData } title = {"GLTR Burned"}/>
         </Col>
       </Row>
       <h2>Gotchi Utiliziation</h2>
@@ -178,15 +195,17 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       </Row>
       <style jsx>
         {`
+        .image__Wrapper {
+          border-radius: 5px;
+          overflow: hidden;
+          border-radius: 10px solid yellow;
+          position: relative;
+          height: 100%;
+          width: 100%;
+
+        }
 
 
-          .bannerWrapper {
-            height: 100%;
-            border: 1px solid green;
-            display: relative;
-            overflow: hidden;
-            color: white;
-          }
         `}
       </style>
     </>

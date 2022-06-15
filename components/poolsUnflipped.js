@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import Image from 'next/image';
 
 
 const poolObject = {
@@ -70,12 +71,18 @@ function PoolsUnflipped(props) {
           <div className="bodyItem">
             <div className = "bodyWrapper">
                 <div className = "dataWrapper"> 
-                    <span className="tileTitle">{`${cache[page]}`}</span>
+                    <span className="tileTitle">
+                      {`${cache[page]}`}
+                    </span>
+                    <span>
+                      hello
+                    </span>
+
                     <div className="dataContainer">
+                        
                         <span className="mainData">
                             { `${pool.percentageStaked.toFixed(2)}%` }
                         </span>
-
                     </div>
                 </div>
                 <div className = "circularBarWrapper">
@@ -84,9 +91,13 @@ function PoolsUnflipped(props) {
                 
             </div>
             <div className="buttons">
-                <button className="button" disabled = {page <= 0} onClick = {() => setPage(page - 1)}>Previous</button>
+                <button className="button" disabled = {page <= 0} onClick = {() => setPage(page - 1)}>
+                  <Image src = {`/../public/images/chevron-left.png`} alt = "chevron" width = "40" height = "40" />
+                </button>
 
-                <button className="button" disabled = {page >= maximumPage - 1} onClick = {() => setPage(page + 1)}>Next</button>
+                <button className="button" disabled = {page >= maximumPage - 1} onClick = {() => setPage(page + 1)}>
+                  <Image src = {`/../public/images/chevron-right.png`} alt = "chevron" width = "40" height = "40" />
+                </button>
 
             </div>
           </div>
@@ -95,7 +106,7 @@ function PoolsUnflipped(props) {
           {`
             .bodyWrapper {
                 display: flex;
-
+                
                 align-items: center;
                 justify-content: space-between;
                 margin-right: 10px;
@@ -108,14 +119,22 @@ function PoolsUnflipped(props) {
               -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
               box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
               border-radius: 10px;
+              height: 270px;
+              background: #000000;  
+              background: -webkit-linear-gradient(to right, #434343, #000000);  
+              background: linear-gradient(to right, #434343, #000000); 
+
+              
             }
 
             .circularBarWrapper {
 
-                width: 100px;
+                width: 110px;
                 position: relative;
                 bottom: 10px;
                 left: 10px;
+                
+                flex: 1;
                 
             }
   
@@ -128,20 +147,33 @@ function PoolsUnflipped(props) {
 
             }
             .tileTitle {
-              font-size: 20px;
+              font-size: 40px;
+              
             }
   
             .dataContainer {
-              margin: 10px 0px;
+              margin-top: 10px;
               display: flex;
               align-items: center;
+              text-align: center;
+              flex-direction: column;
+              width: 100%;
+            }
 
+            .dataWrapper {
+              
               width: 100px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              flex: 1;
             }
   
             .mainData {
-              font-size: 30px;
+              font-size: 35px;
               font-weight: 600;
+              padding: 10px;
             }
   
             .dataChanges {
@@ -168,22 +200,23 @@ function PoolsUnflipped(props) {
   
             .button {
               box-sizing: border-box;
-              width: 100px;
+              width: 80px;
               
               margin: 2px;
               background: #6d18f8;
               text-align: center;
               border-radius: 5px;
               color: #04b6bc;
-              height: 30px;
+              height: 50px;
               font-size: 15px;
               transition: 0.5s;
-              padding: 2px;
+              padding: 5px;
             }
 
             .button:disabled {
-              opacity: 0.5;
+              background-color: #CF15F9;
               pointer-events: none;
+              
             }
   
             .button:hover {
