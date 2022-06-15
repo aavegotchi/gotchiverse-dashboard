@@ -71,7 +71,7 @@ function PoolsUnflippedV2(props) {
             <div className = "bodyWrapper">
                 <div className = "left">
                     <button className="button" disabled = {page <= 0} onClick = {() => setPage(page - 1)}>
-                    <Image src = {`/../public/images/chevron-left.png`} alt = "chevron" width = "40" height = "40" />
+                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655321124/chevron-left_cjxhb0.png`} alt = "chevron" width = "40" height = "40" />
                     </button>
                 </div>
                 <div className = "center">
@@ -102,7 +102,7 @@ function PoolsUnflippedV2(props) {
                 </div>
                 <div className = "right">
                     <button className="button" disabled = {page >= maximumPage - 1} onClick = {() => setPage(page + 1)}>
-                    <Image src = {`/../public/images/chevron-right.png`} alt = "chevron" width = "40" height = "40" />
+                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655321128/chevron-right_pzqw00.png`} alt = "chevron" width = "40" height = "40" />
                     </button>
                 </div>
             </div>

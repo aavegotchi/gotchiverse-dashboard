@@ -51,7 +51,7 @@ function UnflippedTile(props) {
                 
               </span>
               <div>
-                <Image src = {`/../public/images/trending-up.png`} alt = "trneding" width = "1000" height = "1000" />
+                <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`} alt = "trneding" width = "1000" height = "1000" />
               </div>
               
             </div>
