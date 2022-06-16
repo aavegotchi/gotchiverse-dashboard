@@ -1,6 +1,7 @@
 @font-face {
   font-family: "Pixelar";
-  src: url("/fonts/Pixelar Regular.woff2") format ("woff2");
+  /* src: url("/fonts/Pixelar Regular.woff2") format ("woff2"); */
+  src: url("./Pixelar_Regular_W01_Regular.ttf");
 }
 
 html,

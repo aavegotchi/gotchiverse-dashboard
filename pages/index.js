@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
 import {
@@ -12,78 +12,173 @@ import {
   INTERVAL_WEEK,
   INTERVAL_MONTH,
 } from "../fetcher";
-import GLTRSpentOnUpgrades from "../components/gltrSpentUpgrades";
 
-export default function Home({ burnedGLTRCurrent }) {
+
+
+// components here 
+import UnflippedTile from "../components/unflipped";
+import PoolsUnflipped from "../components/poolsUnflipped";
+import ChartTest from "../components/chartTest";
+import GotchiverseNews from "../components/gotchiverseNews";
+import UnflippedBanned from "../components/unflippedBanned";
+import PoolsUnflippedV2 from "../components/poolsUnflipped2";
+
+
+import Image from 'next/image';
+
+
+
+
+export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSupply, gotchis, pools }) {
   // const { data, error } = useSWR("/api/user", fetcher);
+  const burnedGLTRCurrentData = burnedGLTRCurrent.gltrSpendOnUpgrades;
+  const arrayOfGLTRBurnedData = new Array(3).fill(burnedGLTRCurrentData);
+  const arrayOfActiveWalletsData = activeWallets;
+  const arrayOfTilesMintedData = new Array(3).fill(stats.tilesMinted);
+  const arrayOfInstallationsMintedTotalData = new Array(3).fill(stats.installationsMintedTotal);
+  const arrayOfUpgradesInitiatedData = new Array(3).fill(stats.installationsUpgradedTotal);
+  const arrayOfPoolsData = new Array();
+  
+
+  console.log(stats, "stats");
+  console.log(totalSupply, "total supply");
+  console.log(gotchis, "gotchis");
+  console.log(pools, "pools", typeof pools);
+  
+
+  // NOTE: EVERYTHING is still in string , could change them to integers to process in "unflipped.js"
+  // setting data into arrays, [{24h}, {7d}, {30d}]
+  const [GLTRBurnedData, setGLTRBurnedData] = useState([]);
+
+  const [activeWalletsData, setActiveWalletsData] = useState([]);
+
+  const [tilesMintedData, setTilesMintedData] = useState([]);
+
+  const [installationsMintedData, setInstallationsMintedData] = useState([]);
+
+  const [upgradesInitiatedData, setUpgradesInitiatedData] = useState([]);
+
+  const [poolsData, setPoolsData] = useState([]);
+
+
+  const [totalSupplyData, setTotalSupplyData] = useState([]);
+
+  const [gotchisData, setGotchisData] = useState([]);
+
+  
+
+  // set all the data on mount, 
+  useEffect(() => {
+    function setData() {
+      setGLTRBurnedData(arrayOfGLTRBurnedData);
+      setActiveWalletsData(arrayOfActiveWalletsData);
+      setTilesMintedData(arrayOfTilesMintedData);
+      setInstallationsMintedData(arrayOfInstallationsMintedTotalData);
+      setUpgradesInitiatedData(arrayOfUpgradesInitiatedData);
+      setPoolsData(arrayOfPoolsData);
+
+
+    }
+
+    setData();
+
+  }, [])
+
+  const styling = {
+    width: "100%",
+    height: "100%",
+  }
+
 
   return (
     <>
       <h2>Gotchiverse Economy</h2>
       <Row>
         <Col>
-          <Card>Installations minted</Card>
+          {/* <Card>Number of players banned vs total players</Card> */}
+          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
         </Col>
         <Col>
-          <Card>Tiles Minted</Card>
+          {/* <Card>Amount of Alchemica Sold by banned players</Card> */}
+          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
         </Col>
         <Col>
-          <GLTRSpentOnUpgrades burnedGLTRCurrent={burnedGLTRCurrent} />
+          {/* <Card>Number of players banned</Card> */}
+          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
+        </Col>
+        <Col>
+          {/* <Card>Number of players banned</Card> */}
+          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
+        </Col>
+      </Row>
+      <Row>
+        <Col md = "8">
+            {/* <Image 
+            src = "/../public/images/aavegotchi-banner.jpg"
+            alt = "aave banner"
+            layout = "fill"
+            overflow = "hidden"
+            /> */}
+          <div className = "image__Wrapper">
+            <Image 
+            src = "https://res.cloudinary.com/djev64cqn/image/upload/v1655322084/aavegotchi-banner_lvy5oc.jpg"
+            alt = "banner" 
+            layout = {"fill"}
+            objectFit = {"cover"}
+            backgroundPosition = {"center"}
+            />
+          </div>
+
+        </Col>
+        
+        <Col md = "4">
+          {/* <Card>Upgrades initiated</Card> */}
+          <UnflippedTile data  ={ upgradesInitiatedData } title = {"Upgrades Initiated"}/>
+        </Col>
+      </Row>
+      <Row>
+        <Col md = "8">
+          {/* <Card>LP Tokens staked vs total LP Tokens</Card> */}
+          
+            <ChartTest />
+          
+        </Col>
+        <Col md = "4">
+          <GotchiverseNews />
         </Col>
       </Row>
       <Row>
         <Col>
-          <Card>Number of players banned vs total players</Card>
+        <PoolsUnflippedV2 data = { pools } title = {"Pools staked"} />
         </Col>
         <Col>
-          <Card>Alchemica minted vs total supply</Card>
+          <PoolsUnflippedV2 data = { pools } title = {"Pools staked"} />
+          {/* alchemicaminted / total supply */}
         </Col>
-        <Col>
-          <Card>Upgrades initiated</Card>
-        </Col>
+        {/* <Col>
+        <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Channels"}/>
+        </Col> */}
       </Row>
       <Row>
         <Col>
-          <Card>Number of channels--</Card>
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"GLTR Stakers"}/>
         </Col>
         <Col>
-          <Card>--number of channels</Card>
+          <UnflippedTile data  ={ activeWalletsData } title = {"Active Wallets"}/>
         </Col>
         <Col>
-          <Card>Number of channels 24h, 7d 30d</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>Active Wallets 24h --</Card>
-        </Col>
-        <Col>
-          <Card>--Active Wallets </Card>
-        </Col>
-        <Col>
-          <Card>Active Wallets 24h, 7d 30d</Card>
+            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Extractors"}/>
         </Col>
       </Row>
       <Row>
-        <Col>
-          <Card>Number of players banned vs total players</Card>
+      <Col>
+        <UnflippedTile data = { installationsMintedData } title = {"Installations minted"}/>
         </Col>
         <Col>
-          <Card>Amount of Alchemica Sold by banned players</Card>
+          <UnflippedTile data = { tilesMintedData } title = {"Tiles Minted"}/>
         </Col>
         <Col>
-          <Card>Number of players unbanned</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>GLTR Stakers</Card>
-        </Col>
-        <Col>
-          <Card>LP Tokens staked vs total LP Tokens</Card>
-        </Col>
-        <Col>
-          <Card># Number of extractors</Card>
+          <UnflippedTile data = { GLTRBurnedData } title = {"GLTR Burned"}/>
         </Col>
       </Row>
       <h2>Gotchi Utiliziation</h2>
@@ -101,6 +196,21 @@ export default function Home({ burnedGLTRCurrent }) {
           <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card>
         </Col>
       </Row>
+      <style jsx>
+        {`
+        .image__Wrapper {
+          border-radius: 5px;
+          overflow: hidden;
+          border-radius: 10px solid yellow;
+          position: relative;
+          height: 100%;
+          width: 100%;
+
+        }
+
+
+        `}
+      </style>
     </>
   );
 }
