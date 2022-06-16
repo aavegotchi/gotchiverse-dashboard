@@ -1,10 +1,15 @@
 const apollo = require("apollo-fetch");
+const ethers = require("ethers");
 
-export const INTERVAL_ALL = "all";
-export const INTERVAL_DAY = "1day";
-export const INTERVAL_WEEK = "1week";
-export const INTERVAL_MONTH = "1month";
-export const INTERVAL_YEAR = "year";
+let provider = ethers.getDefaultProvider("http://polygon-rpc.com");
+
+export const INTERVAL_ALL = 0;
+
+// blocks
+export const INTERVAL_DAY = 41142;
+export const INTERVAL_WEEK = 287994;
+export const INTERVAL_MONTH = 1234260;
+export const INTERVAL_YEAR = 15016830;
 
 const gotchiverseSubgraph = apollo.createApolloFetch({
   uri: "http://157.90.182.138:8000/subgraphs/name/aavegotchi/gotchiverse",
@@ -28,9 +33,35 @@ const gltrStakingSubgraph = apollo.createApolloFetch({
   uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-gltr-staking",
 });
 
-export const getAlchemicaTotalSupply = async (interval = INTERVAL_ALL) => {
+export const getCurrentBlock = async () => {
+  const block = await provider.getBlockNumber();
+  return block;
+};
+
+export const getAlchemicaTotalSupplyDiff = async (interval = INTERVAL_ALL) => {
+  let currentBlockNr = await getCurrentBlock();
+  let previousBlockNr = currentBlockNr - interval;
+
+  if (currentBlockNr === previousBlockNr) {
+    return getAlchemicaTotalSupplyFromBlock();
+  }
+
+  let values = await Promise.all([
+    getAlchemicaTotalSupplyFromBlock(),
+    getAlchemicaTotalSupplyFromBlock(previousBlockNr),
+  ]);
+
+  let diffValues = values[0].map((e, i) => ({
+    name: e.name,
+    totalSupply: e.totalSupply - values[1][i].totalSupply,
+  }));
+
+  return diffValues;
+};
+
+export const getAlchemicaTotalSupplyFromBlock = async (block = 0) => {
   let query = `{erc20Contracts ${
-    interval != INTERVAL_ALL ? "(block: { number: 2800000})" : ""
+    block !== 0 ? `(block: { number: ${block}})` : ""
   } {
       name,
       totalSupply {
@@ -43,11 +74,6 @@ export const getAlchemicaTotalSupply = async (interval = INTERVAL_ALL) => {
     name: e.name,
     totalSupply: e.totalSupply.value,
   }));
-
-  if (interval != INTERVAL_ALL) {
-    // get current
-    const currentSupplies = await getAlchemicaTotalSupply();
-  }
 
   return supplies;
 };
