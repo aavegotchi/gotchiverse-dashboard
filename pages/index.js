@@ -19,8 +19,10 @@ import ChartTest from "../components/chartTest";
 import GotchiverseNews from "../components/gotchiverseNews";
 import UnflippedBanned from "../components/unflippedBanned";
 import PoolsUnflippedV2 from "../components/poolsUnflipped2";
-
-
+import CardTile from "../components/card";
+import LastSold from "../components/lastSold";
+import { AnimateSharedLayout } from "framer-motion";
+import BasicTable from "../components/table";
 import Image from 'next/image';
 
 
@@ -45,6 +47,8 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
 
   // NOTE: EVERYTHING is still in string , could change them to integers to process in "unflipped.js"
   // setting data into arrays, [{24h}, {7d}, {30d}]
+  const [expanded, setExpanded] = useState(true);
+  console.log(expanded, "expanded");
   const [GLTRBurnedData, setGLTRBurnedData] = useState([]);
 
   const [activeWalletsData, setActiveWalletsData] = useState([]);
@@ -129,8 +133,12 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
         </Col>
         
         <Col md = "4">
-          {/* <Card>Upgrades initiated</Card> */}
-          <UnflippedTile data  ={ upgradesInitiatedData } title = {"Upgrades INITIATED"}/>
+          <AnimateSharedLayout>
+            {
+              expanded? <UnflippedTile data  = { upgradesInitiatedData } title = {"Upgrades INITIATED"}/> : <div onClick = {() => setExpanded(true)}>Hello World</div>
+            }
+            {/* <UnflippedTile data  = { upgradesInitiatedData } title = {"Upgrades INITIATED"}/>  */}
+          </AnimateSharedLayout>
         </Col>
       </Row>
       <Row>
@@ -141,7 +149,11 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
           
         </Col>
         <Col md = "4">
-          <GotchiverseNews />
+          <div className = "latestSales">
+            <LastSold />
+
+
+          </div>
         </Col>
       </Row>
       <Row>
@@ -202,6 +214,19 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
           height: 100%;
           width: 100%;
           
+
+        }
+
+        .latestSales {
+          width: 100%;
+          height: 100%;
+          background: white;
+          border-radius: 10px;
+          background: #7F00FF;  /* fallback for old browsers */
+          background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);  
+          background: linear-gradient(to right, #E100FF, #7F00FF); 
+          
+        
 
         }
 

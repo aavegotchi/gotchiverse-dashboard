@@ -14,7 +14,7 @@ function UnflippedBanned() {
           <div className = "buttons">
             <button className = "button">24H</button>
             <button className = "button">7D</button>
-            <button className = "button">30D</button>
+            <button className = "button">30d</button>
           </div>
         </div>
         <div className = "right">
@@ -36,7 +36,6 @@ function UnflippedBanned() {
             alt = "banned" 
             height = {150} 
             width = {180} 
-            borderRadius = {50}
             />
           </div>
         </div>
