@@ -130,7 +130,7 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
         
         <Col md = "4">
           {/* <Card>Upgrades initiated</Card> */}
-          <UnflippedTile data  ={ upgradesInitiatedData } title = {"Upgrades Initiated"}/>
+          <UnflippedTile data  ={ upgradesInitiatedData } title = {"Upgrades INITIATED"}/>
         </Col>
       </Row>
       <Row>
@@ -146,10 +146,10 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       </Row>
       <Row>
         <Col>
-        <PoolsUnflippedV2 data = { pools } title = {"Pools staked"} />
+        <PoolsUnflippedV2 data = { pools } title = {"POOLS STAKED"} />
         </Col>
         <Col>
-          <PoolsUnflippedV2 data = { pools } title = {"Pools staked"} />
+          <PoolsUnflippedV2 data = { pools } title = {"POOLS STAKED"} />
           {/* alchemicaminted / total supply */}
         </Col>
         {/* <Col>
@@ -158,24 +158,24 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       </Row>
       <Row>
         <Col>
-          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"GLTR Stakers"}/>
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"GLTR STAKERS"}/>
         </Col>
         <Col>
-          <UnflippedTile data  ={ activeWalletsData } title = {"Active Wallets"}/>
+          <UnflippedTile data  ={ activeWalletsData } title = {"ACTIVE WALLETS"}/>
         </Col>
         <Col>
-            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Extractors"}/>
+            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"EXTRACTORS"}/>
         </Col>
       </Row>
       <Row>
       <Col>
-        <UnflippedTile data = { installationsMintedData } title = {"Installations minted"}/>
+        <UnflippedTile data = { installationsMintedData } title = {"INSTALLATIONS MINTED"}/>
         </Col>
         <Col>
-          <UnflippedTile data = { tilesMintedData } title = {"Tiles Minted"}/>
+          <UnflippedTile data = { tilesMintedData } title = {"TILES MINTED"}/>
         </Col>
         <Col>
-          <UnflippedTile data = { GLTRBurnedData } title = {"GLTR Burned"}/>
+          <UnflippedTile data = { GLTRBurnedData } title = {"GLTR BURNED"}/>
         </Col>
       </Row>
       <h2>Gotchi Utiliziation</h2>
@@ -198,10 +198,10 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
         .image__Wrapper {
           border-radius: 5px;
           overflow: hidden;
-          border-radius: 10px solid yellow;
           position: relative;
           height: 100%;
           width: 100%;
+          
 
         }
 

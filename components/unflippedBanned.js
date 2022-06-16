@@ -9,21 +9,33 @@ function UnflippedBanned() {
     <>
       <div className = "widget">
         <div className = "left">
-          <span className = "title">USERS</span>
+          <span className = "title">USERS BANNED</span>
           <span className = "counter">21312</span>
-          <span className = "link">See all users</span>
+          <div className = "buttons">
+            <button className = "button">24H</button>
+            <button className = "button">7D</button>
+            <button className = "button">30D</button>
+          </div>
         </div>
         <div className = "right">
           <div className = "percentage">
-            <div>Arrow up icon</div>
-            20%
+            
+            <span className = "percentageWeightage">20%</span>
+            <div>
+              <Image 
+              src = "https://res.cloudinary.com/djev64cqn/image/upload/v1655388155/chevron-up_vfxsog.png"
+              alt = "trend"
+              height = {50}
+              width = {50}
+              />
+            </div>
           </div>
           <div className = "image__Wrapper">
             <Image 
-            src = "/../public/images/banned.png" 
+            src = "https://res.cloudinary.com/djev64cqn/image/upload/v1655389720/theifgotchi_fbdk4v.png" 
             alt = "banned" 
-            height = {100} 
-            width = {100} 
+            height = {150} 
+            width = {180} 
             borderRadius = {50}
             />
           </div>
@@ -48,14 +60,28 @@ BCFF
               
             }
 
+            .percentage {
+              display: flex;
+              font-weight: 500;
+              padding-left: 10px;
+              
+            }
+
+            .percentageWeightage {
+              font-weight: 600;
+              font-size: 35px;
+            }
+
             .widget {
               display: flex;
               justify-content: space-around;
               flex: 1;
-              background: #673AB7;  /* fallback for old browsers */
-              background: -webkit-linear-gradient(to right, #512DA8, #673AB7);  /* Chrome 10-25, Safari 5.1-6 */
-              background: linear-gradient(to right, #512DA8, #673AB7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-               
+              background: #f4c4f3; 
+              background: -webkit-linear-gradient(to right, #fc67fa, #f4c4f3); 
+              background: linear-gradient(to right, #fc67fa, #f4c4f3); 
+
+
+
 
               padding: 10px;
               -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
@@ -64,30 +90,62 @@ BCFF
               height: 200px;
             }
 
+            .buttons {
+              
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              
+
+            }
+
+            .button {
+              width: 50px;
+              height: 40px;
+              color: #3a7bd5;
+              background: #42275a;  /* fallback for old browsers */
+              background: -webkit-linear-gradient(to right, #734b6d, #42275a);  
+              background: linear-gradient(to right, #734b6d, #42275a); 
+              
+              
+              transition: 1s;
+              padding: 2px;
+              margin: 1px;
+              border-radius: 5px;
+              border: none;
+              font-size: 23px;
+            }
+            button:hover {
+              background: #3a7bd5;
+              color: #42275a;
+              transition: 0.4s ease-in-out;
+            }
+
+
             .left {
               display: flex;
               flex-direction: column;
               justify-content: space-between;
               font-size: 20px;
-              color: #59BCFF;
+              color: black;
             }
 
             .counter {
               font-weight: 300;
-              font-size: 35px;
+              font-size: 50px;
             }
 
             .right {
               display: flex;
               flex-direction: column;
               justify-content: space-between;
-              color: #59BCFF;
+              color: black;
             }
 
             .title {
-              font-weight: bold;
+              font-weight: 500;
               font-size: 30px;
-              color: #59BCFF;
+              color: black;
             }
 
             .image__Wrapper {

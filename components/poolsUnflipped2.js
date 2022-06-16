@@ -225,9 +225,13 @@ function PoolsUnflippedV2(props) {
               box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
               border-radius: 10px;
               height: 270px;
-              background: #000000;  
-              background: -webkit-linear-gradient(to right, #434343, #000000);  
-              background: linear-gradient(to right, #434343, #000000); 
+              // background: #000000;  
+              // background: -webkit-linear-gradient(to right, #434343, #000000);  
+              // background: linear-gradient(to right, #434343, #000000); 
+              background: #0f0c29;  /* fallback for old browsers */
+              background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); 
+              background: linear-gradient(to right, #24243e, #302b63, #0f0c29); 
+
 
               
             }

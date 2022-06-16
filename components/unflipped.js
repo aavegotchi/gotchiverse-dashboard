@@ -8,6 +8,7 @@ function UnflippedTile(props) {
 
     const [timeLine, setTimeLine] = useState(24);
     const [dataToBeDisplayed, setDataToBeDisplayed] = useState(0);
+    const maxNumberLength = 7;
     console.log("here,", dataToBeDisplayed);
     // calculate the change in rates over a certain ... time 
     useEffect(() => {
@@ -29,6 +30,14 @@ function UnflippedTile(props) {
       setDataToBeDisplayed(props.data[0]);
     }, []);
 
+    console.log(typeof dataToBeDisplayed);
+    function snipNumber(number) {
+      if (number.length > maxNumberLength) {
+        return number.slice(0,4) + "..." + number.slice(number.length - 3, -1);
+      } else {
+        return number;
+      }
+    }
 
 
 
@@ -43,14 +52,14 @@ function UnflippedTile(props) {
           <div className="bodyItem">
             <div className="buttons">
                 
-                <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24h</button>
-                <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7d</button>
-                <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30d</button>
+                <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24H</button>
+                <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7D</button>
+                <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30D</button>
             </div>
             <span className="tileTitle">{props.title}</span>
             <div className="dataContainer">
               <span className="mainData">
-                { dataToBeDisplayed ? dataToBeDisplayed : <div>Loading...</div>}
+                { dataToBeDisplayed ? snipNumber(dataToBeDisplayed) : <div>Loading...</div>}
               </span>
               <span className="dataChanges negative">
                 -10% 
@@ -67,14 +76,19 @@ function UnflippedTile(props) {
           {`
             .wrapper {
               width: 100%;
+              
               display: flex;
               color: #04b6bc;
               -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
               box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
               border-radius: 10px;
-              background: #000000;  
-              background: -webkit-linear-gradient(to right, #434343, #000000);  
-              background: linear-gradient(to right, #434343, #000000); 
+              // background: #000000;  
+              // background: -webkit-linear-gradient(to right, #434343, #000000);  
+              // background: linear-gradient(to right, #434343, #000000); 
+              background: #0f0c29;  /* fallback for old browsers */
+              background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); 
+              background: linear-gradient(to right, #24243e, #302b63, #0f0c29); 
+
               height: 90%;
 
               
@@ -93,7 +107,7 @@ function UnflippedTile(props) {
 
             }
             .tileTitle {
-              font-size: 40px;
+              font-size: 38px;
             }
   
             .dataContainer {
@@ -107,7 +121,7 @@ function UnflippedTile(props) {
             }
   
             .mainData {
-              font-size: 35px;
+              font-size: 40px;
               font-weight: 600;
               padding: 10px;
               
