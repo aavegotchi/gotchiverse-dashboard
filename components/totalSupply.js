@@ -34,7 +34,7 @@ function TotalSupply(props) {
     useEffect(() => {
         const updateData = () => {
           
-          if (props.data[page].totalSupply && props.data[page].totalSupply > maxNumberLength) {
+          if (props.data[page]?.totalSupply && props.data[page].totalSupply > maxNumberLength) {
             setDataToBeDisplayed(props.data[page].totalSupply.slice(0, maxNumberLength));
             const roundedData = Math.round(parseInt(props.data[page].totalSupply));
             const dataString = roundedData.toString();
