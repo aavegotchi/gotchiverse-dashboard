@@ -8,7 +8,7 @@ export default async function Fetcher(url) {
     return false;
   }
 
-  if (!urlParts[2].includes(["alchemica"])) {
+  if (!urlParts[2].includes(["alchemica", "gltr", "wallets", "gotchis", "stats"])) {
     return false;
   }
 
@@ -35,7 +35,11 @@ export default async function Fetcher(url) {
 function getCategoryMethod(category) {
   if (category == "alchemica") {
     return getAlchemicaTotalSupplyDiff;
+  } else if (category == "gotchis") {
+    
   }
+
+
 
   return false;
 }
