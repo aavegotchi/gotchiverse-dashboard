@@ -15,7 +15,7 @@ function UnflippedTile(props) {
     const [suffix, setSuffix] = useState(0);
     const maxNumberLength = 5;
     useEffect(() => {
-      setDataToBeDisplayed(props.data[0]);
+
       setTimeLine(24);
 
     }, []);
@@ -23,11 +23,11 @@ function UnflippedTile(props) {
     // calculate the change in rates over a certain ... time 
     useEffect(() => {
       if (timeLine == 24) {
-        setDataToBeDisplayed(props.data[0].length > maxNumberLength ? props.data[2].slice(0, maxNumberLength) :props.data[2]); 
+        setDataToBeDisplayed(props.data[0].length > maxNumberLength ? props.data[0].slice(0, maxNumberLength) :props.data[0]); 
         setSuffix(props.data[0].length > maxNumberLength ? props.data[0].length - maxNumberLength: 0);
 
       } else if (timeLine == 7) {
-        setDataToBeDisplayed(props.data[1].length > maxNumberLength ? props.data[2].slice(0, maxNumberLength) :props.data[2]);
+        setDataToBeDisplayed(props.data[1].length > maxNumberLength ? props.data[1].slice(0, maxNumberLength) :props.data[2]);
         setSuffix(props.data[1].length > maxNumberLength ? props.data[1].length - maxNumberLength : 0);
 
 

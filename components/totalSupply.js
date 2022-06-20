@@ -37,12 +37,9 @@ function TotalSupply(props) {
           if (props.data[page]?.totalSupply != null ) {
             setDataToBeDisplayed(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.slice(0, maxNumberLength) : props.data[page].totalSupply);
             setSuffix(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.length - maxNumberLength : 0)
-
           }
 
         }
-        
-
       }
 
       collectAndRender();
