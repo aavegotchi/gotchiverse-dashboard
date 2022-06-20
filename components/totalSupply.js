@@ -30,26 +30,32 @@ function TotalSupply(props) {
         configureArra();
     }, []);
 
-
     useEffect(() => {
-        const updateData = () => {
+      const collectAndRender = async () => {
+        if (props.data) {
           
-          if (props.data[page]?.totalSupply && props.data[page].totalSupply > maxNumberLength) {
-            setDataToBeDisplayed(props.data[page].totalSupply.slice(0, maxNumberLength));
-            const roundedData = Math.round(parseInt(props.data[page].totalSupply));
-            const dataString = roundedData.toString();
+          if (props.data[page]?.totalSupply != null ) {
+            setDataToBeDisplayed(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.slice(0, maxNumberLength) : props.data[page].totalSupply);
+            setSuffix(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.length - maxNumberLength : 0)
 
-
-            setSuffix(dataString.length - maxNumberLength);
-
-          } else {
-            setDataToBeDisplayed(props.data[page]?.totalSupply);
           }
-            
-        }
 
-        updateData();
+        }
+        
+
+      }
+
+      collectAndRender();
     }, [page, props.data]);
+
+
+    // useEffect(() => {
+    //     const updateData = () => {
+    //       setDataToBeDisplayed(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.slice(0, maxNumberLength) : props.data[page].totalSupply);
+    //       setSuffix(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.length - maxNumberLength : 0)
+    //     }
+    //     updateData();
+    // }, [page, props.data]);
 
     // console.log("type of ", typeof props.data[0].totalSupply);
 
