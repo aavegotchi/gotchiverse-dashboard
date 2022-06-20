@@ -73,6 +73,7 @@ function LastSold() {
                 .widgetSm {
                     width: 100%;
                     text-align: center;
+                    
                 }
 
                 .widgetSmTitle {
@@ -130,6 +131,7 @@ function LastSold() {
                     border: none;
                     border-radius: 10px;
                     padding:  7px 10px;
+                    background: pink;
                 }
 
 

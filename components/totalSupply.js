@@ -4,60 +4,56 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Image from 'next/image';
 
+const maxNumberLength = 5;
 
-const poolObject = {
-    "0x096c5ccb33cfc5732bcd1f3195c13dbefc4c82f4" : "GHST_USDC", 
-    "0xf69e93771f11aecd8e554aa165c3fe7fd811530c" : "GHST_MATIC",
-    "0xb0e35478a389dd20050d66a67fb761678af99678" : "GHST_GLTR", 
-    "0xbfad162775ebfb9988db3f24ef28ca6bc2fb92f0":  "GHST_KEK", 
-    "0xc765eca0ad3fd27779d36d18e32552bd7e26fd7b" : "GHST_ALPHA",
-    "0x641ca8d96b01db1e14a5fba16bc1e5e508a45f2b" : "GHST_FOMO",
-    "0xfec232cc6f0f3aeb2f81b2787a9bc9f6fc72ea5c" : "GHST_FUD", 
-    "0x73958d46b7aa2bc94926d8a215fa560a5cdca3ea" : "WAP_GHST",
-
-};
+function TotalSupply(props) {
 
 
-// store them inside an array to map them easier instead of looking them up at every component update 
-
-function PoolsUnflippedV2(props) {
-
-    
     const maximumPage = props.data.length;
 
     const [page, setPage] = useState(0);
-    // we can map the index of the pool to the page number 
 
-    const [pool, setPool] = useState(props.data[0]);
+    const [dataToBeDisplayed, setDataToBeDisplayed] = useState("");
+    const [suffix , setSuffix] = useState(0);
 
-    const [cache, setCache] = useState([]);
 
-    // using a cache to access at O(1) time ;
+
+    const [arra, setArra] = useState([]);
+
+
+    
     useEffect(() => {
-        function createCache() {
-            const newCache = new Array(maximumPage);
-            for (let i = 0; i < maximumPage ; i++) {
-                const currentAddress = props.data[i].pool.toLowerCase();
-                // see which name of the pool it is 
-                newCache[i] = poolObject[currentAddress];
-            }
-            setCache(newCache);
-
+        const configureArra = () => {
+            setArra(["FUD", "KEK", "FOMO", "ALPHA"]);
         }
 
-        createCache();
+        configureArra();
+    }, []);
 
-    }
-    ,[]);
 
     useEffect(() => {
         const updateData = () => {
-            setPool(props.data[page]);
+          
+          if (props.data[page].totalSupply && props.data[page].totalSupply > maxNumberLength) {
+            setDataToBeDisplayed(props.data[page].totalSupply.slice(0, maxNumberLength));
+            const roundedData = Math.round(parseInt(props.data[page].totalSupply));
+            const dataString = roundedData.toString();
+
+
+            setSuffix(dataString.length - maxNumberLength);
+
+          } else {
+            setDataToBeDisplayed(props.data[page]?.totalSupply);
+          }
+            
         }
 
         updateData();
-    }, [page]);
+    }, [page, props.data]);
 
+    // console.log("type of ", typeof props.data[0].totalSupply);
+
+    
 
 
     // calculate the change in rates over a certain ... time 
@@ -77,7 +73,7 @@ function PoolsUnflippedV2(props) {
                 <div className = "center">
                     <div className = "tileHeader">
                         <span className = "tileHeader">
-                            GLTR STAKING
+                            Total Supply
                         </span>
 
                     </div>
@@ -85,14 +81,24 @@ function PoolsUnflippedV2(props) {
                     <div className = "dataContainerv2">
                         <div className = "mainDatav2">
                             <div className = "heading">
-                                <span>TOTAL STAKED:</span>
+                                <span>AAVEGOTCHI</span>
                             </div>
                             <div className = "tileTitle_wrapper">
-                                <span className = "tileTitle">{`${cache[page]}`}</span>
+                                <span className = "tileTitle">{`${arra[page]}`}</span>
                             </div>
                         </div>
                         <div className = "circularBarWrapperv2">
-                            <CircularProgressbar value = {pool.percentageStaked} text= {`${pool.percentageStaked.toFixed(2)}%`}/>
+                          {
+                            suffix > 0 ? 
+                            <>
+                              <span>{`${dataToBeDisplayed} x10`}</span>
+                              <span className = "suffix">{`${suffix}`}</span>
+                            </>
+                            : 
+                            <span>{`${dataToBeDisplayed}`}</span>
+
+                          }
+
                         </div>
 
                     </div>
@@ -106,44 +112,16 @@ function PoolsUnflippedV2(props) {
                     </button>
                 </div>
             </div>
-
-
-          {/* <div className="bodyItem">
-            <div className = "bodyWrapper">
-                <div className = "dataWrapper"> 
-                    <span className="tileTitle">
-                      {`${cache[page]}`}
-                    </span>
-                    <span>
-                      hello
-                    </span>
-
-                    <div className="dataContainer">
-                        
-                        <span className="mainData">
-                            { `${pool.percentageStaked.toFixed(2)}%` }
-                        </span>
-                    </div>
-                </div>
-                <div className = "circularBarWrapper">
-                    <CircularProgressbar value = {pool.percentageStaked} text= {"Staked"} />
-                </div>
-                
-            </div>
-            <div className="buttons">
-                <button className="button" disabled = {page <= 0} onClick = {() => setPage(page - 1)}>
-                  <Image src = {`/../public/images/chevron-left.png`} alt = "chevron" width = "40" height = "40" />
-                </button>
-
-                <button className="button" disabled = {page >= maximumPage - 1} onClick = {() => setPage(page + 1)}>
-                  <Image src = {`/../public/images/chevron-right.png`} alt = "chevron" width = "40" height = "40" />
-                </button>
-
-            </div>
-          </div> */}
         </div>
         <style jsx>
           {`
+            .suffix {
+              position: relative;
+              bottom: 1rem;
+              font-size: 30px;
+            }
+
+
             .center {
 
                 height: 100%;
@@ -154,7 +132,7 @@ function PoolsUnflippedV2(props) {
             }
 
             .heading {
-                font-size: 30px;
+                font-size: 35px;
             }
 
             .tileHeader {
@@ -185,10 +163,12 @@ function PoolsUnflippedV2(props) {
             }
 
             .dataContainerv2 {
-                height: 100%;
                 display: flex;
+                height: 100%;
                 justify-content: space-around;
                 align-items: center;
+                
+                padding-bottom: 10px;
                 
             }
 
@@ -203,7 +183,7 @@ function PoolsUnflippedV2(props) {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                width: 100%;
+                
                 padding-bottom: 10px;
                 
             }
@@ -212,7 +192,8 @@ function PoolsUnflippedV2(props) {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-
+                font-size: 35px;
+                
 
                 
                 
@@ -348,4 +329,4 @@ function PoolsUnflippedV2(props) {
     );
   }
   
-  export default PoolsUnflippedV2;
+  export default TotalSupply;

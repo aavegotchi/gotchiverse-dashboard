@@ -24,7 +24,7 @@ import LastSold from "../components/lastSold";
 import { AnimateSharedLayout } from "framer-motion";
 import BasicTable from "../components/table";
 import Image from 'next/image';
-
+import TotalSupply from "../components/totalSupply";
 
 
 
@@ -33,6 +33,7 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
   const burnedGLTRCurrentData = burnedGLTRCurrent.gltrSpendOnUpgrades;
   const arrayOfGLTRBurnedData = new Array(3).fill(burnedGLTRCurrentData);
   const arrayOfActiveWalletsData = activeWallets;
+  
   const arrayOfTilesMintedData = new Array(3).fill(stats.tilesMinted);
   const arrayOfInstallationsMintedTotalData = new Array(3).fill(stats.installationsMintedTotal);
   const arrayOfUpgradesInitiatedData = new Array(3).fill(stats.installationsUpgradedTotal);
@@ -77,6 +78,7 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       setInstallationsMintedData(arrayOfInstallationsMintedTotalData);
       setUpgradesInitiatedData(arrayOfUpgradesInitiatedData);
       setPoolsData(arrayOfPoolsData);
+      setTotalSupplyData(totalSupply);
 
 
     }
@@ -84,6 +86,14 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
     setData();
 
   }, [])
+
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+      
+  //   }
+  // })
+
 
   const styling = {
     width: "100%",
@@ -126,7 +136,6 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
             alt = "banner" 
             layout = {"fill"}
             objectFit = {"cover"}
-            backgroundPosition = {"center"}
             />
           </div>
 
@@ -161,7 +170,7 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
         <PoolsUnflippedV2 data = { pools } title = {"POOLS STAKED"} />
         </Col>
         <Col>
-          <PoolsUnflippedV2 data = { pools } title = {"POOLS STAKED"} />
+          <TotalSupply data = { totalSupplyData } title = {"POOLS STAKED"} />
           {/* alchemicaminted / total supply */}
         </Col>
         {/* <Col>
@@ -222,9 +231,9 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
           height: 100%;
           background: white;
           border-radius: 10px;
-          background: #7F00FF;  /* fallback for old browsers */
-          background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);  
-          background: linear-gradient(to right, #E100FF, #7F00FF); 
+          // background: #7F00FF;  /* fallback for old browsers */
+          // background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);  
+          // background: linear-gradient(to right, #E100FF, #7F00FF); 
           
         
 

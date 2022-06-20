@@ -1,8 +1,11 @@
 import Image from 'next/image';
+import { useState } from 'react';
 
 
 
 function UnflippedBanned() {
+
+  const [timeLine, setTimeLine] = useState(24);
 
 
   return (
@@ -12,9 +15,9 @@ function UnflippedBanned() {
           <span className = "title">USERS BANNED</span>
           <span className = "counter">21312</span>
           <div className = "buttons">
-            <button className = "button">24H</button>
-            <button className = "button">7D</button>
-            <button className = "button">30d</button>
+            <button className = "button" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24H</button>
+            <button className = "button" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7D</button>
+            <button className = "button" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30d</button>
           </div>
         </div>
         <div className = "right">
@@ -25,8 +28,8 @@ function UnflippedBanned() {
               <Image 
               src = "https://res.cloudinary.com/djev64cqn/image/upload/v1655388155/chevron-up_vfxsog.png"
               alt = "trend"
-              height = {50}
-              width = {50}
+              height = {100}
+              width = {100}
               />
             </div>
           </div>
@@ -101,10 +104,8 @@ BCFF
             .button {
               width: 50px;
               height: 40px;
-              color: #3a7bd5;
-              background: #42275a;  /* fallback for old browsers */
-              background: -webkit-linear-gradient(to right, #734b6d, #42275a);  
-              background: linear-gradient(to right, #734b6d, #42275a); 
+              color: #04b6bc;
+              background: #6d18f8;
               
               
               transition: 1s;
@@ -115,9 +116,14 @@ BCFF
               font-size: 23px;
             }
             button:hover {
-              background: #3a7bd5;
-              color: #42275a;
-              transition: 0.4s ease-in-out;
+              background: #04b6bc;
+              color: #6d18f8;
+              transition: 0.2s ease-in-out;
+            }
+
+            .button:disabled {
+              background-color: #CF15F9;
+              pointer-events: none;
             }
 
 

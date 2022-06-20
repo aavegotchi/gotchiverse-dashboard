@@ -10,38 +10,43 @@ function UnflippedTile(props) {
 
 
     const [expanded, setExpanded] = useState(false);
-    const [timeLine, setTimeLine] = useState(24);
+    const [timeLine, setTimeLine] = useState(0);
     const [dataToBeDisplayed, setDataToBeDisplayed] = useState(0);
-    const maxNumberLength = 7;
-    console.log("here,", dataToBeDisplayed);
+    const [suffix, setSuffix] = useState(0);
+    const maxNumberLength = 5;
+    useEffect(() => {
+      setDataToBeDisplayed(props.data[0]);
+      setTimeLine(24);
+
+    }, []);
+
     // calculate the change in rates over a certain ... time 
     useEffect(() => {
       if (timeLine == 24) {
-        setDataToBeDisplayed(props.data[0]); 
+        setDataToBeDisplayed(props.data[0].length > maxNumberLength ? props.data[2].slice(0, maxNumberLength) :props.data[2]); 
+        setSuffix(props.data[0].length > maxNumberLength ? props.data[0].length - maxNumberLength: 0);
 
       } else if (timeLine == 7) {
-        setDataToBeDisplayed(props.data[1])
+        setDataToBeDisplayed(props.data[1].length > maxNumberLength ? props.data[2].slice(0, maxNumberLength) :props.data[2]);
+        setSuffix(props.data[1].length > maxNumberLength ? props.data[1].length - maxNumberLength : 0);
 
 
       } else if (timeLine == 30) {
-        setDataToBeDisplayed(props.data[2]);
+        setDataToBeDisplayed(props.data[2].length > maxNumberLength ? props.data[2].slice(0, maxNumberLength) :props.data[2]);
+        setSuffix(props.data[2].length > maxNumberLength ? props.data[2].length - maxNumberLength : 0);
 
       }
+
+      console.log("This is suffix", suffix);
 
     }, [timeLine, props.data])
 
-    useEffect(() => {
-      setDataToBeDisplayed(props.data[0]);
-    }, []);
 
-    console.log(typeof dataToBeDisplayed);
-    function snipNumber(number) {
-      if (number.length > maxNumberLength) {
-        return number.slice(0,4) + "..." + number.slice(number.length - 3, -1);
-      } else {
-        return number;
-      }
-    }
+
+    console.log(dataToBeDisplayed);
+
+
+
 
 
 
@@ -62,9 +67,20 @@ function UnflippedTile(props) {
               </div>
               <span className="tileTitle">{props.title}</span>
               <div className="dataContainer">
-                <span className="mainData">
-                  { dataToBeDisplayed ? snipNumber(dataToBeDisplayed) : <div>Loading...</div>}
-                </span>
+                {suffix == 0 ? 
+                  <span className="mainData">
+                  { dataToBeDisplayed ? dataToBeDisplayed : <div>Loading...</div>}
+                  </span> :
+                  <>
+                    <span className="mainData">
+                    { dataToBeDisplayed ? `${dataToBeDisplayed} x10` : <div>Loading...</div>}
+                    </span>
+                    
+                    <span className = "suffix">{`${suffix}`}</span>
+                  </>
+                }
+
+
                 <span className="dataChanges negative">
                   -10% 
                   
@@ -93,9 +109,15 @@ function UnflippedTile(props) {
                 background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); 
                 background: linear-gradient(to right, #24243e, #302b63, #0f0c29); 
 
-                height: 90%;
+                height: 100%;
 
                 
+              }
+
+              .suffix {
+                position: relative;
+                bottom: 1rem;
+                font-size: 35px;
               }
 
               .bodyItem {
