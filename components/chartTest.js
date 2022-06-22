@@ -67,13 +67,13 @@ function ChartTest() {
                 {
                     `
                         .wrapper {
-                            border-radius: 10px;
+                            
                             color: #04b6bc;
-                            -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-                            box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-                            border-radius: 10px;
+                            width: 100%;
                             height: 100%;
                             background: white;
+                            border: 1.40288px solid #000000;
+                            padding: 5px;
                         }
                     `
                 }

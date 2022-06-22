@@ -14,7 +14,8 @@ import {
 
 // components here 
 import UnflippedTile from "../components/unflipped";
-import PoolsUnflipped from "../components/poolsUnflipped";
+import AlchemicaCard from "../components/alchemicaCard";
+
 import ChartTest from "../components/chartTest";
 import GotchiverseNews from "../components/gotchiverseNews";
 import UnflippedBanned from "../components/unflippedBanned";
@@ -22,7 +23,7 @@ import PoolsUnflippedV2 from "../components/poolsUnflipped2";
 import CardTile from "../components/card";
 import LastSold from "../components/lastSold";
 import { AnimateSharedLayout } from "framer-motion";
-import BasicTable from "../components/table";
+import LastSold2 from "../components/lastSold2";
 import Image from 'next/image';
 import TotalSupply from "../components/totalSupply";
 
@@ -39,17 +40,13 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
   const arrayOfUpgradesInitiatedData = new Array(3).fill(stats.installationsUpgradedTotal);
   const arrayOfPoolsData = new Array();
   
+  console.log(stats);
 
-  console.log(stats, "stats");
-  console.log(totalSupply, "total supply");
-  console.log(gotchis, "gotchis");
-  console.log(pools, "pools", typeof pools);
   
-
   // NOTE: EVERYTHING is still in string , could change them to integers to process in "unflipped.js"
   // setting data into arrays, [{24h}, {7d}, {30d}]
   const [expanded, setExpanded] = useState(true);
-  console.log(expanded, "expanded");
+  
   const [GLTRBurnedData, setGLTRBurnedData] = useState([]);
 
   const [activeWalletsData, setActiveWalletsData] = useState([]);
@@ -88,134 +85,152 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
   }, [])
 
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-      
-  //   }
-  // })
-
-
-  const styling = {
-    width: "100%",
-    height: "100%",
-  }
-
-
   return (
     <>
-      <h2>Gotchiverse Economy</h2>
-      <Row>
-        <Col>
-          {/* <Card>Number of players banned vs total players</Card> */}
-          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
-        </Col>
-        <Col>
-          {/* <Card>Amount of Alchemica Sold by banned players</Card> */}
-          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
-        </Col>
-        <Col>
-          {/* <Card>Number of players banned</Card> */}
-          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
-        </Col>
-        <Col>
-          {/* <Card>Number of players banned</Card> */}
-          <UnflippedBanned data = { pools } title = {"Pools staked"}/>
-        </Col>
-      </Row>
-      <Row>
-        <Col md = "8">
-            {/* <Image 
-            src = "/../public/images/aavegotchi-banner.jpg"
-            alt = "aave banner"
-            layout = "fill"
-            overflow = "hidden"
-            /> */}
-          <div className = "image__Wrapper">
-            <Image 
-            src = "https://res.cloudinary.com/djev64cqn/image/upload/v1655322084/aavegotchi-banner_lvy5oc.jpg"
-            alt = "banner" 
-            layout = {"fill"}
-            objectFit = {"cover"}
-            />
-          </div>
-
-        </Col>
-        
-        <Col md = "4">
-          <AnimateSharedLayout>
-            {
-              expanded? <UnflippedTile data  = { upgradesInitiatedData } title = {"Upgrades INITIATED"}/> : <div onClick = {() => setExpanded(true)}>Hello World</div>
-            }
-            {/* <UnflippedTile data  = { upgradesInitiatedData } title = {"Upgrades INITIATED"}/>  */}
-          </AnimateSharedLayout>
-        </Col>
-      </Row>
-      <Row>
-        <Col md = "8">
-          {/* <Card>LP Tokens staked vs total LP Tokens</Card> */}
-          
+      <div className = "mainWrapper">
+        <h2 className = "title">Gotchiverse Economy</h2>
+        <Row>
+          <Col md = "9">          
             <ChartTest />
+          </Col>
+          <Col md = "3">
+              <LastSold2 />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            <AlchemicaCard title = {"TILES"} />
           
-        </Col>
-        <Col md = "4">
-          <div className = "latestSales">
-            <LastSold />
+          </Col>
+          <Col>
+            <AlchemicaCard title = {"INSTALLATIONS"}/>
+          </Col>
+          <Col>
+            <AlchemicaCard title = {"UPGRADES"}/>
+          
+          </Col>
+        </Row>
+        
+        <Row>
+          <Col>
+            <UnflippedTile data = { installationsMintedData } title = {"INSTALLATIONS MINTED"}/>
+          </Col>
+          <Col>
+            <UnflippedTile data = { tilesMintedData } title = {"TILES MINTED"}/>
+          </Col>
+          <Col>
+            <UnflippedTile data = { GLTRBurnedData } title = {"GLTR BURNED"}/>
+          </Col>
 
+        </Row>
+        <Row>
+          <Col>
+            {/* <Card>Number of players banned vs total players</Card> */}
+            <UnflippedBanned data = { pools } title = {"PLAYERS"}/>
+          </Col>
+          <Col>
+            {/* <Card>Amount of Alchemica Sold by banned players</Card> */}
+            <UnflippedBanned data = { pools } title = {"BANNED PLAYERS"}/>
+          </Col>
+          <Col>
+            {/* <Card>Number of players banned</Card> */}
+            <UnflippedBanned data = { pools } title = {"ALCHEMICA SOLD BY BANNED PLAYERS"}/>
+          </Col>
+          <Col>
+            {/* <Card>Number of players banned</Card> */}
+            <UnflippedBanned data = { pools } title = {"UNBANNED PLAYERS"}/>
+          </Col>
+        </Row>
 
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-        <PoolsUnflippedV2 data = { pools } title = {"POOLS STAKED"} />
-        </Col>
-        <Col>
-          <TotalSupply data = { totalSupplyData } title = {"POOLS STAKED"} />
-          {/* alchemicaminted / total supply */}
-        </Col>
-        {/* <Col>
-        <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Channels"}/>
-        </Col> */}
-      </Row>
-      <Row>
-        <Col>
-          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"GLTR STAKERS"}/>
-        </Col>
-        <Col>
-          <UnflippedTile data  ={ activeWalletsData } title = {"ACTIVE WALLETS"}/>
-        </Col>
-        <Col>
-            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"EXTRACTORS"}/>
-        </Col>
-      </Row>
-      <Row>
-      <Col>
-        <UnflippedTile data = { installationsMintedData } title = {"INSTALLATIONS MINTED"}/>
-        </Col>
-        <Col>
-          <UnflippedTile data = { tilesMintedData } title = {"TILES MINTED"}/>
-        </Col>
-        <Col>
-          <UnflippedTile data = { GLTRBurnedData } title = {"GLTR BURNED"}/>
-        </Col>
-      </Row>
-      <h2>Gotchi Utiliziation</h2>
-      <Row>
-        <Col>
-          <Card>Number of Gotchis summoned</Card>
-        </Col>
-        <Col>
-          <Card>Number of Gotchis sacrificed</Card>
-        </Col>
-        <Col>
-          <Card>Number of Gotchis borrowed (24h, 7d, 30d)</Card>
-        </Col>
-        <Col>
-          <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card>
-        </Col>
-      </Row>
+        <Row>
+          <Col>
+          <PoolsUnflippedV2 data = { pools } title = {"POOLS STAKED"} />
+          </Col>
+          <Col>
+            <TotalSupply data = { totalSupplyData } title = {"POOLS STAKED"} />
+            {/* alchemicaminted / total supply */}
+          </Col>
+          {/* <Col>
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Channels"}/>
+          </Col> */}
+        </Row>
+        <Row>
+          <Col>
+            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"GLTR STAKERS"}/>
+          </Col>
+          <Col>
+            <UnflippedTile data  ={ activeWalletsData } title = {"ACTIVE WALLETS"}/>
+          </Col>
+          <Col>
+              <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"EXTRACTORS"}/>
+          </Col>
+        </Row>
+        <Row >
+          <Col>
+            <UnflippedTile data = { installationsMintedData } title = {"INSTALLATIONS MINTED"}/>
+          </Col>
+            
+          <Col>
+              <UnflippedTile data = { tilesMintedData } title = {"TILES MINTED"}/>
+          </Col>
+          <Col>
+            <UnflippedTile data = { GLTRBurnedData } title = {"GLTR BURNED"}/>
+          </Col>
+
+        </Row>
+        <h2 className = "title">Gotchi Utiliziation</h2>
+        <Row>
+
+          <Col>
+          {/* <Card>Number of Gotchis summoned</Card> */}
+            <UnflippedBanned data = { pools } title = {"GOTCHIS SUMMONED"}/>
+          </Col>
+          <Col>
+          {/* <Card>Number of Gotchis sacrificed</Card> */}
+            <UnflippedBanned data = { pools } title = {"GOTCHIS SACRIFICED"}/>
+          </Col>
+          <Col>
+          {/* <Card>Number of Gotchis borrowed (24h, 7d, 30d)</Card> */}
+          <UnflippedBanned data = { pools } title = {"GOTCHIS BORROWED"}/>
+          </Col>
+          <Col>
+          {/* <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card> */}
+            <UnflippedBanned data = { pools } title = {"GOTCHIS CHANNELED"}/>
+          </Col>
+
+        </Row>
+      </div>
       <style jsx>
         {`
+
+        .rowWrapper {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+
+          
+          
+
+        }
+
+        .oneCard {
+          flex: 1;
+          margin: 2px;
+        }
+
+
+        .title {
+
+          width: 85%;
+          text-align: left;
+          font-size: 46px;
+          font-weight: 400;
+          line-height: 42.73px;
+          color: black;
+          
+        }
         .image__Wrapper {
           border-radius: 5px;
           overflow: hidden;
@@ -226,17 +241,13 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
 
         }
 
-        .latestSales {
-          width: 100%;
-          height: 100%;
-          background: white;
-          border-radius: 10px;
-          // background: #7F00FF;  /* fallback for old browsers */
-          // background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);  
-          // background: linear-gradient(to right, #E100FF, #7F00FF); 
-          
-        
+        .mainWrapper {
+          width: 1100px;
 
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
 
 

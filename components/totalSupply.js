@@ -195,27 +195,25 @@ function TotalSupply(props) {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 35px;
+                font-size: 50px;
+                font-weight: 400;
+                line-height: 29px;
+                
                 
 
                 
                 
             }
             .wrapper {
-              width: 100%;
+
               display: flex;
-              color: #04b6bc;
+              color: black;
               box-sizing: border-box;
-              -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-              box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-              border-radius: 10px;
-              height: 270px;
-              // background: #000000;  
-              // background: -webkit-linear-gradient(to right, #434343, #000000);  
-              // background: linear-gradient(to right, #434343, #000000); 
-              background: #0f0c29;  /* fallback for old browsers */
-              background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); 
-              background: linear-gradient(to right, #24243e, #302b63, #0f0c29); 
+              border: 1px solid black;
+              background: white;
+              width: 100%;
+              height: 100%
+
 
 
               
@@ -241,7 +239,9 @@ function TotalSupply(props) {
 
             }
             .tileTitle {
-              font-size: 45px;
+              font-size: 32px;
+              font-weight: 400;
+              line-height: 29px;
               text-align: center;
 
               

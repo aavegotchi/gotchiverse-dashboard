@@ -61,9 +61,9 @@ function UnflippedTile(props) {
             <div className="bodyItem">
               <div className="buttons">
                   
-                  <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24H</button>
-                  <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7D</button>
-                  <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30D</button>
+                  <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24 h</button>
+                  <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7 d</button>
+                  <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30 d</button>
               </div>
               <span className="tileTitle">{props.title}</span>
               <div className="dataContainer">
@@ -80,38 +80,38 @@ function UnflippedTile(props) {
                   </>
                 }
 
-
-                <span className="dataChanges negative">
-                  -10% 
-                  
-                </span>
               </div>
               <div className = "trendWrapper">
-                  <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`} alt = "trending" width = "50" height = "50" />
+                  <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`} alt = "trending" width = "62" height = "55" />
+                  <span className="dataChanges negative">
+                  -10% 
+                  </span>
               </div>
+
 
             </div>
           </div>
           <style jsx>
             {`
               .wrapper {
-                width: 100%;
+
                 
                 display: flex;
-                color: #04b6bc;
-                -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-                box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-                border-radius: 10px;
-                // background: #000000;  
-                // background: -webkit-linear-gradient(to right, #434343, #000000);  
-                // background: linear-gradient(to right, #434343, #000000); 
-                background: #0f0c29;  /* fallback for old browsers */
-                background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); 
-                background: linear-gradient(to right, #24243e, #302b63, #0f0c29); 
-
+                color: black;
+                border: 1px solid #000000;
+                background: white;
                 height: 100%;
-
+                width: 100%;
                 
+                
+                
+              }
+
+              .trendWrapper {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
               }
 
               .suffix {
@@ -123,17 +123,25 @@ function UnflippedTile(props) {
               .bodyItem {
                 width: 100%;
                 margin: 0px 20px;
-                padding: 30px;
+                padding: 15px;
                 border-radius: 10px;
                 cursor: pointer;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 text-align: center;
+                
 
               }
               .tileTitle {
-                font-size: 38px;
+                margin-top: 20px;
+                font-size: 32px;
+                font-weight: 400;
+                line-height: 29.73px;
+                display: inline-block;
+                width: 100%;
+                
+                
               }
     
               .dataContainer {
@@ -155,9 +163,11 @@ function UnflippedTile(props) {
     
               .dataChanges {
                 display: flex;
+                font-weight: 400;
                 align-items: center;
                 margin-left: 20px;
-                font-size: 23px;
+                font-size: 50px;
+                line-height: 46.45px;
                 
               }
     
@@ -167,6 +177,8 @@ function UnflippedTile(props) {
               .buttons {
                 display: flex;
                 justify-content: space-around;
+                align-items: center;
+                
               }
               .bottomLeft {
                 flex: 4;
@@ -178,15 +190,19 @@ function UnflippedTile(props) {
     
               .button {
                 box-sizing: border-box;
-                width: 80px;
-                height: 50px;
+                width: 65px;
+                height: 45px;
                 flex: 1;
-                margin: 2px;
-                background: #6d18f8;
+                margin: 5px;
+                background: #B8B8B8;
+                border: 1px solid #111111;
+                box-shadow: 4px 4px 0px #000000;
                 text-align: center;
                 border-radius: 5px;
-                color: #04b6bc;
+                color: black;
                 font-size: 22px;
+                line-height: 20.44px;
+                font-weight: 400;
                 transition: 0.5s;
                 padding: 2px;
               }
@@ -194,6 +210,7 @@ function UnflippedTile(props) {
               .button:disabled {
                 background-color: #CF15F9;
                 pointer-events: none;
+                color: white;
               }
     
               .button:hover {

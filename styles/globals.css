@@ -40,6 +40,7 @@ body {
   text-align: left;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  
 }
 
 a {
@@ -52,16 +53,32 @@ a {
 }
 
 .container {
-  background-color: #12032e !important;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+
+
 }
 
 .row {
-  margin-top: 5px;
-  position: relative;
+  margin-top: 3px;
+
   /* height: 82vh; */
   overflow: auto;
-  padding: 10px;
+
+
+
+  width: 100%;
+
+  
+
+
 }
+
+
 
 .table {
   color: #f2f2f2;
