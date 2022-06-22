@@ -1,99 +1,152 @@
 import Image from 'next/image';
+import { useState } from 'react';
 
 
 
-function UnflippedBanned() {
+function UnflippedBanned(props) {
+
+  const [timeLine, setTimeLine] = useState(24);
 
 
   return (
     <>
       <div className = "widget">
-        <div className = "left">
-          <span className = "title">USERS</span>
-          <span className = "counter">21312</span>
-          <span className = "link">See all users</span>
+
+        <div className = "buttons">
+            <button className = "button" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24 h</button>
+            <button className = "button" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7 d</button>
+            <button className = "button" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30 d</button>
         </div>
-        <div className = "right">
+        <span className = "title">{props.title}</span>
+        <div className = "data">
+          <span className = "counter">21312</span>
+        </div>
+        <div className = "changes">
           <div className = "percentage">
-            <div>Arrow up icon</div>
-            20%
-          </div>
-          <div className = "image__Wrapper">
+            <div>
             <Image 
-            src = "/../public/images/banned.png" 
-            alt = "banned" 
-            height = {100} 
-            width = {100} 
-            borderRadius = {50}
+            src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`} 
+            alt = "trending" 
+            width = "62" 
+            height = "55" 
             />
+            </div>
+            <span className = "percentageWeightage">20%</span>
           </div>
+
         </div>
 
         
       </div>
       <style jsx>
         {`
-            .wrapper {
-              width: 100%;
-              display: flex;
-              color: #04b6bc;
-              box-sizing: border-box;
-              -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-              box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-              border-radius: 10px;
-              height: 270px;
-              
 
-BCFF
-              
-            }
+        .data {
+          font-size: 32px;
+          line-height: 29.73px;
+          font-weight: 400;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
 
-            .widget {
-              display: flex;
-              justify-content: space-around;
-              flex: 1;
-              background: #673AB7;  /* fallback for old browsers */
-              background: -webkit-linear-gradient(to right, #512DA8, #673AB7);  /* Chrome 10-25, Safari 5.1-6 */
-              background: linear-gradient(to right, #512DA8, #673AB7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-               
 
-              padding: 10px;
-              -webkit-box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-              box-shadow: 0px 0px 7px 0px rgba(234, 135, 255, 0.92);
-              border-radius: 10px;
-              height: 200px;
-            }
+        .percentage {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: 500;
 
-            .left {
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-              font-size: 20px;
-              color: #59BCFF;
-            }
 
-            .counter {
-              font-weight: 300;
-              font-size: 35px;
-            }
+          
+        }
 
-            .right {
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-              color: #59BCFF;
-            }
+        .percentageWeightage {
+          font-weight: 400;
+          font-size: 32px;
+          line-height: 29px;
+          margin-left: 5px;
+        }
 
-            .title {
-              font-weight: bold;
-              font-size: 30px;
-              color: #59BCFF;
-            }
+        .widget {
+          display: flex;
+          flex-direction: column;
 
-            .image__Wrapper {
-              border-radius: 50%;
-              overflow: hidden;
-            }
+          justify-content: space-around;
+          align-items: center;
+          width: 100%;
+          height: 290px;
+          background: white;
+          border: 1px solid #000000;
+        
+          
+        }
+
+        .buttons {
+          
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          
+          
+
+          
+
+        }
+
+        .button {
+          box-sizing: border-box;
+          width: 65px;
+          height: 45px;
+          flex: 1;
+          margin: 5px;
+          color: black;
+          background: #B8B8B8;
+          border: 1px solid #111111;
+          box-shadow: 4px 4px 0px #000000;
+          text-align: center;
+          text-align: center;
+          border-radius: 5px;
+          color: black;
+          font-size: 22px;
+          line-height: 20.44px;
+          font-weight: 400;
+          transition: 0.5s;
+          padding: 2px;
+        }
+        button:hover {
+          background: #04b6bc;
+          color: #6d18f8;
+          transition: 0.2s ease-in-out;
+        }
+
+        .button:disabled {
+          background-color: #CF15F9;
+          pointer-events: none;
+          color: white;
+        }
+
+
+        .counter {
+          font-weight: 400;
+          font-size: 50px;
+          line-height: 46.45px;
+        }
+
+
+
+        .title {
+          color: black;
+          font-weight: 400;
+          font-size: 32px;
+          line-height: 29.73px;
+          text-align: center;
+          width: 100%;
+          height: 50px;
+
+        }
+
 
         `}
       </style>

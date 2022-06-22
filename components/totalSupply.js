@@ -1,63 +1,62 @@
 
 import { useEffect, useState } from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Image from 'next/image';
 
+const maxNumberLength = 5;
 
-const poolObject = {
-    "0x096c5ccb33cfc5732bcd1f3195c13dbefc4c82f4" : "GHST - USDC", 
-    "0xf69e93771f11aecd8e554aa165c3fe7fd811530c" : "GHST - MATIC",
-    "0xb0e35478a389dd20050d66a67fb761678af99678" : "GHST - GLTR", 
-    "0xbfad162775ebfb9988db3f24ef28ca6bc2fb92f0":  "GHST - KEK", 
-    "0xc765eca0ad3fd27779d36d18e32552bd7e26fd7b" : "GHST - ALPHA",
-    "0x641ca8d96b01db1e14a5fba16bc1e5e508a45f2b" : "GHST - FOMO",
-    "0xfec232cc6f0f3aeb2f81b2787a9bc9f6fc72ea5c" : "GHST - FUD", 
-    "0x73958d46b7aa2bc94926d8a215fa560a5cdca3ea" : "WAP - GHST",
-
-};
+function TotalSupply(props) {
 
 
-// store them inside an array to map them easier instead of looking them up at every component update 
-
-function PoolsUnflippedV2(props) {
-
-    
     const maximumPage = props.data.length;
 
     const [page, setPage] = useState(0);
-    // we can map the index of the pool to the page number 
 
-    const [pool, setPool] = useState(props.data[0]);
+    const [dataToBeDisplayed, setDataToBeDisplayed] = useState("");
+    const [suffix , setSuffix] = useState(0);
 
-    const [cache, setCache] = useState([]);
 
-    // using a cache to access at O(1) time ;
+
+    const [arra, setArra] = useState([]);
+
+
+    
     useEffect(() => {
-        function createCache() {
-            const newCache = new Array(maximumPage);
-            for (let i = 0; i < maximumPage ; i++) {
-                const currentAddress = props.data[i].pool.toLowerCase();
-                // see which name of the pool it is 
-                newCache[i] = poolObject[currentAddress];
-            }
-            setCache(newCache);
-
+        const configureArra = () => {
+            setArra(["FUD", "KEK", "FOMO", "ALPHA"]);
         }
 
-        createCache();
-
-    }
-    ,[]);
+        configureArra();
+    }, []);
 
     useEffect(() => {
-        const updateData = () => {
-            setPool(props.data[page]);
+      const collectAndRender = async () => {
+        if (props.data) {
+          
+          if (props.data[page]?.totalSupply != null ) {
+            setDataToBeDisplayed(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.slice(0, maxNumberLength) : props.data[page].totalSupply);
+            setSuffix(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.length - maxNumberLength : 0)
+          }
+
         }
+      }
 
-        updateData();
-    }, [page]);
+      collectAndRender();
+    }, [page, props.data]);
 
+
+    // useEffect(() => {
+    //     const updateData = () => {
+    //       setDataToBeDisplayed(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.slice(0, maxNumberLength) : props.data[page].totalSupply);
+    //       setSuffix(props.data[page].totalSupply > maxNumberLength ? props.data[page].totalSupply.length - maxNumberLength : 0)
+    //     }
+    //     updateData();
+    // }, [page, props.data]);
+
+    // console.log("type of ", typeof props.data[0].totalSupply);
+
+    
 
 
     // calculate the change in rates over a certain ... time 
@@ -77,7 +76,7 @@ function PoolsUnflippedV2(props) {
                 <div className = "center">
                     <div className = "tileHeader">
                         <span className = "tileHeader">
-                            GLTR STAKING
+                            Total Supply
                         </span>
 
                     </div>
@@ -85,26 +84,24 @@ function PoolsUnflippedV2(props) {
                     <div className = "dataContainerv2">
                         <div className = "mainDatav2">
                             <div className = "heading">
-                                <span className = "heading_Name">TOTAL STAKED:</span>
+                                <span>AAVEGOTCHI</span>
                             </div>
                             <div className = "tileTitle_wrapper">
-                                <span className = "tileTitle">{`${cache[page]}`}</span>
+                                <span className = "tileTitle">{`${arra[page]}`}</span>
                             </div>
                         </div>
                         <div className = "circularBarWrapperv2">
-                            <CircularProgressbar 
-                            value = {pool.percentageStaked} 
-                            text= {`${pool.percentageStaked.toFixed(2)}%`}
-                            styles = {buildStyles({
-                              strokeLinecap: "flat",
-                              pathTransitionDuration: 0.5,
-                              textSize: '25px',
-                              textColor: "black",
-                              pathColor: "#622FEE",
-                              trailColor: "#858585",
-                              rotation: 0.25,
-                            })}
-                            />
+                          {
+                            suffix > 0 ? 
+                            <>
+                              <span>{`${dataToBeDisplayed} x10`}</span>
+                              <span className = "suffix">{`${suffix}`}</span>
+                            </>
+                            : 
+                            <span>{`${dataToBeDisplayed}`}</span>
+
+                          }
+
                         </div>
 
                     </div>
@@ -118,10 +115,16 @@ function PoolsUnflippedV2(props) {
                     </button>
                 </div>
             </div>
-
         </div>
         <style jsx>
           {`
+            .suffix {
+              position: relative;
+              bottom: 1rem;
+              font-size: 30px;
+            }
+
+
             .center {
 
                 height: 100%;
@@ -132,15 +135,11 @@ function PoolsUnflippedV2(props) {
             }
 
             .heading {
-                margin-bottom: 15px;
+                font-size: 35px;
             }
 
             .tileHeader {
-                font-size: 32px;
-                font-weight: 400;
-                font-style: normal;
-                text-transform: uppercase;
-
+                font-size: 40px;
             }
             
 
@@ -167,18 +166,13 @@ function PoolsUnflippedV2(props) {
             }
 
             .dataContainerv2 {
-                height: 100%;
                 display: flex;
+                height: 100%;
                 justify-content: space-around;
                 align-items: center;
                 
-            }
-
-            .heading_Name {
-              font-size: 32px;
-              line-height: 29px;
-              font-weight: 400;
-              
+                padding-bottom: 10px;
+                
             }
 
             .tileHeader {
@@ -192,7 +186,7 @@ function PoolsUnflippedV2(props) {
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                width: 100%;
+                
                 padding-bottom: 10px;
                 
             }
@@ -201,9 +195,11 @@ function PoolsUnflippedV2(props) {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 199px;
-                height: 199px;
-
+                font-size: 50px;
+                font-weight: 400;
+                line-height: 29px;
+                
+                
 
                 
                 
@@ -212,10 +208,12 @@ function PoolsUnflippedV2(props) {
 
               display: flex;
               color: black;
+              box-sizing: border-box;
+              border: 1px solid black;
               background: white;
               width: 100%;
-              height: 100%;
-              border: 1px solid black;
+              height: 100%
+
 
 
               
@@ -245,7 +243,6 @@ function PoolsUnflippedV2(props) {
               font-weight: 400;
               line-height: 29px;
               text-align: center;
-              
 
               
             }
@@ -335,4 +332,4 @@ function PoolsUnflippedV2(props) {
     );
   }
   
-  export default PoolsUnflippedV2;
+  export default TotalSupply;
