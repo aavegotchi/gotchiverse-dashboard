@@ -303,7 +303,6 @@ function PoolsUnflippedV2(props) {
               margin: 2px;
               background: #6d18f8;
               text-align: center;
-              border-radius: 5px;
               color: #04b6bc;
               height: 50px;
               font-size: 15px;
