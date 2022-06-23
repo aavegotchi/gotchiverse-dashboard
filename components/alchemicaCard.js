@@ -36,21 +36,31 @@ function AlchemicaCard(props) {
 
     //on mount load data 
     useEffect(() => {
-        setFUDData(props.data[0].length > maxNumberLength? props.data[0].slice(0, maxNumberLength) : props.data[0]);
-        setFUDSuffix(props.data[0].length > maxNumberLength ? props.data[0].length - maxNumberLength: 0);
+        setFUDData(props.data[0]);
+        setFOMOData(props.data[1]);
+        setALPHAData(props.data[2]);
+        setKEKData(props.data[3]);
+    }, [props.data]);
+
+
+    useEffect(() => {
+
+        setFUDSuffix(FUDData > maxNumberLength ? FUDData.length - maxNumberLength: 0);
+        setFUDData(FUDData > maxNumberLength? FUDData.slice(0, maxNumberLength) : FUDData);
         
+        
+        setFOMOData(FOMOData.length > maxNumberLength? FOMOData.slice(0, maxNumberLength) : FOMOData);
+        setFOMOSuffix(FOMOData.length > maxNumberLength ? FOMOData.length - maxNumberLength: 0);
 
-        setFOMOData(props.data[1].length > maxNumberLength? props.data[1].slice(0, maxNumberLength) : props.data[1]);
-        setFOMOSuffix(props.data[1].length > maxNumberLength ? props.data[1].length - maxNumberLength: 0);
+        setALPHAData(ALPHAData.length > maxNumberLength? ALPHAData.slice(0, maxNumberLength) : ALPHAData);
+        setALPHASuffix(ALPHAData.length > maxNumberLength ? ALPHAData.length - maxNumberLength: 0);
 
-        setALPHAData(props.data[2].length > maxNumberLength? props.data[1].slice(0, maxNumberLength) : props.data[2]);
-        setALPHASuffix(props.data[2].length > maxNumberLength ? props.data[2].length - maxNumberLength: 0);
+        setKEKData(KEKData.length > maxNumberLength? KEKData.slice(0, maxNumberLength) : KEKData);
+        setKEKSuffix(KEKData.length > maxNumberLength ? KEKData.length - maxNumberLength: 0);
 
-        setKEKData(props.data[3].length > maxNumberLength? props.data[1].slice(0, maxNumberLength) : props.data[3]);
-        setKEKSuffix(props.data[3].length > maxNumberLength ? props.data[3].length - maxNumberLength: 0);
+    }, [FUDData, FOMOData, ALPHAData, KEKData]);
 
 
-    }, [props]);
 
     
     return(
