@@ -80,7 +80,7 @@ function AlchemicaCard(props) {
                                 <div className = "alchemicaCoin">
                                     <div className = "coinWrapper">
                                         <Image 
-                                        src = '/../public/images/FUD.png' 
+                                        src = '/public/images/FUD.png' 
                                         alt = "alchemicaCoin" 
                                         width = "40" 
                                         height = "40" 

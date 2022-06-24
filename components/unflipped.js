@@ -55,6 +55,7 @@ function UnflippedTile(props) {
     } else 
     return (
       <>
+
           <div className="wrapper">
             <div className="bodyItem">
               <div className="buttons">
@@ -228,6 +229,7 @@ function UnflippedTile(props) {
                 }
             `}
           </style>
+
       </>
     );
   }
