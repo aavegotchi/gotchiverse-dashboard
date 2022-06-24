@@ -3,6 +3,7 @@
 import { useState , useEffect} from 'react';
 
 
+
 //importing modules 
 import Image from "next/image";
 
@@ -79,7 +80,7 @@ function AlchemicaCard(props) {
                                 <div className = "alchemicaCoin">
                                     <div className = "coinWrapper">
                                         <Image 
-                                        src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655891215/FUD_sferaj.png`} 
+                                        src = '/../public/images/FUD.png' 
                                         alt = "alchemicaCoin" 
                                         width = "40" 
                                         height = "40" 
