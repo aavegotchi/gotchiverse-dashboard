@@ -1,21 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
-import {
-  getActiveWallets,
-  getAlchemicaTotalSupply,
-  getGotchis,
-  getPoolInfo,
-  getStats,
-  getBurnedGLTR,
-  INTERVAL_DAY,
-  INTERVAL_WEEK,
-  INTERVAL_MONTH,
-} from "../fetcher";
-
-
-
-// components here 
+// components here
 import UnflippedTile from "../components/unflipped";
 import AlchemicaCard from "../components/alchemicaCard";
 
@@ -27,195 +13,259 @@ import CardTile from "../components/card";
 import LastSold from "../components/lastSold";
 import { AnimateSharedLayout } from "framer-motion";
 import LastSold2 from "../components/lastSold2";
-import Image from 'next/image';
+import Image from "next/image";
 import TotalSupply from "../components/totalSupply";
+import useSWR from "swr";
+import Fetcher from "../fetcher";
 
+export default function Home() {
+  let alchemicaTotalResponse = useSWR("/api/alchemica/supply", Fetcher);
+  let alchemicaTotal = alchemicaTotalResponse.data;
 
+  let alchemica7dResponse = useSWR("/api/alchemica/supply/7", Fetcher);
+  let alchemica7d = alchemica7dResponse.data;
 
-export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSupply, gotchis, pools }) {
-  // const { data, error } = useSWR("/api/user", fetcher);
-  const burnedGLTRCurrentData = burnedGLTRCurrent.gltrSpendOnUpgrades;
-  const arrayOfGLTRBurnedData = new Array(3).fill(burnedGLTRCurrentData);
-  const arrayOfActiveWalletsData = activeWallets;
-  
-  const arrayOfTilesMintedData = new Array(3).fill(stats.tilesMinted);
-  const arrayOfInstallationsMintedTotalData = new Array(3).fill(stats.installationsMintedTotal);
-  const arrayOfUpgradesInitiatedData = new Array(3).fill(stats.installationsUpgradedTotal);
-  const arrayOfPoolsData = new Array();
-  
-  console.log(stats);
+  let alchemica7dSeriesResponse = useSWR(
+    "/api/alchemica/supply/7/series",
+    Fetcher
+  );
+  let alchemica7dSeries = alchemica7dSeriesResponse.data;
+
+  // console.log("Alchemica Total Supply", alchemicaTotal);
+  // console.log("Alchemica Diff 7D", alchemica7d);
+  // console.log("Alchemica Series 7D", alchemica7dSeries);
+
+  let gotchivereStatsResponse = useSWR("/api/gotchiverse/stats", Fetcher);
+  let gotchiverseStats = gotchivereStatsResponse.data;
+
+  let gotchiverseStats7dResponse = useSWR("/api/gotchiverse/stats/7", Fetcher);
+  let gotchiverseStats1dResponse = useSWR("/api/gotchiverse/stats/1", Fetcher);
+  let gotchiverseStats30dResponse = useSWR(
+    "/api/gotchiverse/stats/30",
+    Fetcher
+  );
+
+  let gotchiverseStats7d = gotchiverseStats7dResponse.data;
+
+  let gotchiverseStats7dSeriesResponse = useSWR(
+    "/api/gotchiverse/stats/7/series",
+    Fetcher
+  );
+  let gotchiverseStats7dSeries = gotchiverseStats7dSeriesResponse.data;
+
+  // console.log("Gotchiverse Stats Total: ", gotchiverseStats);
+  // console.log("Gotchiverse Stats Diff 1D", gotchiverseStats1dResponse.data);
+  // console.log("Gotchiverse Stats Diff 7D", gotchiverseStats7d);
+  // console.log("Gotchiverse Stats Series 7D", gotchiverseStats7dSeries);
+
+  let activeWalelts = useSWR("/api/alchemica/");
 
   // NOTE: EVERYTHING is still in string , could change them to integers to process in "unflipped.js"
   // setting data into arrays, [{24h}, {7d}, {30d}]
   const [expanded, setExpanded] = useState(true);
-  
-  const [GLTRBurnedData, setGLTRBurnedData] = useState([]);
 
-  const [activeWalletsData, setActiveWalletsData] = useState([]);
+  const [GLTRBurnedData, setGLTRBurnedData] = useState();
 
-  const [tilesMintedData, setTilesMintedData] = useState([]);
+  const [activeWalletsData, setActiveWalletsData] = useState();
 
-  const [installationsMintedData, setInstallationsMintedData] = useState([]);
+  const [tilesMintedData, setTilesMintedData] = useState();
 
-  const [upgradesInitiatedData, setUpgradesInitiatedData] = useState([]);
+  const [installationsMintedData, setInstallationsMintedData] = useState();
 
-  const [poolsData, setPoolsData] = useState([]);
+  const [upgradesInitiatedData, setUpgradesInitiatedData] = useState();
 
-  const [totalSupplyData, setTotalSupplyData] = useState([]);
+  const [poolsData, setPoolsData] = useState();
 
-  const [gotchisData, setGotchisData] = useState([]);
+  const [totalSupplyData, setTotalSupplyData] = useState();
 
+  const [gotchisData, setGotchisData] = useState();
 
-  // Alchemica data here 
-  const [alchemicaTilesData, setAlchemicaTilesData] = useState([]);
-
-  const [alchemicaInstallationsData, setAlchemicaInstallationsData] = useState([]);
-
-  const [alchemicaUpgradesData, setAlchemicaUpgradesData] = useState([]);
-
-
-  
-
-  // set all the data on mount, 
+  // set all the data on mount,
   useEffect(() => {
     function setData() {
-      setGLTRBurnedData(arrayOfGLTRBurnedData);
-      setActiveWalletsData(arrayOfActiveWalletsData);
-      setTilesMintedData(arrayOfTilesMintedData);
-      setInstallationsMintedData(arrayOfInstallationsMintedTotalData);
-      setUpgradesInitiatedData(arrayOfUpgradesInitiatedData);
-      setPoolsData(arrayOfPoolsData);
-      setTotalSupplyData(totalSupply);
-      setAlchemicaTilesData(stats.alchemicaSpendOnTiles);
-      setAlchemicaInstallationsData(stats.alchemicaSpendOnInstallations);
-      setAlchemicaUpgradesData(stats.alchemicaSpendOnUpgrades);
-
-
+      // setGLTRBurnedData(arrayOfGLTRBurnedData);
+      // setActiveWalletsData(arrayOfActiveWalletsData);
+      // setTilesMintedData(arrayOfTilesMintedData);
+      // setInstallationsMintedData(arrayOfInstallationsMintedTotalData);
+      // setUpgradesInitiatedData(arrayOfUpgradesInitiatedData);
+      // setPoolsData(arrayOfPoolsData);
+      // setTotalSupplyData(totalSupply);
     }
 
     setData();
-
-  }, [])
-
+  }, []);
 
   return (
     <>
-      <div className = "mainWrapper">
-        <h2 className = "title">Gotchiverse Economy</h2>
+      <div className="mainWrapper">
+        <h2 className="title">Gotchiverse Economy</h2>
         <Row>
-          <Col md = "9">          
+          <Col md="9">
             <ChartTest />
           </Col>
-          <Col md = "3">
+          <Col md="3">
+            <LastSold2 />
+          </Col>
+        </Row>
+        {gotchiverseStats && (
+          <Row>
+            <Col>
+              <AlchemicaCard
+                title={"TILES"}
+                values={gotchiverseStats.alchemicaSpendOnTiles}
+              />
+            </Col>
+            <Col>
+              <AlchemicaCard
+                title={"INSTALLATIONS"}
+                values={gotchiverseStats.alchemicaSpendOnInstallations}
+              />
+            </Col>
+            <Col>
+              <AlchemicaCard
+                title={"UPGRADES"}
+                values={gotchiverseStats.alchemicaSpendOnUpgrades}
+              />
+            </Col>
+            <Col md="3">
               <LastSold2 />
-          </Col>
+            </Col>
+          </Row>
+        )}
+        <Row>
+          {installationsMintedData && (
+            <Col>
+              <UnflippedTile
+                data={installationsMintedData}
+                title={"INSTALLATIONS MINTED"}
+              />
+            </Col>
+          )}
+
+          {tilesMintedData && (
+            <Col>
+              <UnflippedTile data={tilesMintedData} title={"TILES MINTED"} />
+            </Col>
+          )}
+
+          {GLTRBurnedData && (
+            <Col>
+              <UnflippedTile data={GLTRBurnedData} title={"GLTR BURNED"} />
+            </Col>
+          )}
         </Row>
 
-        <Row>
-          <Col>
-            <AlchemicaCard title = {"TILES"} data = {alchemicaTilesData} />
-          
-          </Col>
-          <Col>
-            <AlchemicaCard title = {"INSTALLATIONS"} data = {alchemicaInstallationsData}/>
-          </Col>
-          <Col>
-            <AlchemicaCard title = {"UPGRADES"} data = {alchemicaUpgradesData}/>
-          
-          </Col>
-        </Row>
-        
-        <Row>
-          <Col>
-            <UnflippedTile data = { installationsMintedData } title = {"INSTALLATIONS MINTED"}/>
-          </Col>
-          <Col>
-            <UnflippedTile data = { tilesMintedData } title = {"TILES MINTED"}/>
-          </Col>
-          <Col>
-            <UnflippedTile data = { GLTRBurnedData } title = {"GLTR BURNED"}/>
-          </Col>
-
-        </Row>
-        <Row>
-          <Col>
-            {/* <Card>Number of players banned vs total players</Card> */}
-            <UnflippedBanned data = { pools } title = {"PLAYERS"}/>
-          </Col>
-          <Col>
-            {/* <Card>Amount of Alchemica Sold by banned players</Card> */}
-            <UnflippedBanned data = { pools } title = {"BANNED PLAYERS"}/>
-          </Col>
-          <Col>
-            {/* <Card>Number of players banned</Card> */}
-            <UnflippedBanned data = { pools } title = {"ALCHEMICA SOLD BY BANNED PLAYERS"}/>
-          </Col>
-          <Col>
-            {/* <Card>Number of players banned</Card> */}
-            <UnflippedBanned data = { pools } title = {"UNBANNED PLAYERS"}/>
-          </Col>
-        </Row>
+        {poolsData && (
+          <Row>
+            <Col>
+              {/* <Card>Number of players banned vs total players</Card> */}
+              <UnflippedBanned data={poolsData} title={"PLAYERS"} />
+            </Col>
+            <Col>
+              {/* <Card>Amount of Alchemica Sold by banned players</Card> */}
+              <UnflippedBanned data={poolsData} title={"BANNED PLAYERS"} />
+            </Col>
+            <Col>
+              {/* <Card>Number of players banned</Card> */}
+              <UnflippedBanned
+                data={poolsData}
+                title={"ALCHEMICA SOLD BY BANNED PLAYERS"}
+              />
+            </Col>
+            <Col>
+              {/* <Card>Number of players banned</Card> */}
+              <UnflippedBanned data={poolsData} title={"UNBANNED PLAYERS"} />
+            </Col>
+          </Row>
+        )}
 
         <Row>
-          <Col>
-          <PoolsUnflippedV2 data = { pools } title = {"POOLS STAKED"} />
-          </Col>
-          <Col>
-            <TotalSupply data = { totalSupplyData } title = {"POOLS STAKED"} />
-            {/* alchemicaminted / total supply */}
-          </Col>
+          {poolsData && (
+            <Col>
+              <PoolsUnflippedV2 data={poolsData} title={"POOLS STAKED"} />
+            </Col>
+          )}
+          {totalSupplyData && (
+            <Col>
+              <TotalSupply data={totalSupplyData} title={"POOLS STAKED"} />
+              {/* alchemicaminted / total supply */}
+            </Col>
+          )}
           {/* <Col>
           <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Channels"}/>
           </Col> */}
         </Row>
         <Row>
-          <Col>
-            <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"GLTR STAKERS"}/>
-          </Col>
-          <Col>
-            <UnflippedTile data  ={ activeWalletsData } title = {"ACTIVE WALLETS"}/>
-          </Col>
-          <Col>
-              <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"EXTRACTORS"}/>
-          </Col>
+          {GLTRBurnedData && (
+            <Col>
+              <UnflippedTile data={GLTRBurnedData} title={"GLTR STAKERS"} />
+            </Col>
+          )}
+          {activeWalletsData && (
+            <Col>
+              <UnflippedTile
+                data={activeWalletsData}
+                title={"ACTIVE WALLETS"}
+              />
+            </Col>
+          )}
+          {GLTRBurnedData && (
+            <Col>
+              <UnflippedTile data={GLTRBurnedData} title={"EXTRACTORS"} />
+            </Col>
+          )}
         </Row>
-        <Row >
-          <Col>
-            <UnflippedTile data = { installationsMintedData } title = {"INSTALLATIONS MINTED"}/>
-          </Col>
-            
-          <Col>
-              <UnflippedTile data = { tilesMintedData } title = {"TILES MINTED"}/>
-          </Col>
-          <Col>
-            <UnflippedTile data = { GLTRBurnedData } title = {"GLTR BURNED"}/>
-          </Col>
-
-        </Row>
-        <h2 className = "title">Gotchi Utiliziation</h2>
         <Row>
+          {installationsMintedData && (
+            <Col>
+              <UnflippedTile
+                data={installationsMintedData}
+                title={"INSTALLATIONS MINTED"}
+              />
+            </Col>
+          )}
 
-          <Col>
-          {/* <Card>Number of Gotchis summoned</Card> */}
-            <UnflippedBanned data = { pools } title = {"GOTCHIS SUMMONED"}/>
-          </Col>
-          <Col>
-          {/* <Card>Number of Gotchis sacrificed</Card> */}
-            <UnflippedBanned data = { pools } title = {"GOTCHIS SACRIFICED"}/>
-          </Col>
-          <Col>
-          {/* <Card>Number of Gotchis borrowed (24h, 7d, 30d)</Card> */}
-          <UnflippedBanned data = { pools } title = {"GOTCHIS BORROWED"}/>
-          </Col>
-          <Col>
-          {/* <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card> */}
-            <UnflippedBanned data = { pools } title = {"GOTCHIS CHANNELED"}/>
-          </Col>
-
+          {tilesMintedData && (
+            <Col>
+              <UnflippedTile data={tilesMintedData} title={"TILES MINTED"} />
+            </Col>
+          )}
+          {GLTRBurnedData && (
+            <Col>
+              <UnflippedTile data={GLTRBurnedData} title={"GLTR BURNED"} />
+            </Col>
+          )}
         </Row>
+        {poolsData && (
+          <>
+            <h2 className="title">Gotchi Utiliziation</h2>
+            <Row>
+              <Col>
+                {/* <Card>Number of Gotchis summoned</Card> */}
+                <UnflippedBanned data={poolsData} title={"GOTCHIS SUMMONED"} />
+              </Col>
+              <Col>
+                {/* <Card>Number of Gotchis sacrificed</Card> */}
+                <UnflippedBanned
+                  data={poolsData}
+                  title={"GOTCHIS SACRIFICED"}
+                />
+              </Col>
+              <Col>
+                {/* <Card>Number of Gotchis borrowed (24h, 7d, 30d)</Card> */}
+                <UnflippedBanned data={poolsData} title={"GOTCHIS BORROWED"} />
+              </Col>
+              <Col>
+                {/* <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card> */}
+                <UnflippedBanned data={poolsData} title={"GOTCHIS CHANNELED"} />
+              </Col>
+            </Row>
+          </>
+        )}
       </div>
       <style jsx>
         {`
+<<<<<<< Updated upstream
 
         .rowWrapper {
           display: flex;
@@ -274,57 +324,46 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
 
 
 
+=======
+          .rowWrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+          }
+
+          .oneCard {
+            flex: 1;
+            margin: 2px;
+          }
+
+          .title {
+            width: 85%;
+            text-align: left;
+            font-size: 46px;
+            font-weight: 400;
+            line-height: 42.73px;
+            color: black;
+          }
+          .image__Wrapper {
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            width: 100%;
+          }
+
+          .mainWrapper {
+            width: 1100px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+>>>>>>> Stashed changes
         `}
       </style>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const dataAll = await Promise.all([
-    getStats(),
-    getAlchemicaTotalSupply(),
-    getGotchis(),
-    getActiveWallets(),
-    getPoolInfo(),
-    getBurnedGLTR(),
-  ]);
-
-  const dataDay = await Promise.all([
-    getStats(INTERVAL_DAY),
-    getAlchemicaTotalSupply(INTERVAL_DAY),
-    getGotchis(INTERVAL_DAY),
-    getActiveWallets(INTERVAL_DAY),
-    getPoolInfo(INTERVAL_DAY),
-    getBurnedGLTR(INTERVAL_DAY),
-  ]);
-
-  const dataWeek = await Promise.all([
-    getStats(INTERVAL_WEEK),
-    getAlchemicaTotalSupply(INTERVAL_WEEK),
-    getGotchis(INTERVAL_WEEK),
-    getActiveWallets(INTERVAL_WEEK),
-    getPoolInfo(INTERVAL_WEEK),
-    getBurnedGLTR(INTERVAL_WEEK),
-  ]);
-
-  const dataMonth = await Promise.all([
-    getStats(INTERVAL_MONTH),
-    getAlchemicaTotalSupply(INTERVAL_MONTH),
-    getGotchis(INTERVAL_MONTH),
-    getActiveWallets(INTERVAL_MONTH),
-    getPoolInfo(INTERVAL_MONTH),
-    getBurnedGLTR(INTERVAL_MONTH),
-  ]);
-
-  const props = {
-    dataDay,
-    dataWeek,
-    dataMonth,
-    dataAll,
-  };
-
-  return {
-    props,
-  };
 }

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { AnimateSharedLayout } from 'framer-motion';
 
 import ChartTest from './chartTest';
+import React from 'react';
 
 
 
