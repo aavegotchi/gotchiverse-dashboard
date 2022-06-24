@@ -45,7 +45,6 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
   
   console.log(stats);
 
-  
   // NOTE: EVERYTHING is still in string , could change them to integers to process in "unflipped.js"
   // setting data into arrays, [{24h}, {7d}, {30d}]
   const [expanded, setExpanded] = useState(true);
@@ -62,10 +61,18 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
 
   const [poolsData, setPoolsData] = useState([]);
 
-
   const [totalSupplyData, setTotalSupplyData] = useState([]);
 
   const [gotchisData, setGotchisData] = useState([]);
+
+
+  // Alchemica data here 
+  const [alchemicaTilesData, setAlchemicaTilesData] = useState([]);
+
+  const [alchemicaInstallationsData, setAlchemicaInstallationsData] = useState([]);
+
+  const [alchemicaUpgradesData, setAlchemicaUpgradesData] = useState([]);
+
 
   
 
@@ -79,6 +86,9 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
       setUpgradesInitiatedData(arrayOfUpgradesInitiatedData);
       setPoolsData(arrayOfPoolsData);
       setTotalSupplyData(totalSupply);
+      setAlchemicaTilesData(stats.alchemicaSpendOnTiles);
+      setAlchemicaInstallationsData(stats.alchemicaSpendOnInstallations);
+      setAlchemicaUpgradesData(stats.alchemicaSpendOnUpgrades);
 
 
     }
@@ -103,14 +113,14 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
 
         <Row>
           <Col>
-            <AlchemicaCard title = {"TILES"} />
+            <AlchemicaCard title = {"TILES"} data = {alchemicaTilesData} />
           
           </Col>
           <Col>
-            <AlchemicaCard title = {"INSTALLATIONS"}/>
+            <AlchemicaCard title = {"INSTALLATIONS"} data = {alchemicaInstallationsData}/>
           </Col>
           <Col>
-            <AlchemicaCard title = {"UPGRADES"}/>
+            <AlchemicaCard title = {"UPGRADES"} data = {alchemicaUpgradesData}/>
           
           </Col>
         </Row>
@@ -252,6 +262,16 @@ export default function Home({ burnedGLTRCurrent, activeWallets, stats, totalSup
           justify-content: center;
           align-items: center;
         }
+
+        @media (max-width: 600px) {
+          .mainWrapper {
+            width: 100%;
+            flex-direction: column;
+            
+          }
+        }
+
+
 
 
         `}

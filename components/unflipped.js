@@ -37,8 +37,6 @@ function UnflippedTile(props) {
 
       }
 
-      console.log("This is suffix", suffix);
-
     }, [timeLine, props.data])
 
 
@@ -136,7 +134,7 @@ function UnflippedTile(props) {
               .tileTitle {
                 margin-top: 20px;
                 font-size: 32px;
-                font-weight: 400;
+                font-weight: 800;
                 line-height: 29.73px;
                 display: inline-block;
                 width: 100%;
@@ -198,7 +196,6 @@ function UnflippedTile(props) {
                 border: 1px solid #111111;
                 box-shadow: 4px 4px 0px #000000;
                 text-align: center;
-                border-radius: 5px;
                 color: black;
                 font-size: 22px;
                 line-height: 20.44px;

@@ -95,6 +95,8 @@ function UnflippedBanned(props) {
 
         }
 
+
+
         .button {
           box-sizing: border-box;
           width: 65px;
@@ -107,7 +109,6 @@ function UnflippedBanned(props) {
           box-shadow: 4px 4px 0px #000000;
           text-align: center;
           text-align: center;
-          border-radius: 5px;
           color: black;
           font-size: 22px;
           line-height: 20.44px;
@@ -138,12 +139,12 @@ function UnflippedBanned(props) {
 
         .title {
           color: black;
-          font-weight: 400;
           font-size: 32px;
           line-height: 29.73px;
           text-align: center;
           width: 100%;
           height: 50px;
+          font-weight: 800;
 
         }
 
