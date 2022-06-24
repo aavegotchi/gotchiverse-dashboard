@@ -59,9 +59,19 @@ function UnflippedTile(props) {
           <div className="bodyItem">
             <div className="buttons">
                 
-                <button className="button time" disabled = {timeLine == 24} onClick = {() => setTimeLine(24)}>24 h</button>
-                <button className="button time" disabled = {timeLine == 7} onClick = {() => setTimeLine(7)}>7 d</button>
-                <button className="button time" disabled = {timeLine == 30} onClick ={() => setTimeLine(30)}>30 d</button>
+                <button className="button time" disabled = {timeLine == 24} onClick = {(event) => {
+                  setTimeLine(24); 
+                  event.stopPropagation();
+                  
+                  }}>24 h</button>
+                <button className="button time" disabled = {timeLine == 7} onClick = {(event) => {
+                  setTimeLine(7);
+                  event.stopPropagation();
+                  }}>7 d</button>
+                <button className="button time" disabled = {timeLine == 30} onClick ={(event) => {
+                  setTimeLine(30);
+                  event.stopPropagation();
+                  }}>30 d</button>
             </div>
             <span className="tileTitle">{props.title}</span>
             <div className="dataContainer">
