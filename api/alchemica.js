@@ -1,11 +1,8 @@
 import { INTERVAL_ALL, INTERVAL_DAY } from "./helper/constats";
+import { getCurrentBlock } from "./helper/eth";
 import { alchemicaSubgraph } from "./helper/subgraphs";
-const ethers = require("ethers");
-let provider = new ethers.providers.JsonRpcProvider("https://polygon-rpc.com");
-export const getAlchemicaTotalSupplyFromBlock = async (
-  block = 0,
-  asSeries = false
-) => {
+
+export const getAlchemicaTotalSupplyFromBlock = async (block = 0) => {
   let query = `{block${block}: erc20Contracts ${
     block !== 0 ? `(block: { number: ${block}})` : ""
   } {
@@ -83,12 +80,5 @@ export const getAlchemicaTotalSupplyDiff = async (
     totalSupply: e.totalSupply - values[1][i].totalSupply,
   }));
 
-  console.log(asTimeSeries, "asSeries");
-
   return diffValues;
-};
-
-export const getCurrentBlock = async () => {
-  const block = await provider.getBlockNumber();
-  return block;
 };

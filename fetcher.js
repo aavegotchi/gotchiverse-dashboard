@@ -1,43 +1,53 @@
-import { getAlchemicaTotalSupplyDiff } from "./api/alchemica";
+import {
+  getAlchemicaTotalSupplyDiff,
+  getAlchemicaTotalSupplyFromBlock,
+} from "./api/alchemica";
 import { INTERVAL_ALL, INTERVAL_DAY } from "./api/helper/constats";
+import { getStatsDiff } from "./api/stats";
 
 export default async function Fetcher(url) {
   let urlParts = url.split("/");
-  console.log(url, urlParts);
+  let asTimeSeries = false;
+  if (urlParts[5] == "series") {
+    asTimeSeries = true;
+  }
+
+  if (url == "/api/alchemica/supply") {
+    return getAlchemicaTotalSupplyDiff();
+  }
+  if (url == "/api/gotchiverse/stats") {
+    return getStatsDiff();
+  }
   if (urlParts[1] !== "api") {
     return false;
   }
 
   if (
-    !urlParts[2].includes(["alchemica", "gltr", "wallets", "gotchis", "stats"])
+    !["alchemica", "gltr", "wallets", "gotchis", "gotchiverse"].includes(
+      urlParts[2]
+    )
   ) {
     return false;
   }
-
-  let fetchMethod = getCategoryMethod(urlParts[2]);
+  let fetchMethod = getCategoryMethod(urlParts[2], urlParts[3]);
   if (!fetchMethod) {
     return false;
   }
 
   let interval = INTERVAL_ALL;
   if (urlParts[3]) {
-    interval = INTERVAL_DAY * parseInt(urlParts[3].substring(-1));
-  }
-
-  let asTimeSeries = false;
-  if (urlParts[4] == "series") {
-    asTimeSeries = true;
+    interval = INTERVAL_DAY * parseInt(urlParts[4].substring(-1));
   }
 
   const result = await fetchMethod(interval, asTimeSeries);
-  console.log(result);
-  return {};
+  return result;
 }
 
-function getCategoryMethod(category) {
-  if (category == "alchemica") {
+function getCategoryMethod(category, attribute) {
+  if (category == "alchemica" && attribute == "supply") {
     return getAlchemicaTotalSupplyDiff;
-  } else if (category == "gotchis") {
+  } else if (category == "gotchiverse" && attribute == "stats") {
+    return getStatsDiff;
   }
 
   return false;

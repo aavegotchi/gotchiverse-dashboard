@@ -1,67 +1,102 @@
-export const getStats = async () => {
-  // let query = `{stat(id:"overall") {
-  //     countChannelAlchemicaEvents
-  //     countParcelInstallations
-  //     countInstallationTypes
-  //     countUpgradesInitiated
-  //     alchemicaSpendOnInstallations
-  //     alchemicaSpendOnUpgrades
-  //     alchemicaSpendOnTiles
-  //     alchemicaSpendTotal
-  //     alchemicaChanneledTotal
-  //     alchemicaClaimedTotal
-  //     alchemicaExitedTotal
-  //     tilesMinted
-  //     installationsMintedTotal
-  //     installationsUpgradedTotal
-  //   }}`;
+import { INTERVAL_ALL, INTERVAL_DAY } from "./helper/constats";
+import { getCurrentBlock } from "./helper/eth";
+import { gotchiverseSubgraph } from "./helper/subgraphs";
 
-  // const result = await gotchiverseSubgraph({ query });
+export const getStatsFromBlock = async (block = 0) => {
+  let query = `{block${block}: stat(id: "overall" ${
+    block !== 0 ? `block: { number: ${block}}` : ""
+  }) {
+        countChannelAlchemicaEvents
+        countParcelInstallations
+        countInstallationTypes
+        countUpgradesInitiated
+        alchemicaSpendOnInstallations
+        alchemicaSpendOnUpgrades
+        alchemicaSpendOnTiles
+        alchemicaSpendTotal
+        alchemicaChanneledTotal
+        alchemicaClaimedTotal
+        alchemicaExitedTotal
+        tilesMinted
+        installationsMintedTotal
+        installationsUpgradedTotal
+      }}`;
+  const result = await gotchiverseSubgraph({ query });
+  const supplies = result.data["block" + block];
 
-  // console.log(JSON.stringify(result));
-  // return result.data.stat;
+  return supplies;
+};
 
-  let data = {
-    countChannelAlchemicaEvents: "261158",
-    countParcelInstallations: "16656",
-    countInstallationTypes: "0",
-    countUpgradesInitiated: "0",
-    alchemicaSpendOnInstallations: [
-      "9325100000000000000000000",
-      "5018550000000000000000000",
-      "4073025000000000000000000",
-      "1218920000000000000000000",
-    ],
-    alchemicaSpendOnUpgrades: [
-      "2224400000000000000000000",
-      "1150950000000000000000000",
-      "784225000000000000000000",
-      "193030000000000000000000",
-    ],
-    alchemicaSpendOnTiles: [
-      "389300000000000000000000",
-      "389300000000000000000000",
-      "1167900000000000000000000",
-      "389300000000000000000000",
-    ],
-    alchemicaSpendTotal: [
-      "11938800000000000000000000",
-      "6558800000000000000000000",
-      "6025150000000000000000000",
-      "1801250000000000000000000",
-    ],
-    alchemicaChanneledTotal: [
-      "32794492800000000000000000",
-      "16397246400000000000000000",
-      "8198623200000000000000000",
-      "3279449280000000000000000",
-    ],
-    alchemicaClaimedTotal: ["0", "0", "0", "0"],
-    alchemicaExitedTotal: ["0", "0", "0", "0"],
-    tilesMinted: "15572",
-    installationsMintedTotal: "53406",
-    installationsUpgradedTotal: "24798",
-  };
+export const getStatsFromMultipleBlocks = async (
+  blocks = [123, 345, 789, 12]
+) => {
+  let innerQuery = "";
+  for (let i = 0; i < blocks.length; i++) {
+    innerQuery =
+      innerQuery +
+      `block${blocks[i]}: stat (id: "overall" block: { number: ${blocks[i]}}) {
+        countChannelAlchemicaEvents
+        countParcelInstallations
+        countInstallationTypes
+        countUpgradesInitiated
+        alchemicaSpendOnInstallations
+        alchemicaSpendOnUpgrades
+        alchemicaSpendOnTiles
+        alchemicaSpendTotal
+        alchemicaChanneledTotal
+        alchemicaClaimedTotal
+        alchemicaExitedTotal
+        tilesMinted
+        installationsMintedTotal
+        installationsUpgradedTotal
+      }`;
+  }
 
-  return data;
+  let query = `{${innerQuery}}`;
+
+  const result = await gotchiverseSubgraph({ query });
+  const blockResults = Object.keys(result.data).map((e) => ({
+    data: result.data[e],
+    block: parseInt(e.substring(5)),
+  }));
+  return blockResults;
+};
+
+export const getStatsDiff = async (
+  interval = INTERVAL_ALL,
+  asTimeSeries = false
+) => {
+  let currentBlockNr = await getCurrentBlock();
+  let previousBlockNr = currentBlockNr - interval;
+
+  if (currentBlockNr === previousBlockNr) {
+    return getStatsFromBlock();
+  }
+
+  if (asTimeSeries) {
+    let blocks = [];
+    while (interval >= INTERVAL_DAY) {
+      blocks.push(currentBlockNr - interval);
+      interval -= INTERVAL_DAY;
+    }
+    return getStatsFromMultipleBlocks(blocks);
+  }
+
+  let [newValues, oldValues] = await Promise.all([
+    getStatsFromBlock(),
+    getStatsFromBlock(previousBlockNr),
+  ]);
+
+  let keys = Object.keys(newValues);
+  keys.forEach((e) => {
+    if (Array.isArray(newValues[e])) {
+      newValues[e] = newValues[e].map((v, j) => {
+        return newValues[e][j] - oldValues[e][j];
+      });
+    } else {
+      newValues[e] = newValues[e] - oldValues[e];
+    }
+  });
+
+  return newValues;
 };
