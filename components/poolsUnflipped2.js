@@ -70,8 +70,8 @@ function PoolsUnflippedV2(props) {
         <div className="wrapper">
             <div className = "bodyWrapper">
                 <div className = "left">
-                    <button className="button" disabled = {page <= 0} onClick = {() => setPage(page - 1)}>
-                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655321124/chevron-left_cjxhb0.png`} alt = "chevron" width = "40" height = "40" />
+                    <button className="button button_left" disabled = {page <= 0} onClick = {() => setPage(page - 1)}>
+                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1656148594/chevron-left_pozygn.png`} alt = "chevron" width = "60" height = "60" />
                     </button>
                 </div>
                 <div className = "center">
@@ -113,8 +113,8 @@ function PoolsUnflippedV2(props) {
                     </div>
                 </div>
                 <div className = "right">
-                    <button className="button" disabled = {page >= maximumPage - 1} onClick = {() => setPage(page + 1)}>
-                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655321128/chevron-right_pzqw00.png`} alt = "chevron" width = "40" height = "40" />
+                    <button className="button button_right" disabled = {page >= maximumPage - 1} onClick = {() => setPage(page + 1)}>
+                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1656148601/chevron-right_qraw6n.png`} alt = "chevron" width = "60" height = "60" />
                     </button>
                 </div>
             </div>
@@ -137,7 +137,7 @@ function PoolsUnflippedV2(props) {
 
             .tileHeader {
                 font-size: 32px;
-                font-weight: 400;
+                font-weight: 800;
                 font-style: normal;
                 text-transform: uppercase;
 
@@ -298,29 +298,27 @@ function PoolsUnflippedV2(props) {
             }
   
             .button {
-              box-sizing: border-box;
+
               width: 70px;
               margin: 2px;
-              background: #6d18f8;
+              background: white;
+              border: none;
               text-align: center;
               color: #04b6bc;
               height: 50px;
-              font-size: 15px;
-              transition: 0.5s;
               padding: 5px;
             }
 
-            .button:disabled {
-              background-color: #CF15F9;
-              pointer-events: none;
-              
-            }
-  
-            .button:hover {
-              background: #04b6bc;
-              color: #6d18f8;
+            .button_left:hover {
+              transform: translateX(10px);
               transition: 0.2s ease-in-out;
             }
+
+            .button_right:hover {
+              transform: translateX(-10px);
+              transition: 0.5s ease-in-out;
+            }
+
 
             .graph {
               margin-left: 20px;

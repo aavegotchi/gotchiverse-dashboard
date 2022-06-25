@@ -1,8 +1,26 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react';
-import { AnimateSharedLayout } from 'framer-motion';
+import { motion, AnimateSharedLayout } from 'framer-motion';
 
-import ChartTest from './chartTest';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement, 
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar, Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement, 
+  Title,
+  Tooltip,
+  Legend
+);
 
 
 
@@ -53,9 +71,16 @@ function UnflippedTile(props) {
           !expanded? 
         
       <>
-        <div className="wrapper" onClick = {() => {
-          setExpanded(true);
-        }}>
+        <div 
+          className="wrapper" 
+          onClick = {() => {
+            setExpanded(true);
+          }}
+          layoutId = "graph"
+          
+
+
+        >
           <div className="bodyItem">
             <div className="buttons">
                 
@@ -108,12 +133,24 @@ function UnflippedTile(props) {
               color: black;
               border: 1px solid #000000;
               background: white;
-              height: 100%;
+              height: 278px;
               width: 100%;
-              
-              
+              cursor:pointer;
+              transition: 0.5s ease-in-out ;
+              position: relative;
+              overflow: hidden;
               
             }
+
+            
+
+            .wrapper:hover {
+              color: white;
+              background: #FA34F3;
+              transform: translateX(-2px);
+
+            }
+
 
             .trendWrapper {
 
@@ -133,7 +170,7 @@ function UnflippedTile(props) {
               margin: 0px 20px;
               padding: 15px;
               border-radius: 10px;
-              cursor: pointer;
+              
               display: flex;
               flex-direction: column;
               justify-content: center;
@@ -253,7 +290,119 @@ function UnflippedTile(props) {
 
 
 function GraphExpanded({props, expandedFunction}) {
+
+  const [chartData, setChartData] = useState({
+    datasets: [],
+
+});
+
+  const [chartOptions, setChartOptions] = useState({});
+
+
+  useEffect(() => {
+    setChartData({
+        labels: ["John", "Kevin", "george", "michael", "Orea"],
+        datasets: [
+            {
+                label: "change to line bar later ",
+                data: [12, 55, 34, 120, 55],
+                borderColor: "rgb(53, 162, 235)",
+                backgroundColor: "rgba(53, 162, 235, 0.4)",
+            },
+        ],
+    })
+
+    setChartOptions({
+      responsive: true,
+      plugins: {
+          legend: {
+              position: "bottom"
+
+          },
+          title : {
+              display: true,
+              text: "LP Tokens staked vs total LP Tokens"
+          }
+      }
+  })
+  }, []);
+
+
   return(
-    <div onClick = {expandedFunction}>Hello worldS</div>
+    <>
+      <div className = "wrapper">
+          <Line options = {chartOptions} data = {chartData} />
+          <div className = "buttonWrapper">
+            <div>
+              <button className = "button" onClick = {expandedFunction}>BACK</button>
+            </div>
+            <div>
+              <button className = "button">24 h</button>
+              <button className = "button">7 d</button>
+              <button className = "button">30 d</button>
+            </div>
+          </div>
+      </div>
+      <style jsx>
+          {
+              `
+                  .wrapper {
+                      
+                      color: #04b6bc;
+                      width: 100%;
+                      height: 278px;
+                      background: white;
+                      border: 1.40288px solid #000000;
+                      padding: 5px;
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: space-around;
+                      align-items: center;
+                  }
+
+                  .buttonWrapper {
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
+                    justify-content: space-around;
+                    align-items: center;
+                  }
+
+                  .button {
+                    box-sizing: border-box;
+                    width: 65px;
+                    height: 45px;
+                    flex: 1;
+                    margin: 5px;
+                    background: #B8B8B8;
+                    border: 1px solid #111111;
+                    box-shadow: 4px 4px 0px #000000;
+                    text-align: center;
+                    color: black;
+                    font-size: 22px;
+                    line-height: 20.44px;
+                    font-weight: 400;
+                    transition: 0.5s;
+                    padding: 2px;
+                  }
+                  .button:disabled {
+                    background-color: #CF15F9;
+                    pointer-events: none;
+                    color: white;
+                  }
+        
+                  .button:hover {
+                    background: #04b6bc;
+                    color: #6d18f8;
+                    transition: 0.2s ease-in-out;
+                  }
+
+                  
+              `
+          }
+
+
+      </style>
+    </>
   )
 }

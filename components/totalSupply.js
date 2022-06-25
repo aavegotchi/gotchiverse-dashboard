@@ -70,7 +70,7 @@ function TotalSupply(props) {
             <div className = "bodyWrapper">
                 <div className = "left">
                     <button className="button" disabled = {page <= 0} onClick = {() => setPage(page - 1)}>
-                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655321124/chevron-left_cjxhb0.png`} alt = "chevron" width = "40" height = "40" />
+                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1656148594/chevron-left_pozygn.png`} alt = "chevron" width = "60" height = "60" />
                     </button>
                 </div>
                 <div className = "center">
@@ -111,7 +111,7 @@ function TotalSupply(props) {
                 </div>
                 <div className = "right">
                     <button className="button" disabled = {page >= maximumPage - 1} onClick = {() => setPage(page + 1)}>
-                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655321128/chevron-right_pzqw00.png`} alt = "chevron" width = "40" height = "40" />
+                    <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1656148601/chevron-right_qraw6n.png`} alt = "chevron" width = "60" height = "60" />
                     </button>
                 </div>
             </div>
@@ -140,6 +140,7 @@ function TotalSupply(props) {
 
             .tileHeader {
                 font-size: 40px;
+                font-weight: 800;
             }
             
 
@@ -298,27 +299,17 @@ function TotalSupply(props) {
               box-sizing: border-box;
               width: 70px;
               margin: 2px;
-              background: #6d18f8;
+              border: none;
               text-align: center;
-              border-radius: 5px;
-              color: #04b6bc;
+              background: white;
+
               height: 50px;
-              font-size: 15px;
+
               transition: 0.5s;
               padding: 5px;
             }
 
-            .button:disabled {
-              background-color: #CF15F9;
-              pointer-events: none;
-              
-            }
-  
-            .button:hover {
-              background: #04b6bc;
-              color: #6d18f8;
-              transition: 0.2s ease-in-out;
-            }
+
 
             .graph {
               margin-left: 20px;
