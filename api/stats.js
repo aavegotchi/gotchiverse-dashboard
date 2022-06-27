@@ -20,6 +20,9 @@ export const getStatsFromBlock = async (block = 0) => {
         tilesMinted
         installationsMintedTotal
         installationsUpgradedTotal
+        gltrSpendTotal
+        gltrSpendOnCrafts
+        gltrSpendOnUpgrades
       }}`;
   const result = await gotchiverseSubgraph({ query });
   const supplies = result.data["block" + block];
@@ -49,6 +52,9 @@ export const getStatsFromMultipleBlocks = async (
         tilesMinted
         installationsMintedTotal
         installationsUpgradedTotal
+        gltrSpendTotal
+        gltrSpendOnCrafts
+        gltrSpendOnUpgrades
       }`;
   }
 

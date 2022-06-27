@@ -1,31 +1,25 @@
 import { INTERVAL_ALL } from "./helper/constats";
-import { gltrStakingSubgraph } from "./helper/subgraphs";
+import { gltrStakingSubgraph, gotchiverseSubgraph } from "./helper/subgraphs";
 
 export const getBurnedGLTR = async () => {
-  // let query = `{stat(id:"overall") {
-  //   gltrSpendTotal
-  //   gltrSpendOnCrafts
-  //   gltrSpendOnUpgrades
-  // }}`;
+  let query = `{stat(id:"overall") {
+    gltrSpendTotal
+    gltrSpendOnCrafts
+    gltrSpendOnUpgrades
+  }}`;
 
-  // const { data } = await gotchiverseSubgraph({ query });
-  // const stat = data.stat;
+  const { data } = await gotchiverseSubgraph({ query });
+  const stat = data.stat;
 
-  // Object.keys(stat).forEach((e) => {
-  //   let value = stat[e];
-  //   stat[e] =
-  //     value.length >= 18
-  //       ? value.slice(0, -18) + "." + value.slice(-18, -16)
-  //       : value;
-  // });
+  Object.keys(stat).forEach((e) => {
+    let value = stat[e];
+    stat[e] =
+      value.length >= 18
+        ? value.slice(0, -18) + "." + value.slice(-18, -16)
+        : value;
+  });
 
-  // return stat;
-
-  let data = {
-    gltrSpendTotal: "11000",
-    gltrSpendOnCrafts: "1000",
-    gltrSpendOnUpgrades: "10000",
-  };
+  return stat;
 
   return data;
 };

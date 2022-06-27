@@ -45,6 +45,9 @@ export default function Home() {
     Fetcher
   );
 
+  let gotchisResponse = useSWR("/api/gotchis/stats", Fetcher);
+  let gotchiStats = gotchisResponse.data;
+  console.log(gotchisResponse.error);
   let gotchiverseStats7d = gotchiverseStats7dResponse.data;
 
   let gotchiverseStats7dSeriesResponse = useSWR(
@@ -95,6 +98,7 @@ export default function Home() {
     setData();
   }, []);
 
+  console.log("stats", gotchiStats);
   return (
     <>
       <div className="mainWrapper">
@@ -127,9 +131,6 @@ export default function Home() {
                 values={gotchiverseStats.alchemicaSpendOnUpgrades}
               />
             </Col>
-            <Col md="3">
-              <LastSold2 />
-            </Col>
           </Row>
         )}
         <Row>
@@ -141,7 +142,6 @@ export default function Home() {
               />
             </Col>
           )}
-
           {gotchiverseStats && (
             <Col>
               <UnflippedTile
@@ -151,11 +151,14 @@ export default function Home() {
             </Col>
           )}
 
-          {/* {gotchiverseStats && (
-            // <Col>
-            //   <UnflippedTile data={gotchiverseStats} title={"GLTR BURNED"} />
-            // </Col>
-          )} */}
+          {gotchiverseStats && (
+            <Col>
+              <UnflippedTile
+                data={gotchiverseStats.gltrSpendTotal.slice(0, -18)}
+                title={"GLTR BURNED"}
+              />
+            </Col>
+          )}
         </Row>
 
         {poolsData && (
@@ -218,50 +221,39 @@ export default function Home() {
             </Col>
           )}
         </Row>
-        <Row>
-          {installationsMintedData && (
-            <Col>
-              <UnflippedTile
-                data={installationsMintedData}
-                title={"INSTALLATIONS MINTED"}
-              />
-            </Col>
-          )}
 
-          {tilesMintedData && (
-            <Col>
-              <UnflippedTile data={tilesMintedData} title={"TILES MINTED"} />
-            </Col>
-          )}
-          {GLTRBurnedData && (
-            <Col>
-              <UnflippedTile data={GLTRBurnedData} title={"GLTR BURNED"} />
-            </Col>
-          )}
-        </Row>
-        {poolsData && (
+        {gotchiStats && (
           <>
             <h2 className="title">Gotchi Utiliziation</h2>
             <Row>
               <Col>
                 {/* <Card>Number of Gotchis summoned</Card> */}
-                <UnflippedBanned data={poolsData} title={"GOTCHIS SUMMONED"} />
+                <UnflippedBanned
+                  data={gotchiStats.aavegotchisClaimed}
+                  title={"GOTCHIS SUMMONED"}
+                />
               </Col>
               <Col>
                 {/* <Card>Number of Gotchis sacrificed</Card> */}
                 <UnflippedBanned
-                  data={poolsData}
+                  data={gotchiStats.aavegotchisSacrificed}
                   title={"GOTCHIS SACRIFICED"}
                 />
               </Col>
               <Col>
                 {/* <Card>Number of Gotchis borrowed (24h, 7d, 30d)</Card> */}
-                <UnflippedBanned data={poolsData} title={"GOTCHIS BORROWED"} />
+                <UnflippedBanned
+                  data={gotchiStats.aavegotchisBorrowed}
+                  title={"GOTCHIS BORROWED"}
+                />
               </Col>
-              <Col>
-                {/* <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card> */}
-                <UnflippedBanned data={poolsData} title={"GOTCHIS CHANNELED"} />
-              </Col>
+              {/* <Col> */}
+              {/* <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card> */}
+              {/* <UnflippedBanned
+                  data={gotchiStats.channled}
+                  title={"GOTCHIS SACRIFICED"}
+                /> */}
+              {/* </Col> */}
             </Row>
           </>
         )}

@@ -2,6 +2,7 @@ import {
   getAlchemicaTotalSupplyDiff,
   getAlchemicaTotalSupplyFromBlock,
 } from "./api/alchemica";
+import { getGotchis } from "./api/gochis";
 import { INTERVAL_ALL, INTERVAL_DAY } from "./api/helper/constats";
 import { getStatsDiff } from "./api/stats";
 
@@ -17,6 +18,9 @@ export default async function Fetcher(url) {
   }
   if (url == "/api/gotchiverse/stats") {
     return getStatsDiff();
+  }
+  if (url == "/api/gotchis/stats") {
+    return getGotchis();
   }
   if (urlParts[1] !== "api") {
     return false;

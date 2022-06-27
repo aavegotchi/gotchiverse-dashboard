@@ -6,8 +6,8 @@ export const gotchiverseSubgraph = apollo.createApolloFetch({
 });
 
 export const coreMaticSubgraph = apollo.createApolloFetch({
-  //uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-core-matic",
-  uri: "https://api.thegraph.com/subgraphs/id/QmdLiG6MpgHmGUrUAbG7MgHJRfcusX1P3ucJdKCm6nunS1",
+  uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-core-matic",
+  // uri: "https://api.thegraph.com/subgraphs/id/QmdLiG6MpgHmGUrUAbG7MgHJRfcusX1P3ucJdKCm6nunS1",
 });
 
 export const alchemicaSubgraph = apollo.createApolloFetch({
@@ -21,4 +21,3 @@ export const aavegotchiSvgSubgraph = apollo.createApolloFetch({
 export const gltrStakingSubgraph = apollo.createApolloFetch({
   uri: "https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-gltr-staking",
 });
-

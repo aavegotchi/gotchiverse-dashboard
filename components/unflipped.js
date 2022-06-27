@@ -48,7 +48,7 @@ function UnflippedTile({ title, data }) {
   //   }
   // }, [timeLine, data]);
 
-  console.log(dataToBeDisplayed);
+  console.log(data);
 
   if (data.length == 0) {
     //check if any data is present at all
