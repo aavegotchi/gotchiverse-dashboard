@@ -133,26 +133,29 @@ export default function Home() {
           </Row>
         )}
         <Row>
-          {installationsMintedData && (
+          {gotchiverseStats && (
             <Col>
               <UnflippedTile
-                data={installationsMintedData}
+                data={gotchiverseStats.installationsMintedTotal}
                 title={"INSTALLATIONS MINTED"}
               />
             </Col>
           )}
 
-          {tilesMintedData && (
+          {gotchiverseStats && (
             <Col>
-              <UnflippedTile data={tilesMintedData} title={"TILES MINTED"} />
+              <UnflippedTile
+                data={gotchiverseStats.tilesMinted}
+                title={"TILES MINTED"}
+              />
             </Col>
           )}
 
-          {GLTRBurnedData && (
-            <Col>
-              <UnflippedTile data={GLTRBurnedData} title={"GLTR BURNED"} />
-            </Col>
-          )}
+          {/* {gotchiverseStats && (
+            // <Col>
+            //   <UnflippedTile data={gotchiverseStats} title={"GLTR BURNED"} />
+            // </Col>
+          )} */}
         </Row>
 
         {poolsData && (
@@ -265,66 +268,6 @@ export default function Home() {
       </div>
       <style jsx>
         {`
-<<<<<<< Updated upstream
-
-        .rowWrapper {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-
-          
-          
-
-        }
-
-        .oneCard {
-          flex: 1;
-          margin: 2px;
-        }
-
-
-        .title {
-
-          width: 85%;
-          text-align: left;
-          font-size: 46px;
-          font-weight: 400;
-          line-height: 42.73px;
-          color: black;
-          
-        }
-        .image__Wrapper {
-          border-radius: 5px;
-          overflow: hidden;
-          position: relative;
-          height: 100%;
-          width: 100%;
-          
-
-        }
-
-        .mainWrapper {
-          width: 1100px;
-
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        @media (max-width: 600px) {
-          .mainWrapper {
-            width: 100%;
-            flex-direction: column;
-            
-          }
-        }
-
-
-
-
-=======
           .rowWrapper {
             display: flex;
             justify-content: space-between;
@@ -361,7 +304,13 @@ export default function Home() {
             justify-content: center;
             align-items: center;
           }
->>>>>>> Stashed changes
+
+          @media (max-width: 600px) {
+            .mainWrapper {
+              width: 100%;
+              flex-direction: column;
+            }
+          }
         `}
       </style>
     </>

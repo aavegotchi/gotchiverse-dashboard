@@ -36,7 +36,7 @@ function AlchemicaCard({ title, values }) {
   return (
     <div className="wrapper">
       <div className="title">
-        <span className="title_main">ALCHEMICA SPENT</span>
+        <span className="title_main">ALCHEMICA SPENT ON</span>
         <span className="title_subheading">{title}</span>
       </div>
       <div className="content">
