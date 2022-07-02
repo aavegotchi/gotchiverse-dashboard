@@ -1,9 +1,15 @@
 import Image from "next/image";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 
-function UnflippedBanned({ title, data }) {
+function UnflippedBanned({ title, data, data1d, data7d, data30d }) {
   const [timeLine, setTimeLine] = useState(24);
+  const [dataToBeDisplayed, setDataToBeDisplayed ] = useState(0); 
+
+  useEffect(() => {
+    setDataToBeDisplayed(data);
+
+  }, []);
 
   return (
     <>
@@ -12,24 +18,43 @@ function UnflippedBanned({ title, data }) {
           <button
             className="button"
             disabled={timeLine == 24}
-            onClick={() => setTimeLine(24)}
+            onClick={() => {
+              setTimeLine(24);
+              setDataToBeDisplayed(data1d);
+            }}
           >
             24 h
           </button>
           <button
             className="button"
             disabled={timeLine == 7}
-            onClick={() => setTimeLine(7)}
+            onClick={() => {
+              setTimeLine(7);
+              setDataToBeDisplayed(data7d);
+            }}
           >
             7 d
           </button>
           <button
             className="button"
             disabled={timeLine == 30}
-            onClick={() => setTimeLine(30)}
+            onClick={() => {
+              setTimeLine(30);
+              setDataToBeDisplayed(data30d);
+            }}
           >
             30 d
           </button>
+          <button 
+          className = "button"
+          disabled = {timeLine == 100}
+          onClick = { () => {
+            setTimeLine(100);
+            setDataToBeDisplayed(data);
+          }}
+          >
+            total
+          </button> 
         </div>
         <span className="title">{title}</span>
         <div className="data">
@@ -39,7 +64,7 @@ function UnflippedBanned({ title, data }) {
           <div className="percentage">
             <div>
               <Image
-                src={`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`}
+                src={`/images/trending-up.png`}
                 alt="trending"
                 width="62"
                 height="55"
@@ -95,7 +120,7 @@ function UnflippedBanned({ title, data }) {
 
           .button {
             box-sizing: border-box;
-            width: 65px;
+            width: 50px;
             height: 45px;
             flex: 1;
             margin: 5px;

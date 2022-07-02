@@ -14,22 +14,22 @@ function AlchemicaCard({ title, values }) {
     {
       title: "FUD",
       image:
-        "https://res.cloudinary.com/djev64cqn/image/upload/v1655891215/FUD_sferaj.png",
+        "/images/FUD.png",
     },
     {
       title: "FOMO",
       image:
-        "https://res.cloudinary.com/djev64cqn/image/upload/v1655891225/FOMO_jfucjs.png",
+        "/images/FOMO.png",
     },
     {
       title: "ALPHA",
       image:
-        "https://res.cloudinary.com/djev64cqn/image/upload/v1655891221/ALPHA_qybrg7.png",
+        "/images/ALPHA.png",
     },
     {
       title: "KEK",
       image:
-        "https://res.cloudinary.com/djev64cqn/image/upload/v1655983165/KEK2_ujidrh.png",
+        "/images/KEK2.png",
     },
   ];
 

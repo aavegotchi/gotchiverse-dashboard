@@ -22,15 +22,22 @@ ChartJS.register(
   Legend
 );
 
-function UnflippedTile({ title, data }) {
+function UnflippedTile({ title, data, data1d, data7d, data30d}) {
   const [expanded, setExpanded] = useState(false);
-  const [timeLine, setTimeLine] = useState(0);
+  const [timeLine, setTimeLine] = useState(100);
   const [dataToBeDisplayed, setDataToBeDisplayed] = useState(0);
+  const [trendChange, setTrendChange] = useState(0);
   const [suffix, setSuffix] = useState(0);
   const maxNumberLength = 5;
   useEffect(() => {
-    setTimeLine(24);
+    setDataToBeDisplayed(data.toString().length > 8 ? data.toString().slice(0, -18) : data);
   }, []);
+
+  useEffect(() => {
+    const change = dataToBeDisplayed/data;
+    console.log("Here", change);
+    setTrendChange(change.toFixed(2));
+  }, [timeLine]);
 
   console.log(title, data);
   // calculate the change in rates over a certain ... time
@@ -83,30 +90,51 @@ function UnflippedTile({ title, data }) {
               <button
                 className="button time"
                 disabled={timeLine == 24}
-                onClick={() => setTimeLine(24)}
+                onClick={() => {
+                  setTimeLine(24);
+                  setDataToBeDisplayed(data1d.toString().length > 8 ? data1d.toString().slice(0, -18) : data1d);
+
+                }}
               >
                 24 h
               </button>
               <button
                 className="button time"
                 disabled={timeLine == 7}
-                onClick={() => setTimeLine(7)}
+                onClick={() => {
+                  setTimeLine(7);
+                  setDataToBeDisplayed(data7d.toString().length > 8 ? data7d.toString().slice(0, -18) : data7d);
+                }}
               >
                 7 d
               </button>
               <button
                 className="button time"
                 disabled={timeLine == 30}
-                onClick={() => setTimeLine(30)}
+                onClick={() => {
+                  setTimeLine(30);
+                  setDataToBeDisplayed(data30d.toString().length > 8 ? data30d.toString().slice(0, -18) : data30d);
+                }}
               >
                 30 d
               </button>
+              <button
+                className = "button time"
+                disabled = {timeLine == 100}
+                onClick = {() => {
+                  setTimeLine(100);
+                  setDataToBeDisplayed(data.toString().length > 8 ? data.toString().slice(0, -18) : data);
+                }}
+              >
+                total
+              </button>
+              
             </div>
             <span className="tileTitle">{title}</span>
             <div className="dataContainer">
               {suffix == 0 ? (
                 <span className="mainData">
-                  {data ? data : <div>Loading...</div>}
+                  {data ? dataToBeDisplayed : <div>Loading...</div>}
                 </span>
               ) : (
                 <>
@@ -118,21 +146,39 @@ function UnflippedTile({ title, data }) {
                 </>
               )}
             </div>
+<<<<<<< Updated upstream
+            <div className = "realData" data-Tooltip = "realData">
+
+            </div>
+=======
             <div className="trendWrapper">
               <Image
-                src={`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`}
+                src={`/images/trending-up.png`}
                 alt="trending"
                 width="62"
                 height="55"
               />
               <span className="dataChanges negative">-10%</span>
             </div>
-            <div className = "trendWrapper">
-                <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`} alt = "trending" width = "62" height = "55" />
-                <span className="dataChanges negative">
-                -10% 
-                </span>
-            </div>
+
+>>>>>>> Stashed changes
+
+            {timeLine != 100 && 
+            
+              <div className="trendWrapper">
+                  <Image
+                    src={`/images/trending-up.png`}
+                    alt="trending"
+                    width="62"
+                    height="55"
+                  />
+                <span className="dataChanges positive">{
+                  trendChange
+
+                }</span>
+              </div>
+            }
+
 
 
           </div>
@@ -154,13 +200,13 @@ function UnflippedTile({ title, data }) {
               overflow: hidden;
               
             }
-
             
 
             .wrapper:hover {
               color: white;
               background: #FA34F3;
               transform: translateX(-2px);
+            
 
             }
 
@@ -170,6 +216,7 @@ function UnflippedTile({ title, data }) {
               display: flex;
               justify-content: center;
               align-items: center;
+              height: 60px;
             }
 
             .suffix {
@@ -181,9 +228,7 @@ function UnflippedTile({ title, data }) {
             .bodyItem {
               width: 100%;
               margin: 0px 20px;
-              padding: 15px;
-              border-radius: 10px;
-              
+              padding-bottom: 15px;
               display: flex;
               flex-direction: column;
               justify-content: center;
@@ -236,6 +281,7 @@ function UnflippedTile({ title, data }) {
               display: flex;
               justify-content: space-around;
               align-items: center;
+              width: 100%;
               
             }
             .bottomLeft {

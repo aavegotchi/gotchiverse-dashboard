@@ -49,6 +49,9 @@ export default function Home() {
   let gotchiStats = gotchisResponse.data;
   console.log(gotchisResponse.error);
   let gotchiverseStats7d = gotchiverseStats7dResponse.data;
+  let gotchiverseStats1d = gotchiverseStats1dResponse.data;
+  let gotchiverseStats30d = gotchiverseStats30dResponse.data;
+
 
   let gotchiverseStats7dSeriesResponse = useSWR(
     "/api/gotchiverse/stats/7/series",
@@ -56,12 +59,14 @@ export default function Home() {
   );
   let gotchiverseStats7dSeries = gotchiverseStats7dSeriesResponse.data;
 
+  
+
   // console.log("Gotchiverse Stats Total: ", gotchiverseStats);
   // console.log("Gotchiverse Stats Diff 1D", gotchiverseStats1dResponse.data);
   // console.log("Gotchiverse Stats Diff 7D", gotchiverseStats7d);
   // console.log("Gotchiverse Stats Series 7D", gotchiverseStats7dSeries);
 
-  let activeWalelts = useSWR("/api/alchemica/");
+  let activeWallets = useSWR("/api/alchemica/");
 
   // NOTE: EVERYTHING is still in string , could change them to integers to process in "unflipped.js"
   // setting data into arrays, [{24h}, {7d}, {30d}]
@@ -74,7 +79,6 @@ export default function Home() {
   const [tilesMintedData, setTilesMintedData] = useState();
 
   const [installationsMintedData, setInstallationsMintedData] = useState();
-
   const [upgradesInitiatedData, setUpgradesInitiatedData] = useState();
 
   const [poolsData, setPoolsData] = useState();
@@ -82,7 +86,6 @@ export default function Home() {
   const [totalSupplyData, setTotalSupplyData] = useState();
 
   const [gotchisData, setGotchisData] = useState();
-
   // set all the data on mount,
   useEffect(() => {
     function setData() {
@@ -98,7 +101,19 @@ export default function Home() {
     setData();
   }, []);
 
+<<<<<<< Updated upstream
+
+=======
+  
+>>>>>>> Stashed changes
   console.log("stats", gotchiStats);
+  console.log("stats7d", gotchiverseStats7d);
+  console.log("stats1d", gotchiverseStats1d);
+  console.log("stats30d", gotchiverseStats30d);
+  console.log("statsGotchiverse", gotchiverseStats);
+  console.log("alchemica",alchemicaTotal );
+  console.log("activeWallets", activeWallets);
+
   return (
     <>
       <div className="mainWrapper">
@@ -134,27 +149,37 @@ export default function Home() {
           </Row>
         )}
         <Row>
-          {gotchiverseStats && (
+          {gotchiverseStats && gotchiverseStats1d && gotchiverseStats7d && gotchiverseStats30d && (
             <Col>
               <UnflippedTile
                 data={gotchiverseStats.installationsMintedTotal}
+                data1d = {gotchiverseStats1d.installationsMintedTotal}
+                data7d = {gotchiverseStats7d.installationsMintedTotal}
+                data30d = {gotchiverseStats30d.installationsMintedTotal}
                 title={"INSTALLATIONS MINTED"}
               />
             </Col>
           )}
-          {gotchiverseStats && (
+          {gotchiverseStats && gotchiverseStats1d && gotchiverseStats7d && gotchiverseStats30d && (
             <Col>
               <UnflippedTile
                 data={gotchiverseStats.tilesMinted}
+                data1d = {gotchiverseStats1d.tilesMinted}
+                data7d = {gotchiverseStats7d.tilesMinted}
+                data30d = {gotchiverseStats30d.tilesMinted}
+
                 title={"TILES MINTED"}
               />
             </Col>
           )}
 
-          {gotchiverseStats && (
+          {gotchiverseStats && gotchiverseStats1d && gotchiverseStats7d && gotchiverseStats30d &&  (
             <Col>
               <UnflippedTile
-                data={gotchiverseStats.gltrSpendTotal.slice(0, -18)}
+                data={gotchiverseStats.gltrSpendTotal}
+                data1d = {gotchiverseStats1d.gltrSpendTotal}
+                data7d = {gotchiverseStats7d.gltrSpendTotal}
+                data30d = {gotchiverseStats30d.gltrSpendTotal}
                 title={"GLTR BURNED"}
               />
             </Col>
@@ -230,6 +255,10 @@ export default function Home() {
                 {/* <Card>Number of Gotchis summoned</Card> */}
                 <UnflippedBanned
                   data={gotchiStats.aavegotchisClaimed}
+                  data1d = {gotchiStats.aavegotchisClaimed}
+                  data7d = {gotchiStats.aavegotchisClaimed}
+                  data30d = {gotchiStats.aavegotchisClaimed}
+                  
                   title={"GOTCHIS SUMMONED"}
                 />
               </Col>
@@ -237,6 +266,9 @@ export default function Home() {
                 {/* <Card>Number of Gotchis sacrificed</Card> */}
                 <UnflippedBanned
                   data={gotchiStats.aavegotchisSacrificed}
+                  data1d = {gotchiStats.aavegotchisSacrificed}
+                  data7d = {gotchiStats.aavegotchisSacrificed}
+                  data30d = {gotchiStats.aavegotchisSacrificed}
                   title={"GOTCHIS SACRIFICED"}
                 />
               </Col>
@@ -244,16 +276,22 @@ export default function Home() {
                 {/* <Card>Number of Gotchis borrowed (24h, 7d, 30d)</Card> */}
                 <UnflippedBanned
                   data={gotchiStats.aavegotchisBorrowed}
+                  data1d = {gotchiStats.aavegotchisBorrowed}
+                  data7d = {gotchiStats.aavegotchisBorrowed}
+                  data30d = {gotchiStats.aavegotchisBorrowed}
                   title={"GOTCHIS BORROWED"}
                 />
               </Col>
-              {/* <Col> */}
+              <Col>
               {/* <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card> */}
-              {/* <UnflippedBanned
-                  data={gotchiStats.channled}
-                  title={"GOTCHIS SACRIFICED"}
-                /> */}
-              {/* </Col> */}
+              <UnflippedBanned
+                  data={gotchiStats.aavegotchisBorrowed}
+                  data1d = {gotchiStats.aavegotchisBorrowed}
+                  data7d = {gotchiStats.aavegotchisBorrowed}
+                  data30d = {gotchiStats.aavegotchisBorrowed}
+                  title={"GOTCHIS SACRIFICED FILLER"}
+                />
+              </Col>
             </Row>
           </>
         )}
