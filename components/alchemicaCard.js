@@ -1,267 +1,140 @@
-// importing states 
+// importing states
 
-import { useState , useEffect} from 'react';
+import { useState, useEffect } from "react";
 
-
-
-//importing modules 
+//importing modules
 import Image from "next/image";
+import React from "react";
 
+function AlchemicaCard({ title, values }) {
+  //max Number constant here
+  const maxNumberLength = 5;
 
+  const descriptions = [
+    {
+      title: "FUD",
+      image:
+        "https://res.cloudinary.com/djev64cqn/image/upload/v1655891215/FUD_sferaj.png",
+    },
+    {
+      title: "FOMO",
+      image:
+        "https://res.cloudinary.com/djev64cqn/image/upload/v1655891225/FOMO_jfucjs.png",
+    },
+    {
+      title: "ALPHA",
+      image:
+        "https://res.cloudinary.com/djev64cqn/image/upload/v1655891221/ALPHA_qybrg7.png",
+    },
+    {
+      title: "KEK",
+      image:
+        "https://res.cloudinary.com/djev64cqn/image/upload/v1655983165/KEK2_ujidrh.png",
+    },
+  ];
 
-
-function AlchemicaCard(props) {
-
-
-    //max Number constant here 
-    const maxNumberLength = 5;
-
-
-    // coin data with their respective suffixes 
-    const [FUDData, setFUDData] = useState(0);
-    const [FUDSuffix, setFUDSuffix] = useState(0);
-
-
-
-    const [FOMOData, setFOMOData] = useState(0);
-    const [FOMOSuffix, setFOMOSuffix] = useState(0);
-
-
-    const [ALPHAData, setALPHAData] = useState(0);
-    const [ALPHASuffix, setALPHASuffix] = useState(0);
-
-
-    const [KEKData, setKEKData] = useState(0);
-    const [KEKSuffix, setKEKSuffix] = useState(0);
-
-
-    //on mount load data 
-    useEffect(() => {
-        setFUDData(props.data[0]);
-        setFOMOData(props.data[1]);
-        setALPHAData(props.data[2]);
-        setKEKData(props.data[3]);
-    }, [props.data]);
-
-
-    useEffect(() => {
-
-        setFUDSuffix(FUDData > maxNumberLength ? FUDData.length - maxNumberLength: 0);
-        setFUDData(FUDData > maxNumberLength? FUDData.slice(0, maxNumberLength) : FUDData);
-        
-        
-        setFOMOData(FOMOData.length > maxNumberLength? FOMOData.slice(0, maxNumberLength) : FOMOData);
-        setFOMOSuffix(FOMOData.length > maxNumberLength ? FOMOData.length - maxNumberLength: 0);
-
-        setALPHAData(ALPHAData.length > maxNumberLength? ALPHAData.slice(0, maxNumberLength) : ALPHAData);
-        setALPHASuffix(ALPHAData.length > maxNumberLength ? ALPHAData.length - maxNumberLength: 0);
-
-        setKEKData(KEKData.length > maxNumberLength? KEKData.slice(0, maxNumberLength) : KEKData);
-        setKEKSuffix(KEKData.length > maxNumberLength ? KEKData.length - maxNumberLength: 0);
-
-    }, [FUDData, FOMOData, ALPHAData, KEKData]);
-
-
-
-    
-    return(
-        <>
-            <div className = "wrapper">
-                
-                
-                <div className = "title">
-                    <span className = "title_main">ALCHEMICA SPENT</span>
-                    <span className = "title_subheading">{props.title}</span>
+  return (
+    <div className="wrapper">
+      <div className="title">
+        <span className="title_main">ALCHEMICA SPENT ON</span>
+        <span className="title_subheading">{title}</span>
+      </div>
+      <div className="content">
+        <div className="list_Container">
+          <ul>
+            {descriptions.map((e, i) => (
+              <li className="list" key={i}>
+                <div className="alchemicaCoin">
+                  <div className="coinWrapper">
+                    <Image
+                      src={e.image}
+                      alt="alchemicaCoin"
+                      width="40"
+                      height="40"
+                    />
+                  </div>
+                  <span className="coinName">{e.title}</span>
                 </div>
-                <div className = "content">
-                    <div className = "list_Container">
-                        <ul>
-                            <li className = "list">
-                                <div className = "alchemicaCoin">
-                                    <div className = "coinWrapper">
-                                        <Image 
-                                        src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655891215/FUD_sferaj.png`}
-                                        alt = "alchemicaCoin" 
-                                        width = "40" 
-                                        height = "40" 
-                                        />
-                                    </div>
-                                    <span className = "coinName">FUD</span>
-                                </div>
-                                {FUDSuffix > 0 ? 
-                                <span className = "mainData">{ FUDData > 0 ? 
-                                    <div>
-                                    {`${FUDData} x10`}
-                                    <span className = "suffixData">{FUDSuffix}</span>
-                                    </div>
-                                    : 
-                                    <div>Loading...</div> }
-                                    </span>
-                                :
-                                <span className = "mainData">{FUDData > 0 ? <span>{`${FUDData}`}</span> : <div>Loading...</div>}</span>
-                                }
-                                
-                                
-                            </li>
-                            <li className = "list">
-                                <div className = "alchemicaCoin">
-                                    <div className = "coinWrapper">
-                                        <Image 
-                                        src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655891225/FOMO_jfucjs.png`} 
-                                        alt = "alchemicaCoin" 
-                                        width = "40" 
-                                        height = "40" 
-                                        />
-                                    </div>
-                                    <span className = "coinName">FOMO</span>
-                                </div>
-                                {FOMOSuffix > 0 ? 
-                                <span className = "mainData">{ FOMOData > 0 ? 
-                                    <div>
-                                    {`${FOMOData} x10`}
-                                    <span className = "suffixData">{FOMOSuffix}</span>
-                                    </div>
-                                    : 
-                                    <div>Loading...</div> }
-                                    </span>
-                                :
-                                <span className = "mainData">{FOMOData > 0 ? <span>{`${FOMOData}`}</span> : <div>Loading...</div>}</span>
-                                }
-                            </li>
-                            <li className = "list">
-                                <div className = "alchemicaCoin">
-                                    <div className = "coinWrapper">
-                                        <Image 
-                                        src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655891221/ALPHA_qybrg7.png`} 
-                                        alt = "alchemicaCoin" 
-                                        width = "40" 
-                                        height = "40" 
-                                        />
-                                    </div>
-                                    <span className = "coinName">ALPHA</span>
-                                </div>
-                                {ALPHASuffix > 0 ? 
-                                <span className = "mainData">{ ALPHAData > 0 ? 
-                                    <div>
-                                    {`${ALPHAData} x10`}
-                                    <span className = "suffixData">{ALPHASuffix}</span>
-                                    </div>
-                                    : 
-                                    <div>Loading...</div> }
-                                    </span>
-                                :
-                                <span className = "mainData">{ALPHAData > 0 ? <span>{`${ALPHAData}`}</span> : <div>Loading...</div>}</span>
-                                }
-                            </li>
-                            <li className = "list">
-                                <div className = "alchemicaCoin">
-                                    <div className = "coinWrapper">
-                                        <Image 
-                                        src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655983165/KEK2_ujidrh.png`} 
-                                        alt = "alchemicaCoin" 
-                                        width = "40" 
-                                        height = "40" 
-                                        />
-                                    </div>
-                                    <span className = "coinName">KEK</span>
-                                </div>
-                                {KEKSuffix > 0 ? 
-                                <span className = "mainData">{ KEKData > 0 ? 
-                                    <div>
-                                    {`${KEKData} x10`}
-                                    <span className = "suffixData">{KEKSuffix}</span>
-                                    </div>
-                                    : 
-                                    <div>Loading...</div> }
-                                    </span>
-                                :
-                                <span className = "mainData">{KEKData > 0 ? <span>{`${KEKData}`}</span> : <div>Loading...</div>}</span>
-                                }
-                            </li>
-                        </ul>
+                <span className="mainData">
+                  {values[i] != undefined ? (
+                    <div>{`${values[i].slice(
+                      0,
+                      values[i].length - 18
+                    )}.${values[i].slice(-18, values[i].length - 16)}`}</div>
+                  ) : (
+                    <div>Loading...</div>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
-                    </div>
-                </div>
-            </div>
+      <style jsx>
+        {`
+          .suffixData {
+            font-size: 20px;
+            position: relative;
+            bottom: 20px;
+          }
 
-            <style jsx>
+          .list {
+            display: flex;
+            margin-top: 20px;
+            padding-left: 10px;
+          }
 
+          .mainData {
+            text-align: center;
+            font-size: 40px;
+            line-height: 35.3px;
+            font-weight: 400;
 
-                {`
+            margin-left: 20px;
+          }
 
-                .suffixData {
-                    font-size: 20px;
-                    position: relative;
-                    bottom: 20px;
-                }
+          .coinName {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 13px;
+            text-align: center;
+          }
 
-                .list {
-                    display: flex;
-                    margin-top: 20px;
-                    padding-left: 10px;
-                }
+          .alchemicaCoin {
+            display: flex;
+            flex-direction: column;
+          }
 
-                .mainData {
-                    text-align: center;
-                    font-size: 40px;
-                    line-height: 35.3px;
-                    font-weight: 400;
+          .wrapper {
+            width: 100%;
+            height: 100%;
+            border: 1px solid black;
+          }
 
-                    margin-left: 20px;
-                }
+          .title_main {
+            text-align: center;
+            padding-top: 15px;
+            font-weight: 800;
+            font-size: 32px;
+            line-height: 29.73px;
+          }
 
-                .coinName {
-                    font-size: 18px;
-                    font-weight: 600;
-                    line-height: 13px;
-                    text-align: center;
-                }
+          .title_subheading {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 26.01px;
+          }
 
-                .alchemicaCoin {
-                    display: flex;
-                    flex-direction: column;
-
-                }
-
-                .wrapper {
-                    width: 100%;
-                    height: 100%;
-                    border: 1px solid black;
-                }
-
-                .title_main {
-
-                    text-align: center;
-                    padding-top: 15px;
-                    font-weight: 800;
-                    font-size: 32px;
-                    line-height: 29.73px;
-                }
-
-                .title_subheading {
-                    text-align: center;
-                    font-size: 28px;
-                    font-weight: 800;
-                    line-height: 26.01px;
-                }
-
-                .title {
-                    display: flex;
-                    flex-direction: column;
-
-
-                }
-
-                
-                
-                `}
-            </style>
-        </>
-    )
-
-
+          .title {
+            display: flex;
+            flex-direction: column;
+          }
+        `}
+      </style>
+    </div>
+  );
 }
-
-
 
 export default AlchemicaCard;

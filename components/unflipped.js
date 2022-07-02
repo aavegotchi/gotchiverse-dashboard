@@ -22,97 +22,110 @@ ChartJS.register(
   Legend
 );
 
+function UnflippedTile({ title, data }) {
+  const [expanded, setExpanded] = useState(false);
+  const [timeLine, setTimeLine] = useState(0);
+  const [dataToBeDisplayed, setDataToBeDisplayed] = useState(0);
+  const [suffix, setSuffix] = useState(0);
+  const maxNumberLength = 5;
+  useEffect(() => {
+    setTimeLine(24);
+  }, []);
 
+  console.log(title, data);
+  // calculate the change in rates over a certain ... time
+  // useEffect(() => {
+  //   if (timeLine == 24) {
+  //     setDataToBeDisplayed(
+  //       data[0].length > maxNumberLength
+  //         ? data[0].slice(0, maxNumberLength)
+  //         : data[0]
+  //     );
+  //     setSuffix(
+  //       data[0].length > maxNumberLength ? data[0].length - maxNumberLength : 0
+  //     );
+  //   } else if (timeLine == 7) {
+  //     setDataToBeDisplayed(
+  //       data[1].length > maxNumberLength
+  //         ? data[1].slice(0, maxNumberLength)
+  //         : data[2]
+  //     );
+  //     setSuffix(
+  //       data[1].length > maxNumberLength ? data[1].length - maxNumberLength : 0
+  //     );
+  //   } else if (timeLine == 30) {
+  //     setDataToBeDisplayed(
+  //       data[2].length > maxNumberLength
+  //         ? data[2].slice(0, maxNumberLength)
+  //         : data[2]
+  //     );
+  //     setSuffix(
+  //       data[2].length > maxNumberLength ? data[2].length - maxNumberLength : 0
+  //     );
+  //   }
+  // }, [timeLine, data]);
 
-function UnflippedTile(props) {
+  console.log(data);
 
-
-    const [expanded, setExpanded] = useState(false);
-    const [timeLine, setTimeLine] = useState(0);
-    const [dataToBeDisplayed, setDataToBeDisplayed] = useState(0);
-    const [suffix, setSuffix] = useState(0);
-    const maxNumberLength = 5;
-    useEffect(() => {
-
-      setTimeLine(24);
-
-    }, []);
-
-    // calculate the change in rates over a certain ... time 
-    useEffect(() => {
-      if (timeLine == 24) {
-        setDataToBeDisplayed(props.data[0].length > maxNumberLength ? props.data[0].slice(0, maxNumberLength) :props.data[0]); 
-        setSuffix(props.data[0].length > maxNumberLength ? props.data[0].length - maxNumberLength: 0);
-
-      } else if (timeLine == 7) {
-        setDataToBeDisplayed(props.data[1].length > maxNumberLength ? props.data[1].slice(0, maxNumberLength) :props.data[2]);
-        setSuffix(props.data[1].length > maxNumberLength ? props.data[1].length - maxNumberLength : 0);
-
-
-      } else if (timeLine == 30) {
-        setDataToBeDisplayed(props.data[2].length > maxNumberLength ? props.data[2].slice(0, maxNumberLength) :props.data[2]);
-        setSuffix(props.data[2].length > maxNumberLength ? props.data[2].length - maxNumberLength : 0);
-
-      }
-
-    }, [timeLine, props.data])
-
-
-
-    console.log(dataToBeDisplayed);
-
-
-    if (props.data.length == 0) { //check if any data is present at all 
-      return <div className="waitingForConnection">Loading...</div>;
-    } else 
+  if (data.length == 0) {
+    //check if any data is present at all
+    return <div className="waitingForConnection">Loading...</div>;
+  } else
     return (
       <AnimateSharedLayout>
         {
           !expanded? 
         
       <>
-        <div 
-          className="wrapper" 
-          onClick = {() => {
-            setExpanded(true);
-          }}
-          layoutId = "graph"
-          
-
-
-        >
+        <div className="wrapper">
           <div className="bodyItem">
             <div className="buttons">
-                
-                <button className="button time" disabled = {timeLine == 24} onClick = {(event) => {
-                  setTimeLine(24); 
-                  event.stopPropagation();
-                  
-                  }}>24 h</button>
-                <button className="button time" disabled = {timeLine == 7} onClick = {(event) => {
-                  setTimeLine(7);
-                  event.stopPropagation();
-                  }}>7 d</button>
-                <button className="button time" disabled = {timeLine == 30} onClick ={(event) => {
-                  setTimeLine(30);
-                  event.stopPropagation();
-                  }}>30 d</button>
+              <button
+                className="button time"
+                disabled={timeLine == 24}
+                onClick={() => setTimeLine(24)}
+              >
+                24 h
+              </button>
+              <button
+                className="button time"
+                disabled={timeLine == 7}
+                onClick={() => setTimeLine(7)}
+              >
+                7 d
+              </button>
+              <button
+                className="button time"
+                disabled={timeLine == 30}
+                onClick={() => setTimeLine(30)}
+              >
+                30 d
+              </button>
             </div>
-            <span className="tileTitle">{props.title}</span>
+            <span className="tileTitle">{title}</span>
             <div className="dataContainer">
-              {suffix == 0 ? 
+              {suffix == 0 ? (
                 <span className="mainData">
-                { dataToBeDisplayed ? dataToBeDisplayed : <div>Loading...</div>}
-                </span> :
+                  {data ? data : <div>Loading...</div>}
+                </span>
+              ) : (
                 <>
                   <span className="mainData">
-                  { dataToBeDisplayed ? `${dataToBeDisplayed} x10` : <div>Loading...</div>}
+                    {data ? `${data} x10` : <div>Loading...</div>}
                   </span>
-                  
-                  <span className = "suffix">{`${suffix}`}</span>
-                </>
-              }
 
+                  <span className="suffix">{`${suffix}`}</span>
+                </>
+              )}
+            </div>
+            <div className="trendWrapper">
+              <Image
+                src={`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`}
+                alt="trending"
+                width="62"
+                height="55"
+              />
+              <span className="dataChanges negative">-10%</span>
             </div>
             <div className = "trendWrapper">
                 <Image src = {`https://res.cloudinary.com/djev64cqn/image/upload/v1655320547/trending-up_aryatl.png`} alt = "trending" width = "62" height = "55" />
@@ -126,7 +139,7 @@ function UnflippedTile(props) {
         </div>
         <style jsx>
           {`
-            .wrapper {
+              .wrapper {
 
               
               display: flex;
@@ -273,9 +286,15 @@ function UnflippedTile(props) {
               * {
                 padding: 0;
               }
-          `}
+              .time {
+                width: 35px;
+              }
+              @media (max-width: 1400px) {
+                * {
+                  padding: 0;
+                }
+            `}
         </style>
-
       </>
       :
       <GraphExpanded data = {props} expandedFunction = {() => {
