@@ -101,11 +101,7 @@ export default function Home() {
     setData();
   }, []);
 
-<<<<<<< Updated upstream
-
-=======
   
->>>>>>> Stashed changes
   console.log("stats", gotchiStats);
   console.log("stats7d", gotchiverseStats7d);
   console.log("stats1d", gotchiverseStats1d);

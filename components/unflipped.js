@@ -146,22 +146,8 @@ function UnflippedTile({ title, data, data1d, data7d, data30d}) {
                 </>
               )}
             </div>
-<<<<<<< Updated upstream
-            <div className = "realData" data-Tooltip = "realData">
 
-            </div>
-=======
-            <div className="trendWrapper">
-              <Image
-                src={`/images/trending-up.png`}
-                alt="trending"
-                width="62"
-                height="55"
-              />
-              <span className="dataChanges negative">-10%</span>
-            </div>
 
->>>>>>> Stashed changes
 
             {timeLine != 100 && 
             
