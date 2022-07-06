@@ -73,9 +73,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
   flex-wrap: wrap;
   max-width: 800px;
   margin-top: 3rem;
+  
+  
 }
 
 .card {
@@ -117,5 +120,6 @@
   .grid {
     width: 100%;
     flex-direction: column;
+    background: yellow;
   }
 }

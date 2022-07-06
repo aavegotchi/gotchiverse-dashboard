@@ -1,103 +1,310 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { Line } from "react-chartjs-2";
+
+// components here
+import UnflippedTile from "../components/unflipped";
+import AlchemicaCard from "../components/alchemicaCard";
+
+import ChartTest from "../components/chartTest";
+import GotchiverseNews from "../components/gotchiverseNews";
+import UnflippedBanned from "../components/unflippedBanned";
+import PoolsUnflippedV2 from "../components/poolsUnflipped2";
+import CardTile from "../components/card";
+import LastSold from "../components/lastSold";
+import { AnimateSharedLayout } from "framer-motion";
+import LastSold2 from "../components/lastSold2";
+import Image from "next/image";
+import TotalSupply from "../components/totalSupply";
 import useSWR from "swr";
-import fetcher from "../fetcher";
+import Fetcher from "../fetcher";
 
 export default function Home() {
-  const { data, error } = useSWR("/api/user", fetcher);
+  let alchemicaTotalResponse = useSWR("/api/alchemica/supply", Fetcher);
+  let alchemicaTotal = alchemicaTotalResponse.data;
 
-  console.log(data, error);
-  if (data == undefined) {
-    return <div className="waitingForConnection">Loading...</div>;
-  }
+  let alchemica7dResponse = useSWR("/api/alchemica/supply/7", Fetcher);
+  let alchemica7d = alchemica7dResponse.data;
 
-  let formatter = new Intl.NumberFormat(navigator.language || "us-US");
+  let alchemica7dSeriesResponse = useSWR(
+    "/api/alchemica/supply/7/series",
+    Fetcher
+  );
+  let alchemica7dSeries = alchemica7dSeriesResponse.data;
 
+  // console.log("Alchemica Total Supply", alchemicaTotal);
+  // console.log("Alchemica Diff 7D", alchemica7d);
+  // console.log("Alchemica Series 7D", alchemica7dSeries);
+
+  let gotchivereStatsResponse = useSWR("/api/gotchiverse/stats", Fetcher);
+  let gotchiverseStats = gotchivereStatsResponse.data;
+
+  let gotchiverseStats7dResponse = useSWR("/api/gotchiverse/stats/7", Fetcher);
+  let gotchiverseStats1dResponse = useSWR("/api/gotchiverse/stats/1", Fetcher);
+  let gotchiverseStats30dResponse = useSWR(
+    "/api/gotchiverse/stats/30",
+    Fetcher
+  );
+
+  let gotchisResponse = useSWR("/api/gotchis/stats", Fetcher);
+  let gotchiStats = gotchisResponse.data;
+  console.log(gotchisResponse.error);
+  let gotchiverseStats7d = gotchiverseStats7dResponse.data;
+
+  let gotchiverseStats7dSeriesResponse = useSWR(
+    "/api/gotchiverse/stats/7/series",
+    Fetcher
+  );
+  let gotchiverseStats7dSeries = gotchiverseStats7dSeriesResponse.data;
+
+  // console.log("Gotchiverse Stats Total: ", gotchiverseStats);
+  // console.log("Gotchiverse Stats Diff 1D", gotchiverseStats1dResponse.data);
+  // console.log("Gotchiverse Stats Diff 7D", gotchiverseStats7d);
+  // console.log("Gotchiverse Stats Series 7D", gotchiverseStats7dSeries);
+
+  let activeWalelts = useSWR("/api/alchemica/");
+
+  // NOTE: EVERYTHING is still in string , could change them to integers to process in "unflipped.js"
+  // setting data into arrays, [{24h}, {7d}, {30d}]
+  const [expanded, setExpanded] = useState(true);
+
+  const [GLTRBurnedData, setGLTRBurnedData] = useState();
+
+  const [activeWalletsData, setActiveWalletsData] = useState();
+
+  const [tilesMintedData, setTilesMintedData] = useState();
+
+  const [installationsMintedData, setInstallationsMintedData] = useState();
+
+  const [upgradesInitiatedData, setUpgradesInitiatedData] = useState();
+
+  const [poolsData, setPoolsData] = useState();
+
+  const [totalSupplyData, setTotalSupplyData] = useState();
+
+  const [gotchisData, setGotchisData] = useState();
+
+  // set all the data on mount,
+  useEffect(() => {
+    function setData() {
+      // setGLTRBurnedData(arrayOfGLTRBurnedData);
+      // setActiveWalletsData(arrayOfActiveWalletsData);
+      // setTilesMintedData(arrayOfTilesMintedData);
+      // setInstallationsMintedData(arrayOfInstallationsMintedTotalData);
+      // setUpgradesInitiatedData(arrayOfUpgradesInitiatedData);
+      // setPoolsData(arrayOfPoolsData);
+      // setTotalSupplyData(totalSupply);
+    }
+
+    setData();
+  }, []);
+
+  console.log("stats", gotchiStats);
   return (
     <>
-      <h2>Gotchiverse Economy</h2>
-      <Row>
-        <Col>
-          <Card>Alchemica Minted vs total supply</Card>
-        </Col>
-        <Col>
-          <Card>Alchemica spent (total, tiles, upgrades, installations)</Card>
-        </Col>
-        <Col>
-          <Card>GLTR spent (on Upgrades)</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>Tiles minted</Card>
-        </Col>
-        <Col>
-          <Card>Installations minted</Card>
-        </Col>
-        <Col>
-          <Card>Upgrades initiated</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>24h number of channels</Card>
-        </Col>
-        <Col>
-          <Card>7d number of channels</Card>
-        </Col>
-        <Col>
-          <Card>30d number of channels</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>Active Wallets 24h</Card>
-        </Col>
-        <Col>
-          <Card>Active Wallets 7d</Card>
-        </Col>
-        <Col>
-          <Card>Active Wallets 30d</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>Number of players banned vs total players</Card>
-        </Col>
-        <Col>
-          <Card>Amount of Alchemica Sold by banned players</Card>
-        </Col>
-        <Col>
-          <Card>Number of players unbanned</Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>GLTR Stakers</Card>
-        </Col>
-        <Col>
-          <Card>LP Tokens staked vs total LP Tokens</Card>
-        </Col>
-        <Col>
-          <Card># Number of extractors</Card>
-        </Col>
-      </Row>
-      <h2>Gotchi Utiliziation</h2>
-      <Row>
-        <Col>
-          <Card>Number of Gotchis summoned</Card>
-        </Col>
-        <Col>
-          <Card>Number of Gotchis sacrificed</Card>
-        </Col>
-        <Col>
-          <Card>Number of Gotchis borrowed (24h, 7d, 30d)</Card>
-        </Col>
-        <Col>
-          <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card>
-        </Col>
-      </Row>
+      <div className="mainWrapper">
+        <h2 className="title">Gotchiverse Economy</h2>
+        <Row>
+          <Col md="9">
+            <ChartTest />
+          </Col>
+          <Col md="3">
+            <LastSold2 />
+          </Col>
+        </Row>
+        {gotchiverseStats && (
+          <Row>
+            <Col>
+              <AlchemicaCard
+                title={"TILES"}
+                values={gotchiverseStats.alchemicaSpendOnTiles}
+              />
+            </Col>
+            <Col>
+              <AlchemicaCard
+                title={"INSTALLATIONS"}
+                values={gotchiverseStats.alchemicaSpendOnInstallations}
+              />
+            </Col>
+            <Col>
+              <AlchemicaCard
+                title={"UPGRADES"}
+                values={gotchiverseStats.alchemicaSpendOnUpgrades}
+              />
+            </Col>
+          </Row>
+        )}
+        <Row>
+          {gotchiverseStats && (
+            <Col>
+              <UnflippedTile
+                data={gotchiverseStats.installationsMintedTotal}
+                title={"INSTALLATIONS MINTED"}
+              />
+            </Col>
+          )}
+          {gotchiverseStats && (
+            <Col>
+              <UnflippedTile
+                data={gotchiverseStats.tilesMinted}
+                title={"TILES MINTED"}
+              />
+            </Col>
+          )}
+
+          {gotchiverseStats && (
+            <Col>
+              <UnflippedTile
+                data={gotchiverseStats.gltrSpendTotal.slice(0, -18)}
+                title={"GLTR BURNED"}
+              />
+            </Col>
+          )}
+        </Row>
+
+        {poolsData && (
+          <Row>
+            <Col>
+              {/* <Card>Number of players banned vs total players</Card> */}
+              <UnflippedBanned data={poolsData} title={"PLAYERS"} />
+            </Col>
+            <Col>
+              {/* <Card>Amount of Alchemica Sold by banned players</Card> */}
+              <UnflippedBanned data={poolsData} title={"BANNED PLAYERS"} />
+            </Col>
+            <Col>
+              {/* <Card>Number of players banned</Card> */}
+              <UnflippedBanned
+                data={poolsData}
+                title={"ALCHEMICA SOLD BY BANNED PLAYERS"}
+              />
+            </Col>
+            <Col>
+              {/* <Card>Number of players banned</Card> */}
+              <UnflippedBanned data={poolsData} title={"UNBANNED PLAYERS"} />
+            </Col>
+          </Row>
+        )}
+
+        <Row>
+          {poolsData && (
+            <Col>
+              <PoolsUnflippedV2 data={poolsData} title={"POOLS STAKED"} />
+            </Col>
+          )}
+          {totalSupplyData && (
+            <Col>
+              <TotalSupply data={totalSupplyData} title={"POOLS STAKED"} />
+              {/* alchemicaminted / total supply */}
+            </Col>
+          )}
+          {/* <Col>
+          <UnflippedTile data  ={ burnedGLTRCurrentData } title = {"Channels"}/>
+          </Col> */}
+        </Row>
+        <Row>
+          {GLTRBurnedData && (
+            <Col>
+              <UnflippedTile data={GLTRBurnedData} title={"GLTR STAKERS"} />
+            </Col>
+          )}
+          {activeWalletsData && (
+            <Col>
+              <UnflippedTile
+                data={activeWalletsData}
+                title={"ACTIVE WALLETS"}
+              />
+            </Col>
+          )}
+          {GLTRBurnedData && (
+            <Col>
+              <UnflippedTile data={GLTRBurnedData} title={"EXTRACTORS"} />
+            </Col>
+          )}
+        </Row>
+
+        {gotchiStats && (
+          <>
+            <h2 className="title">Gotchi Utiliziation</h2>
+            <Row>
+              <Col>
+                {/* <Card>Number of Gotchis summoned</Card> */}
+                <UnflippedBanned
+                  data={gotchiStats.aavegotchisClaimed}
+                  title={"GOTCHIS SUMMONED"}
+                />
+              </Col>
+              <Col>
+                {/* <Card>Number of Gotchis sacrificed</Card> */}
+                <UnflippedBanned
+                  data={gotchiStats.aavegotchisSacrificed}
+                  title={"GOTCHIS SACRIFICED"}
+                />
+              </Col>
+              <Col>
+                {/* <Card>Number of Gotchis borrowed (24h, 7d, 30d)</Card> */}
+                <UnflippedBanned
+                  data={gotchiStats.aavegotchisBorrowed}
+                  title={"GOTCHIS BORROWED"}
+                />
+              </Col>
+              {/* <Col> */}
+              {/* <Card>Number of Gotchis channeled (24h, 7d, 30d)</Card> */}
+              {/* <UnflippedBanned
+                  data={gotchiStats.channled}
+                  title={"GOTCHIS SACRIFICED"}
+                /> */}
+              {/* </Col> */}
+            </Row>
+          </>
+        )}
+      </div>
+      <style jsx>
+        {`
+          .rowWrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+          }
+
+          .oneCard {
+            flex: 1;
+            margin: 2px;
+          }
+
+          .title {
+            width: 85%;
+            text-align: left;
+            font-size: 46px;
+            font-weight: 400;
+            line-height: 42.73px;
+            color: black;
+          }
+          .image__Wrapper {
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            width: 100%;
+          }
+
+          .mainWrapper {
+            width: 1100px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+
+          @media (max-width: 600px) {
+            .mainWrapper {
+              width: 100%;
+              flex-direction: column;
+            }
+          }
+        `}
+      </style>
     </>
   );
 }
